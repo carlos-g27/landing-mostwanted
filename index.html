@@ -6,8 +6,19 @@
 <title>MostWanted | Los más buscados del FBI, al alcance de tu mano</title>
 <meta name="description" content="Regístrate y accede a información actualizada de los criminales más buscados del FBI con MostWanted.">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=">
-<!-- Google Tag Manager: reemplaza GTM-XXXXXXX por tu ID -->
-<script>window.dataLayer=window.dataLayer||[];(function(w,d,s,l,i){w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NF3VB82B');</script>
+<!-- End Google Tag Manager -->
+
+<!-- GSAP desde CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <style>
 :root{--navy:#0B1F33;--navy2:#13304d;--red:#C62828;--red2:#a51f1f;--bg:#F8FAFC;--txt:#1b2a3a;--mut:#5b6b7b;--line:#dde4ec;--card:#fff}
 @media(prefers-color-scheme:dark){:root{--bg:#0a1827;--txt:#e8eef5;--mut:#9fb0c2;--line:#1f3550;--card:#102338}}
@@ -20,8 +31,9 @@ section{padding:72px 0}
 h1,h2,h3{line-height:1.2}
 h2{font-size:clamp(1.6rem,3.5vw,2.2rem);text-align:center;margin-bottom:12px}
 .sub{text-align:center;color:var(--mut);max-width:620px;margin:0 auto 40px}
-.btn{display:inline-block;background:var(--red);color:#fff;border:0;padding:14px 28px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.2s}
-.btn:hover{background:var(--red2);transform:translateY(-2px)}
+.btn{display:inline-block;background:var(--red);color:#fff;border:0;padding:14px 28px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s,transform .1s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
+.btn:hover{background:var(--red2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(198,40,40,.35)}
+
 /* header */
 header{position:sticky;top:0;z-index:10;background:var(--navy);color:#fff}
 header .w{display:flex;justify-content:space-between;align-items:center;height:64px}
@@ -29,8 +41,9 @@ header .w{display:flex;justify-content:space-between;align-items:center;height:6
 .logo img{width:38px;height:38px}
 header a.c{font-weight:600;text-decoration:none;border:1px solid #ffffff55;padding:8px 16px;border-radius:8px;font-size:.9rem}
 header a.c:hover{background:#ffffff1a}
+
 /* hero */
-.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:64px 0}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:64px 0;will-change:transform}
 .hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
 .tag{display:inline-block;background:#C6282833;color:#ffb4b4;padding:4px 12px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:16px}
 .hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:16px}
@@ -48,9 +61,13 @@ form .btn{width:100%}
 .ok{display:none;text-align:center;padding:20px 0}
 .ok b{color:var(--red);font-size:1.2rem}
 .err{color:var(--red);font-size:.78rem;display:none}
+
 /* grids */
 .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;overflow:hidden;position:relative;transform-style:preserve-3d;transition:box-shadow .3s}
+.card::after{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-20deg);pointer-events:none;opacity:0;transition:opacity .3s}
+.card:hover::after{opacity:1;animation:shimmer .6s ease forwards}
+@keyframes shimmer{0%{left:-60%}100%{left:120%}}
 .ic{display:none}
 .card p{color:var(--mut);font-size:.95rem}
 .cta{background:var(--red);color:#fff;text-align:center;padding:56px 0}
@@ -64,7 +81,7 @@ form .btn{width:100%}
 .who small{display:block;font-weight:400;color:var(--mut)}
 .stars{display:flex;gap:3px}.i{color:var(--red);margin-bottom:10px}
 .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin-bottom:44px;text-align:center}
-.stats b{display:block;font-size:2rem;color:var(--red)}
+.stats b{display:block;font-size:2.4rem;color:var(--red);font-variant-numeric:tabular-nums}
 .stats span{color:var(--mut);font-size:.9rem}
 .exp{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
 .exp ul{list-style:none;padding:0}
@@ -87,10 +104,16 @@ footer a{display:block;text-decoration:none;padding:3px 0}
 footer a:hover{color:#fff}
 footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font-size:.8rem}
 @media(max-width:800px){.hero .w,.exp,.pre .w{grid-template-columns:1fr}section{padding:52px 0}.pre h2{text-align:center}}
+
+/* Woosh line decorativa en h2 */
+h2.gsap-hidden::after{content:'';display:block;width:48px;height:3px;background:var(--red);margin:10px auto 0;border-radius:2px}
 </style>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF3VB82B"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- 1. HEADER -->
 <header>
@@ -105,11 +128,11 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <section class="hero" id="registro">
 <div class="w">
 <div>
-<span class="tag">DATOS PÚBLICOS DEL FBI</span>
-<h1>Conoce a los más buscados del FBI. <span>Antes que nadie.</span></h1>
-<p>Déjanos tus datos y recibe acceso a información actualizada, organizada y fácil de consultar. Estar informado puede marcar la diferencia.</p>
+<span class="tag gsap-slide-left">DATOS PÚBLICOS DEL FBI</span>
+<h1 class="gsap-slide-left">Conoce a los más buscados del FBI. <span>Antes que nadie.</span></h1>
+<p class="gsap-slide-left">Déjanos tus datos y recibe acceso a información actualizada, organizada y fácil de consultar. Estar informado puede marcar la diferencia.</p>
 </div>
-<form class="lead" novalidate data-form="hero">
+<form class="lead gsap-slide-right" novalidate data-form="hero">
 <div class="fw">
 <h3>Regístrate gratis</h3>
 <p class="s">Solo toma 30 segundos.</p>
@@ -128,15 +151,15 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <!-- 3. BENEFICIOS -->
 <section id="beneficios">
 <div class="w">
-<h2>Lo que obtienes al registrarte</h2>
-<p class="sub">Al dejar tus datos pasas a formar parte de la comunidad MostWanted.</p>
+<h2 class="gsap-hidden">Lo que obtienes al registrarte</h2>
+<p class="sub gsap-hidden">Al dejar tus datos pasas a formar parte de la comunidad MostWanted.</p>
 <div class="g3">
-<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg></div><h3>Información actualizada</h3><p>Accede a fichas de los criminales más buscados con datos tomados de fuentes oficiales.</p></div>
-<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div><h3>Alertas por correo</h3><p>Recibe avisos cuando haya nuevos casos o cambios importantes en la lista.</p></div>
-<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><h3>Búsqueda sencilla</h3><p>Consulta perfiles, delitos y recompensas en una interfaz clara y rápida.</p></div>
-<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><h3>Contacto directo</h3><p>Te escribimos por teléfono o correo solo con información relevante, sin spam.</p></div>
-<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div><h3>Acceso prioritario</h3><p>Los primeros registrados prueban las nuevas funciones antes que el resto.</p></div>
-<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div><h3>100% gratuito</h3><p>Registrarte no tiene costo ni compromiso. Puedes darte de baja cuando quieras.</p></div>
+<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg></div><h3>Información actualizada</h3><p>Accede a fichas de los criminales más buscados con datos tomados de fuentes oficiales.</p></div>
+<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div><h3>Alertas por correo</h3><p>Recibe avisos cuando haya nuevos casos o cambios importantes en la lista.</p></div>
+<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><h3>Búsqueda sencilla</h3><p>Consulta perfiles, delitos y recompensas en una interfaz clara y rápida.</p></div>
+<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><h3>Contacto directo</h3><p>Te escribimos por teléfono o correo solo con información relevante, sin spam.</p></div>
+<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div><h3>Acceso prioritario</h3><p>Los primeros registrados prueban las nuevas funciones antes que el resto.</p></div>
+<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div><h3>100% gratuito</h3><p>Registrarte no tiene costo ni compromiso. Puedes darte de baja cuando quieras.</p></div>
 </div>
 </div>
 </section>
@@ -144,7 +167,7 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <!-- 4. CTA 1 -->
 <div class="cta">
 <div class="w">
-<h2>La información está lista. Solo falta tu registro.</h2>
+<h2 class="gsap-hidden">La información está lista. Solo falta tu registro.</h2>
 <p>Únete hoy y empieza a recibir datos que otros no ven.</p>
 <a class="btn" href="#registro" data-track="cta_1">Ir al formulario</a>
 </div>
@@ -153,30 +176,30 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <!-- 5. SOCIAL PROOF -->
 <section id="testimonios">
 <div class="w">
-<h2>Lo que dicen nuestros usuarios</h2>
-<p class="sub">Personas reales que ya confían en MostWanted.</p>
+<h2 class="gsap-hidden">Lo que dicen nuestros usuarios</h2>
+<p class="sub gsap-hidden">Personas reales que ya confían en MostWanted.</p>
 <div class="stats">
-<div><b>+12.000</b><span>usuarios registrados</span></div>
-<div><b>4.8/5</b><span>valoración promedio</span></div>
-<div><b>100%</b><span>fuentes oficiales</span></div>
+<div class="gsap-scale"><b id="stat-1">+12.000</b><span>usuarios registrados</span></div>
+<div class="gsap-scale"><b id="stat-2">4.8/5</b><span>valoración promedio</span></div>
+<div class="gsap-scale"><b id="stat-3">100%</b><span>fuentes oficiales</span></div>
 </div>
 <div class="g3">
-<div class="card"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg></div><p>“Muy clara y fácil de usar. Encontré en segundos la información que buscaba.”</p><div class="who">Laura M.<small>Estudiante de criminología</small></div></div>
-<div class="card"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg></div><p>“Las alertas llegan a tiempo y siempre con datos verificados. Lo recomiendo.”</p><div class="who">Andrés R.<small>Periodista</small></div></div>
-<div class="card"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#c9d3de"/></svg></div><p>“Me gusta que sea gratis y sin complicaciones. El registro tomó un minuto.”</p><div class="who">Camila P.<small>Aficionada al true crime</small></div></div>
+<div class="card gsap-hidden"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg></div><p>"Muy clara y fácil de usar. Encontré en segundos la información que buscaba."</p><div class="who">Laura M.<small>Estudiante de criminología</small></div></div>
+<div class="card gsap-hidden"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg></div><p>"Las alertas llegan a tiempo y siempre con datos verificados. Lo recomiendo."</p><div class="who">Andrés R.<small>Periodista</small></div></div>
+<div class="card gsap-hidden"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#c9d3de"/></svg></div><p>"Me gusta que sea gratis y sin complicaciones. El registro tomó un minuto."</p><div class="who">Camila P.<small>Aficionada al true crime</small></div></div>
 </div>
-<p style="text-align:center;color:var(--mut);font-size:.75rem;margin-top:20px">* Testimonios ilustrativos.</p>
+<p style="text-align:center;color:var(--mut);font-size:.75rem;margin-top:20px">Testimonios ilustrativos.</p>
 </div>
 </section>
 
 <!-- 6. EXPLICACIÓN -->
 <section id="producto" style="background:var(--card)">
 <div class="w">
-<h2>¿Qué es MostWanted?</h2>
-<p class="sub">Una app que organiza la lista pública de los más buscados del FBI.</p>
+<h2 class="gsap-hidden">¿Qué es MostWanted?</h2>
+<p class="sub gsap-hidden">Una app que organiza la lista pública de los más buscados del FBI.</p>
 <div class="exp">
 <div>
-<ul>
+<ul class="gsap-slide-left">
 <li>Datos provenientes de la lista pública <b>FBI Most Wanted</b>.</li>
 <li>Fichas con descripción, delitos, rasgos físicos y recompensas.</li>
 <li>Búsqueda y filtros por categoría o tipo de caso.</li>
@@ -184,7 +207,7 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <li>Información de carácter público y con fines informativos.</li>
 </ul>
 </div>
-<div class="box"><h3>¿De dónde sale la información?</h3><p>MostWanted consume una API propia que toma los datos públicos publicados por el FBI y los presenta de forma ordenada. No somos una entidad gubernamental ni estamos afiliados al FBI.</p></div>
+<div class="box gsap-slide-right"><h3>¿De dónde sale la información?</h3><p>MostWanted consume una API propia que toma los datos públicos publicados por el FBI y los presenta de forma ordenada. No somos una entidad gubernamental ni estamos afiliados al FBI.</p></div>
 </div>
 </div>
 </section>
@@ -192,7 +215,7 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <!-- 7. CTA 2 -->
 <div class="cta alt">
 <div class="w">
-<h2>¿Listo para estar un paso adelante?</h2>
+<h2 class="gsap-hidden">¿Listo para estar un paso adelante?</h2>
 <p>Regístrate en menos de un minuto, sin costo.</p>
 <a class="btn" href="#registro" data-track="cta_2">Quiero registrarme</a>
 </div>
@@ -201,25 +224,25 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <!-- 8. FAQ -->
 <section id="faq">
 <div class="w">
-<h2>Preguntas frecuentes</h2>
-<p class="sub">Resolvemos tus dudas antes de que las tengas.</p>
-<details><summary>¿Tiene algún costo registrarme?</summary><p>No. El registro es totalmente gratuito y sin compromiso.</p></details>
-<details><summary>¿Para qué usan mis datos?</summary><p>Únicamente para enviarte información y novedades de MostWanted. No vendemos tus datos a terceros.</p></details>
-<details><summary>¿La información es real?</summary><p>Sí. Proviene de la lista pública del FBI, aunque MostWanted es un proyecto independiente.</p></details>
-<details><summary>¿Con qué frecuencia recibiré mensajes?</summary><p>Solo cuando haya novedades relevantes. Evitamos el spam.</p></details>
-<details><summary>¿Puedo darme de baja?</summary><p>Claro, en cualquier momento desde el enlace de cada correo o escribiéndonos.</p></details>
-<details><summary>¿Está afiliada al FBI?</summary><p>No. Somos independientes y usamos datos públicos con fines informativos.</p></details>
+<h2 class="gsap-hidden">Preguntas frecuentes</h2>
+<p class="sub gsap-hidden">Resolvemos tus dudas antes de que las tengas.</p>
+<details class="gsap-hidden"><summary>¿Tiene algún costo registrarme?</summary><p>No. El registro es totalmente gratuito y sin compromiso.</p></details>
+<details class="gsap-hidden"><summary>¿Para qué usan mis datos?</summary><p>Únicamente para enviarte información y novedades de MostWanted. No vendemos tus datos a terceros.</p></details>
+<details class="gsap-hidden"><summary>¿La información es real?</summary><p>Sí. Proviene de la lista pública del FBI, aunque MostWanted es un proyecto independiente.</p></details>
+<details class="gsap-hidden"><summary>¿Con qué frecuencia recibiré mensajes?</summary><p>Solo cuando haya novedades relevantes. Evitamos el spam.</p></details>
+<details class="gsap-hidden"><summary>¿Puedo darme de baja?</summary><p>Claro, en cualquier momento desde el enlace de cada correo o escribiéndonos.</p></details>
+<details class="gsap-hidden"><summary>¿Está afiliada al FBI?</summary><p>No. Somos independientes y usamos datos públicos con fines informativos.</p></details>
 </div>
 </section>
 
 <!-- 9. PREFOOTER -->
 <section class="pre" id="registro-final">
 <div class="w">
-<div>
+<div class="gsap-slide-left">
 <h2>Última oportunidad: únete hoy a MostWanted</h2>
 <p>Miles de personas ya están informadas. Deja tus datos y sé el siguiente.</p>
 </div>
-<form class="lead" novalidate data-form="prefooter">
+<form class="lead gsap-slide-right" novalidate data-form="prefooter">
 <div class="fw">
 <h3>Regístrate gratis</h3>
 <p class="s">Sin costo ni compromiso.</p>
@@ -235,6 +258,37 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 </div>
 </section>
 </main>
+
+<!-- BANNER DE COOKIES (instalado vía GTM como script adicional) -->
+<div id="cookie-banner" role="dialog" aria-label="Aviso de cookies" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--navy);color:#fff;padding:16px 20px;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between;box-shadow:0 -4px 20px #0009">
+  <p style="margin:0;font-size:.9rem;flex:1 1 300px">🍪 Usamos cookies para mejorar tu experiencia. Puedes aceptar todas o solo las esenciales. <a href="#" style="color:#ffb4b4;text-decoration:underline" data-track="cookies_mas_info">Más info</a></p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button id="cookie-reject" style="background:transparent;color:#fff;border:1px solid #ffffff55;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.9rem">Solo esenciales</button>
+    <button id="cookie-accept" style="background:var(--red);color:#fff;border:0;padding:8px 18px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9rem">Aceptar todas</button>
+  </div>
+</div>
+
+<!-- WIDGET DE FEEDBACK CONTENTSQUARE -->
+<div id="cs-feedback-btn" aria-label="Dar feedback" title="¿Cómo fue tu experiencia?" style="position:fixed;bottom:24px;right:24px;z-index:9998;background:var(--red);color:#fff;border:0;border-radius:50px;padding:12px 20px;cursor:pointer;font-size:.9rem;font-weight:700;box-shadow:0 4px 18px #0004;display:none;align-items:center;gap:8px">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  Feedback
+</div>
+
+<div id="cs-feedback-modal" role="dialog" aria-modal="true" aria-labelledby="cs-modal-title" style="display:none;position:fixed;bottom:80px;right:24px;z-index:9999;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:16px;padding:24px;width:320px;box-shadow:0 12px 40px #0005">
+  <button id="cs-close" aria-label="Cerrar" style="position:absolute;top:12px;right:14px;background:none;border:0;font-size:1.4rem;cursor:pointer;color:var(--mut)">×</button>
+  <h3 id="cs-modal-title" style="margin-bottom:6px;font-size:1rem">¿Cómo fue tu experiencia?</h3>
+  <p style="color:var(--mut);font-size:.85rem;margin-bottom:14px">Tu opinión nos ayuda a mejorar MostWanted.</p>
+  <div style="display:flex;justify-content:space-between;margin-bottom:16px" id="cs-score-btns" role="group" aria-label="Puntuación del 1 al 5">
+    <button class="cs-score" data-score="1" aria-label="1 estrella" style="font-size:1.5rem;background:none;border:none;cursor:pointer;filter:grayscale(1)">😞</button>
+    <button class="cs-score" data-score="2" aria-label="2 estrellas" style="font-size:1.5rem;background:none;border:none;cursor:pointer;filter:grayscale(1)">😐</button>
+    <button class="cs-score" data-score="3" aria-label="3 estrellas" style="font-size:1.5rem;background:none;border:none;cursor:pointer;filter:grayscale(1)">🙂</button>
+    <button class="cs-score" data-score="4" aria-label="4 estrellas" style="font-size:1.5rem;background:none;border:none;cursor:pointer;filter:grayscale(1)">😊</button>
+    <button class="cs-score" data-score="5" aria-label="5 estrellas" style="font-size:1.5rem;background:none;border:none;cursor:pointer;filter:grayscale(1)">🤩</button>
+  </div>
+  <textarea id="cs-comment" placeholder="Cuéntanos más (opcional)..." rows="3" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:.9rem;resize:none;background:var(--bg);color:var(--txt);margin-bottom:12px"></textarea>
+  <button id="cs-submit" disabled style="width:100%;background:var(--red);color:#fff;border:0;padding:10px;border-radius:8px;font-weight:700;cursor:pointer;opacity:.5">Enviar opinión</button>
+  <div id="cs-thanks" style="display:none;text-align:center;padding:10px 0"><b style="color:var(--red)">¡Gracias por tu feedback!</b><p style="font-size:.85rem;color:var(--mut)">Tu opinión ya fue registrada.</p></div>
+</div>
 
 <!-- 10. FOOTER -->
 <footer>
@@ -252,28 +306,32 @@ footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font
 <script>
 (function(){
 // ===== CONFIGURACIÓN HUBSPOT =====
-var HS={portalId:'52139957',formGuid:'fa7ea6e7-e3c4-449b-a42f-b2634c24479d',region:'na1',phoneField:'phone'}; // phoneField: nombre interno de la propiedad de tu campo "Numero" (phone o mobilephone)
- // region: 'na1' o 'eu1'
+var HS={portalId:'52139957',formGuid:'fa7ea6e7-e3c4-449b-a42f-b2634c24479d',region:'na1',phoneField:'phone'};
 var dl=window.dataLayer=window.dataLayer||[];
 var host=HS.region==='eu1'?'api-eu1.hsforms.com':'api.hsforms.com';
 var URL_HS='https://'+host+'/submissions/v3/integration/submit/'+HS.portalId+'/'+HS.formGuid;
+
 function cookie(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?m[1]:undefined;}
+
 // EVENTO 1: click_tracking
 document.addEventListener('click',function(e){
   var t=e.target.closest('[data-track]');if(!t)return;
   var id=t.getAttribute('data-track'),tp=/^cta_/.test(id)?'cta':/^social_/.test(id)?'social':/contacto/.test(id)?'contacto':'legal';
   dl.push({event:'click_tracking',click_id:id,click_type:tp,click_text:t.textContent.trim().slice(0,50)});
 });
+
 // EVENTO 2: faq_open
 document.querySelectorAll('details').forEach(function(d){
   d.addEventListener('toggle',function(){if(d.open)dl.push({event:'faq_open',faq_question:d.querySelector('summary').textContent});});
 });
+
 // EVENTO 3: scroll_depth
 var marks={25:0,50:0,75:0,90:0};
 addEventListener('scroll',function(){
   var p=(scrollY+innerHeight)/document.documentElement.scrollHeight*100;
   for(var k in marks)if(!marks[k]&&p>=k){marks[k]=1;dl.push({event:'scroll_depth',percent:+k});}
 },{passive:true});
+
 // EVENTOS 4 y 5: form_start y generate_lead
 document.querySelectorAll('form.lead').forEach(function(f){
   var loc=f.dataset.form,started=false;
@@ -301,11 +359,217 @@ document.querySelectorAll('form.lead').forEach(function(f){
         if(!r.ok){console.error('HubSpot error',r.status,tx);throw 0;}
         console.log('HubSpot OK',r.status,tx);
         f.querySelector('.fw').style.display='none';f.querySelector('.ok').style.display='block';
-        dl.push({event:'generate_lead',form_location:loc}); // sin datos personales (PII)
+        dl.push({event:'generate_lead',form_location:loc});
       });})
       .catch(function(err){console.error('Fallo envío',err);btn.disabled=false;btn.textContent=lbl;er.textContent='No se pudo enviar. Inténtalo de nuevo.';er.style.display='block';});
   });
 });
+})();
+
+// ===== BANNER DE COOKIES =====
+(function(){
+  var dl=window.dataLayer=window.dataLayer||[];
+  var banner=document.getElementById('cookie-banner');
+  var accepted=localStorage.getItem('mw_cookies');
+  if(!accepted&&banner){banner.style.display='flex';}
+  function setCookies(v){
+    try{localStorage.setItem('mw_cookies',v);}catch(e){}
+    if(banner)banner.style.display='none';
+    dl.push({event:'cookie_consent',consent_value:v});
+  }
+  var btnA=document.getElementById('cookie-accept');
+  var btnR=document.getElementById('cookie-reject');
+  if(btnA)btnA.addEventListener('click',function(){setCookies('all');});
+  if(btnR)btnR.addEventListener('click',function(){setCookies('essential');});
+})();
+
+// ===== FEEDBACK CONTENTSQUARE =====
+(function(){
+  var dl=window.dataLayer=window.dataLayer||[];
+  var btn=document.getElementById('cs-feedback-btn');
+  var modal=document.getElementById('cs-feedback-modal');
+  var closeBtn=document.getElementById('cs-close');
+  var submitBtn=document.getElementById('cs-submit');
+  var thanks=document.getElementById('cs-thanks');
+  var selectedScore=null;
+  
+  setTimeout(function(){
+    try{if(localStorage.getItem('mw_feedback'))return;}catch(e){}
+    if(btn)btn.style.display='flex';
+  },15000);
+  
+  if(btn)btn.addEventListener('click',function(){
+    if(modal){modal.style.display=modal.style.display==='block'?'none':'block';}
+    dl.push({event:'feedback_open',feedback_trigger:'button_click'});
+  });
+  if(closeBtn)closeBtn.addEventListener('click',function(){if(modal)modal.style.display='none';});
+  document.querySelectorAll('.cs-score').forEach(function(b){
+    b.addEventListener('click',function(){
+      selectedScore=+b.getAttribute('data-score');
+      document.querySelectorAll('.cs-score').forEach(function(x){x.style.filter='grayscale(1)';});
+      b.style.filter='grayscale(0)';
+      if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity='1';}
+    });
+  });
+  if(submitBtn)submitBtn.addEventListener('click',function(){
+    var comment=(document.getElementById('cs-comment')||{}).value||'';
+    dl.push({event:'feedback_submit',feedback_score:selectedScore,feedback_comment_length:comment.trim().length});
+    try{localStorage.setItem('mw_feedback','1');}catch(e){}
+    modal.querySelectorAll('h3,p,#cs-score-btns,#cs-comment,#cs-submit').forEach(function(el){el.style.display='none';});
+    if(thanks)thanks.style.display='block';
+    setTimeout(function(){if(modal)modal.style.display='none';},2500);
+  });
+})();
+</script>
+
+<script>
+// GSAP Motion Design
+(function(){
+  if(typeof gsap === 'undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── PASO 1: ocultar elementos con GSAP ──
+  gsap.set('.gsap-hidden', {opacity:0, y:45});
+  gsap.set('.gsap-slide-left', {opacity:0, x:-60});
+  gsap.set('.gsap-slide-right', {opacity:0, x:60});
+  gsap.set('.gsap-scale', {opacity:0, scale:0.8});
+
+  // ── Hero entrance ──
+  var heroTl = gsap.timeline({delay:0.15});
+  heroTl
+    .to('.tag.gsap-slide-left', {duration:0.6, opacity:1, x:0, ease:'back.out(1.7)'})
+    .to('.hero h1.gsap-slide-left', {duration:0.8, opacity:1, x:0, ease:'power3.out'}, '-=0.3')
+    .to('.hero > .w > div > p.gsap-slide-left', {duration:0.7, opacity:1, x:0, ease:'power2.out'}, '-=0.4')
+    .to('form.lead.gsap-slide-right', {duration:0.9, opacity:1, x:0, ease:'back.out(1.4)'}, '-=0.5');
+
+  // ── Partículas de fondo en el hero ──
+  var hero = document.querySelector('.hero');
+  if(hero){
+    hero.style.position='relative';
+    hero.style.overflow='hidden';
+    for(var i=0;i<12;i++){
+      var p=document.createElement('div');
+      p.style.cssText='position:absolute;width:'+(4+Math.random()*8)+'px;height:'+(4+Math.random()*8)+'px;border-radius:50%;background:rgba(198,40,40,'+(0.1+Math.random()*0.2)+');pointer-events:none;top:'+(Math.random()*100)+'%;left:'+(Math.random()*100)+'%';
+      hero.appendChild(p);
+      gsap.to(p,{duration:3+Math.random()*4, y:-(50+Math.random()*100), x:(Math.random()-0.5)*60, opacity:0, repeat:-1, delay:Math.random()*3, ease:'power1.out'});
+    }
+  }
+
+  // ── ScrollTrigger: elementos con gsap-hidden ──
+  gsap.utils.toArray('.gsap-hidden').forEach(function(el){
+    gsap.to(el,{
+      scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'},
+      duration:0.7, opacity:1, y:0, ease:'power3.out'
+    });
+  });
+
+  // ── Cards: stagger woosh desde abajo ──
+  document.querySelectorAll('.g3').forEach(function(grid){
+    var cards = grid.querySelectorAll('.card');
+    gsap.set(cards,{opacity:0, y:50});
+    gsap.to(cards,{
+      scrollTrigger:{trigger:grid, start:'top 85%'},
+      duration:0.6, opacity:1, y:0, stagger:0.12, ease:'back.out(1.5)'
+    });
+  });
+
+  // ── Stats counter animation ──
+  var stats = document.querySelectorAll('.stats b');
+  if(stats.length >= 3){
+    gsap.to('.gsap-scale',{
+      scrollTrigger:{trigger:'.stats', start:'top 85%'},
+      duration:0.6, opacity:1, scale:1, stagger:0.15, ease:'back.out(1.7)'
+    });
+    ScrollTrigger.create({
+      trigger:'.stats', start:'top 80%', once:true,
+      onEnter:function(){
+        var o1={val:0};
+        gsap.to(o1,{duration:1.5,val:12000,ease:'power2.out',
+          onUpdate:function(){stats[0].textContent='+'+Math.round(o1.val).toLocaleString('es-CO');}});
+        var o2={val:0};
+        gsap.to(o2,{duration:1.5,val:4.8,ease:'power2.out',
+          onUpdate:function(){stats[1].textContent=o2.val.toFixed(1)+'/5';}});
+        var o3={val:0};
+        gsap.to(o3,{duration:1.2,val:100,ease:'power2.out',
+          onUpdate:function(){stats[2].textContent=Math.round(o3.val)+'%';}});
+      }
+    });
+  }
+
+  // ── Explicación: slide in desde lados ──
+  gsap.set('.exp ul', {opacity:0, x:-70});
+  gsap.set('.box', {opacity:0, x:70});
+  gsap.to('.exp ul',{
+    scrollTrigger:{trigger:'.exp', start:'top 80%'},
+    duration:0.8, opacity:1, x:0, ease:'power3.out'
+  });
+  gsap.to('.box',{
+    scrollTrigger:{trigger:'.exp', start:'top 80%'},
+    duration:0.8, opacity:1, x:0, ease:'power3.out', delay:0.15
+  });
+
+  // ── FAQ: stagger accordion items ──
+  var faqItems = document.querySelectorAll('details');
+  gsap.set(faqItems, {opacity:0, y:30});
+  gsap.to(faqItems,{
+    scrollTrigger:{trigger:'#faq', start:'top 80%'},
+    duration:0.5, opacity:1, y:0, stagger:0.1, ease:'power2.out'
+  });
+
+  // ── Pre-footer: woosh bilateral ──
+  var preLeft = document.querySelector('.pre .w > div:first-child');
+  var preForm = document.querySelector('.pre form');
+  if(preLeft){ gsap.set(preLeft,{opacity:0,x:-80}); gsap.to(preLeft,{scrollTrigger:{trigger:'.pre',start:'top 80%'},duration:0.8,opacity:1,x:0,ease:'back.out(1.4)'}); }
+  if(preForm){ gsap.set(preForm,{opacity:0,x:80}); gsap.to(preForm,{scrollTrigger:{trigger:'.pre',start:'top 80%'},duration:0.8,opacity:1,x:0,ease:'back.out(1.4)',delay:0.15}); }
+
+  // ── CTA sections: scale in ──
+  gsap.utils.toArray('.cta').forEach(function(cta){
+    var h=cta.querySelector('h2'); var b=cta.querySelector('.btn');
+    if(h){ gsap.set(h,{opacity:0,scale:0.85}); gsap.to(h,{scrollTrigger:{trigger:cta,start:'top 85%'},duration:0.7,opacity:1,scale:1,ease:'back.out(1.7)'}); }
+    if(b){ gsap.set(b,{opacity:0,y:20}); gsap.to(b,{scrollTrigger:{trigger:cta,start:'top 80%'},duration:0.6,opacity:1,y:0,ease:'back.out(2)',delay:0.3}); }
+  });
+
+  // ── Header logo ──
+  gsap.set('.logo',{opacity:0,x:-20}); gsap.to('.logo',{duration:0.8,opacity:1,x:0,ease:'back.out(1.7)',delay:0.1});
+  gsap.set('header a.c',{opacity:0,x:20}); gsap.to('header a.c',{duration:0.8,opacity:1,x:0,ease:'back.out(1.7)',delay:0.2});
+
+  // ── Hover en cards ──
+  document.querySelectorAll('.card').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-0.5;
+      var y=(e.clientY-r.top)/r.height-0.5;
+      gsap.to(card,{duration:0.3, rotationY:x*8, rotationX:-y*8, transformPerspective:600, ease:'power1.out', boxShadow:'0 16px 40px rgba(0,0,0,0.18)'});
+    });
+    card.addEventListener('mouseleave',function(){
+      gsap.to(card,{duration:0.5, rotationY:0, rotationX:0, boxShadow:'none', ease:'elastic.out(1,0.5)'});
+    });
+  });
+
+  // ── Botones ──
+  document.querySelectorAll('.btn').forEach(function(btn){
+    btn.addEventListener('mousedown',function(){gsap.to(btn,{duration:0.1,scale:0.94,ease:'power2.in'});});
+    btn.addEventListener('mouseup',function(){gsap.to(btn,{duration:0.4,scale:1,ease:'elastic.out(1.2,0.4)'});});
+    btn.addEventListener('mouseleave',function(){gsap.to(btn,{duration:0.3,scale:1,ease:'power2.out'});});
+  });
+
+  // ── Header reveal al scroll ──
+  var lastScroll=0;
+  ScrollTrigger.create({
+    start:'top -80',
+    end:99999,
+    onUpdate:function(self){
+      var cur=self.scroll();
+      if(cur>lastScroll && cur>100){
+        gsap.to('header',{duration:0.3,yPercent:-100,ease:'power2.in'});
+      } else {
+        gsap.to('header',{duration:0.3,yPercent:0,ease:'power2.out'});
+      }
+      lastScroll=cur;
+    }
+  });
+
 })();
 </script>
 </body>
