@@ -169,7 +169,8 @@ button{font-family:var(--sans);cursor:pointer}
   transition:color .2s,background .2s;
 }
 .header-nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
-.header-nav .btn{font-size:.82rem;padding:10px 22px;border-radius:4px}
+.header-nav .btn{font-size:.82rem;padding:10px 22px;border-radius:4px;color:#fff;background:var(--red)}
+.header-nav .btn:hover{background:var(--red2)}
 
 /* ─── HERO ───────────────────────────────────────────── */
 #hero{
@@ -219,7 +220,7 @@ button{font-family:var(--sans);cursor:pointer}
 
 .hero-inner{
   position:relative;z-index:2;
-  padding:0 0 80px;
+  padding:0 24px 80px;
   display:grid;
   grid-template-columns:1fr auto;
   grid-template-rows:auto auto;
@@ -401,46 +402,48 @@ button{font-family:var(--sans);cursor:pointer}
   .stat-item:last-child{border-bottom:none}
 }
 
-/* ─── HORIZONTAL SCROLL BENEFITS ────────────────────── */
+/* ─── BENEFICIOS ─────────────────────────────────────────
+   Base: paneles apilados (móvil, sin JS, movimiento reducido).
+   El scroll horizontal solo se activa con la clase .hs-on
+   que añade el JS en pantallas de escritorio.
+────────────────────────────────────────────────────────── */
+.hscroll-outer{position:relative}
+.hscroll-sticky{position:relative;background:var(--bg)}
 
-.hscroll-outer {
-  position: relative;
-  height: auto;
-  min-height: 100vh;
+/* Cabecera de la sección, centrada */
+.hscroll-header{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  padding:96px 24px 40px;
+}
+.hscroll-header .eyebrow{margin-bottom:14px}
+.hscroll-header .eyebrow::after{content:'';display:block;width:24px;height:2px;background:var(--red)}
+.hscroll-header .section-title{
+  font-size:clamp(2rem,4.2vw,3.4rem);
+  max-width:760px;margin:0;color:var(--txt);
 }
 
-.hscroll-sticky {
-  position: relative;
-  top: 0;
-  height: calc(100svh - 72px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+/* Barra de progreso (solo escritorio) */
+.hscroll-progress{
+  display:none;
+  width:min(1112px,calc(100% - 48px));height:3px;margin:0 auto;
+  background:var(--line);border-radius:2px;overflow:hidden;
 }
+.hscroll-progress-bar{height:100%;width:0;background:var(--red)}
 
-.hscroll-track {
-  display: flex;
-  align-items: stretch;
-  flex: 1;
-  width: max-content;
-  will-change: transform;
+.hscroll-track{display:flex;flex-direction:column}
+
+.benefit-panel{
+  display:flex;align-items:center;
+  padding:56px 0;
 }
-
-.benefit-panel {
-  width: 100vw;
-  min-width: 100vw;
-  flex: 0 0 100vw;
-  display: flex;
-  align-items: center;
-  padding: 40px 24px;
-}
-
 .benefit-inner{
   max-width:1160px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:80px;align-items:center;
+  display:grid;grid-template-columns:1fr;
+  gap:32px;align-items:center;
 }
 .benefit-num{
+  display:none;
   font-family:var(--serif);
   font-size:clamp(6rem,15vw,14rem);
   line-height:1;
@@ -465,7 +468,7 @@ button{font-family:var(--sans);cursor:pointer}
 }
 .benefit-desc{color:var(--mut);line-height:1.8;font-size:1rem;max-width:400px}
 .benefit-vis{
-  height:340px;border-radius:8px;overflow:hidden;
+  height:220px;border-radius:8px;overflow:hidden;
   position:relative;
   display:flex;align-items:center;justify-content:center;
 }
@@ -494,6 +497,15 @@ button{font-family:var(--sans);cursor:pointer}
 .bp6{background:var(--navy2)}
 .bp6 .benefit-vis{background:linear-gradient(135deg,#0f2030,#1a3248)}
 
+/* Modo oscuro: paneles 2 y 5 pasan a fondo oscuro, texto claro */
+@media(prefers-color-scheme:dark){
+  .bp2 .benefit-title,.bp2 .benefit-index,
+  .bp5 .benefit-title,.bp5 .benefit-index{color:#fff}
+  .bp2 .benefit-vis,.bp5 .benefit-vis{background:linear-gradient(135deg,#0f2030,#1a3248)}
+  .bp2 .bv-icon,.bp5 .bv-icon{background:rgba(255,255,255,.1)}
+  .bp2 .bv-icon svg,.bp5 .bv-icon svg{stroke:rgba(255,255,255,.85)}
+}
+
 /* Benefit visual icon */
 .bv-icon{
   width:80px;height:80px;
@@ -505,6 +517,10 @@ button{font-family:var(--sans);cursor:pointer}
 .bp2 .bv-icon svg{stroke:var(--navy)}
 .bp5 .bv-icon{background:rgba(11,31,51,.08)}
 .bp5 .bv-icon svg{stroke:var(--navy)}
+@media(prefers-color-scheme:dark){
+  .bp2 .bv-icon,.bp5 .bv-icon{background:rgba(255,255,255,.1)}
+  .bp2 .bv-icon svg,.bp5 .bv-icon svg{stroke:rgba(255,255,255,.85)}
+}
 
 /* Visual abstract: radar */
 .bv-radar{
@@ -523,16 +539,37 @@ button{font-family:var(--sans);cursor:pointer}
 @keyframes sweep{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.bv-radar-sweep{animation:none}}
 
-/* Mobile fallback for hscroll */
-@media(max-width:800px){
-  .hscroll-outer{height:auto}
-  .hscroll-sticky{position:relative;top:auto;height:auto;overflow:visible}
-  .hscroll-track{flex-direction:column}
-  .benefit-panel{min-width:100%;padding:60px 0}
-  .benefit-inner{grid-template-columns:1fr;gap:32px}
-  .benefit-num{display:none}
-  .benefit-vis{height:220px}
-  .hscroll-progress{display:none}
+/* Escritorio, apilado (sin JS): dos columnas */
+@media(min-width:801px){
+  .benefit-panel{padding:72px 24px}
+  .benefit-inner{grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px)}
+  .benefit-num{display:block}
+  .benefit-vis{height:clamp(200px,42vh,340px)}
+}
+
+/* Escritorio con scroll horizontal activo */
+.hs-on .hscroll-sticky{
+  height:100svh;
+  padding-top:72px;           /* espacio del header fijo */
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.hs-on .hscroll-header{
+  flex:none;
+  padding:clamp(14px,3vh,32px) 24px clamp(12px,2vh,20px);
+}
+.hs-on .hscroll-header .section-title{font-size:clamp(2rem,4vw,3.2rem)}
+.hs-on .hscroll-progress{display:block;flex:none}
+.hs-on .hscroll-track{
+  --n:6;                       /* nº de paneles: cámbialo si agregas o quitas */
+  flex:1;min-height:0;
+  flex-direction:row;align-items:stretch;
+  width:calc(var(--n) * 100%);
+  will-change:transform;
+}
+.hs-on .benefit-panel{
+  flex:1 1 0;min-width:0;
+  padding:16px 24px;
 }
 
 /* ─── WHAT IS ─────────────────────────────────────────── */
@@ -713,12 +750,12 @@ button{font-family:var(--sans);cursor:pointer}
 .cta-mid-btn:hover{background:var(--navy);color:#fff;box-shadow:none}
 
 /* ─── PRE-FOOTER CTA ─────────────────────────────────── */
-#pre-footer{
+#registro-final{
   padding:120px 0 0;
   background:var(--navy);color:#fff;
   position:relative;overflow:hidden;
 }
-#pre-footer::after{
+#registro-final::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(198,40,40,.5),transparent);
 }
@@ -834,7 +871,7 @@ footer h5{
      HERO
 ══════════════════════════════════════════════ -->
 <main id="top">
-<section id="hero" id="registro">
+<section id="hero">
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-blob" aria-hidden="true"></div>
   <div class="hero-blob2" aria-hidden="true"></div>
@@ -874,42 +911,43 @@ footer h5{
 
     <!-- Columna derecha: formulario -->
     <div class="hero-form-col">
-  <div class="hero-form-card" id="h-form-card">
-    <div id="form-fw-hero">
-      <p class="form-title">Regístrate</p>
-      <p class="form-sub">Solo toma 30 segundos. Sin costo.</p>
-      <form class="lead" novalidate data-form="hero" autocomplete="on">
-        <div class="form-field">
-          <label for="h-nombre">Nombre completo</label>
-          <input id="h-nombre" type="text" name="nombre" autocomplete="name" placeholder="Tu nombre" required>
+      <div class="hero-form-card" id="h-form-card">
+        <div id="form-fw-hero">
+          <p class="form-title">Regístrate</p>
+          <p class="form-sub">Solo toma 30 segundos. Sin costo.</p>
+          <form class="lead" novalidate data-form="hero" autocomplete="on">
+            <div class="form-field">
+              <label for="h-nombre">Nombre completo</label>
+              <input id="h-nombre" type="text" name="nombre" autocomplete="name" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-field">
+              <label for="h-correo">Correo electrónico</label>
+              <input id="h-correo" type="email" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com" required>
+            </div>
+            <div class="form-field">
+              <label for="h-tel">Teléfono</label>
+              <input id="h-tel" type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required>
+            </div>
+            <div class="form-err" role="alert"></div>
+            <div class="form-check">
+              <input type="checkbox" name="acepta" id="h-acepta" required>
+              <label for="h-acepta">Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</label>
+            </div>
+            <div class="form-btn-wrap">
+              <button class="btn" type="submit">Quiero acceder ahora</button>
+            </div>
+          </form>
         </div>
-        <div class="form-field">
-          <label for="h-correo">Correo electrónico</label>
-          <input id="h-correo" type="email" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com" required>
+        <div class="form-ok" id="form-ok-hero">
+          <div class="ok-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+          </div>
+          <strong>¡Registro exitoso!</strong>
+          <p>Gracias, pronto recibirás novedades en tu correo.</p>
         </div>
-        <div class="form-field">
-          <label for="h-tel">Teléfono</label>
-          <input id="h-tel" type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required>
-        </div>
-        <div class="form-err" role="alert"></div>
-        <div class="form-check">
-          <input type="checkbox" name="acepta" id="h-acepta" required>
-          <label for="h-acepta">Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</label>
-        </div>
-        <div class="form-btn-wrap">
-          <button class="btn" type="submit">Quiero acceder ahora</button>
-        </div>
-      </form>
-    </div>
-    <div class="form-ok" id="form-ok-hero">
-      <div class="ok-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
-      </div>
-      <strong>¡Registro exitoso!</strong>
-      <p>Gracias, pronto recibirás novedades en tu correo.</p>
-    </div>
-  </div><!-- /hero-form-card -->
-  </div><!-- /hero-form-col -->
+      </div><!-- /hero-form-card -->
+    </div><!-- /hero-form-col -->
+  </div><!-- /hero-inner -->
 </section>
 
 <!-- ══════════════════════════════════════════════
@@ -963,7 +1001,7 @@ footer h5{
 
       <div class="hscroll-header">
         <span class="eyebrow">Lo que obtienes</span>
-        <h2 class="section-title" style="color:#2563EB;max-width:600px">Al registrarte, accedes a todo esto</h2>
+        <h2 class="section-title">Al registrarte, accedes a <span class="text-red">todo esto</span></h2>
       </div>
 
       <div class="hscroll-progress" role="progressbar" aria-label="Progreso de la sección">
@@ -998,7 +1036,7 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">02</div>
-              <p class="benefit-index" style="color:var(--red)">02 / 06</p>
+              <p class="benefit-index">02 / 06</p>
               <h3 class="benefit-title">Alertas<br>por Correo</h3>
               <p class="benefit-desc">Recibe avisos inmediatos cuando haya nuevos casos o cambios en la lista. Tú siempre un paso adelante.</p>
             </div>
@@ -1049,7 +1087,7 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">05</div>
-              <p class="benefit-index" style="color:var(--red)">05 / 06</p>
+              <p class="benefit-index">05 / 06</p>
               <h3 class="benefit-title">Acceso<br>Prioritario</h3>
               <p class="benefit-desc">Los primeros registrados prueban las nuevas funciones antes que el resto. Tu registro de hoy vale más mañana.</p>
             </div>
@@ -1225,6 +1263,7 @@ footer h5{
         </div>
       </article>
     </div>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
@@ -1293,7 +1332,7 @@ footer h5{
 <!-- ══════════════════════════════════════════════
      PRE-FOOTER REGISTER
 ══════════════════════════════════════════════ -->
-<section id="pre-footer" id="registro-final" aria-labelledby="pf-title">
+<section id="registro-final" aria-labelledby="pf-title">
   <div class="w">
     <div class="pf-grid">
       <div>
@@ -1434,8 +1473,6 @@ footer h5{
   // EVENTOS 4 y 5: form_start y generate_lead
   document.querySelectorAll('form.lead').forEach(function(f){
     var loc=f.dataset.form,started=false;
-    var fw=f.closest('[id^="form-fw"]');
-    var okEl=document.getElementById(fw?fw.id.replace('fw','ok'):null);
 
     f.addEventListener('focusin',function(){
       if(!started){started=true;dl.push({event:'form_start',form_location:loc});}
@@ -1464,19 +1501,13 @@ footer h5{
       fetch(URL_HS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
         .then(function(r){return r.text().then(function(tx){
           if(!r.ok){console.error('HubSpot error',r.status,tx);throw 0;}
-          // Ocultar form, mostrar OK
-          if(fw)fw.style.display='none';
-          var okTarget=f.closest('.hero-form-card')||f.closest('[id^="form-fw"]');
-          if(otTarget){
-            // Find sibling ok
-          }
-          // Simpler: hide all siblings, show the .form-ok in the same card
+          // Ocultar el formulario y mostrar el mensaje de éxito en la misma tarjeta
           var card=f.closest('.hero-form-card');
           if(card){
             var fwEl=card.querySelector('[id^="form-fw"]');
-            var okEl2=card.querySelector('.form-ok');
+            var okEl=card.querySelector('.form-ok');
             if(fwEl)fwEl.style.display='none';
-            if(okEl2)okEl2.style.display='block';
+            if(okEl)okEl.style.display='block';
           }
           dl.push({event:'generate_lead',form_location:loc});
         });})
@@ -1543,13 +1574,9 @@ footer h5{
   var mm=gsap.matchMedia();
   var prefersReduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  if(prefersReduced){
-    // make everything visible immediately
-    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(function(el){
-      el.style.opacity=1;
-    });
-    return;
-  }
+  // Con movimiento reducido no se activa el scroll horizontal ni las animaciones:
+  // los beneficios quedan apilados y todo es visible de inmediato.
+  if(prefersReduced)return;
 
   /* Hero entrance */
   var heroTl=gsap.timeline({delay:.1});
@@ -1595,80 +1622,60 @@ footer h5{
     }
   });
 
-  
-
-   
-  /* ── Horizontal scroll benefits — FIX ───────── */
+  /* ── Beneficios: scroll horizontal (solo escritorio) ── */
   mm.add('(min-width:801px)', function () {
-    var outer = document.getElementById('hscroll-outer');
+    var root   = document.documentElement;
+    var outer  = document.getElementById('hscroll-outer');
     var sticky = document.getElementById('hscroll-sticky');
-    var track = document.getElementById('hscroll-track');
-    var bar = document.getElementById('hscroll-bar');
-
+    var track  = document.getElementById('hscroll-track');
+    var bar    = document.getElementById('hscroll-bar');
     if (!outer || !sticky || !track) return;
 
-    var panels = Array.from(track.querySelectorAll('.benefit-panel'));
-    if (!panels.length) return;
-
-    // Elimina transformaciones anteriores antes de medir.
+    // Activa el layout horizontal (CSS: .hs-on) y fija el nº de paneles.
+    var count = track.querySelectorAll('.benefit-panel').length;
+    track.style.setProperty('--n', count);
+    root.classList.add('hs-on');
     gsap.set(track, { clearProps: 'transform' });
 
-    // Distancia real necesaria para mostrar el último panel completo.
+    // Recorrido real: ancho del track menos el ancho visible del contenedor.
     function getTravel() {
-      return Math.max(0, track.scrollWidth - window.innerWidth);
+      return Math.max(0, track.offsetWidth - sticky.clientWidth);
     }
 
-    // El espacio vertical debe permitir recorrer toda la animación.
-    function getScrollLength() {
-      return getTravel();
-    }
-
-    var horizontalTween = gsap.to(track, {
-      x: function () {
-        return -getTravel();
-      },
+    var tween = gsap.to(track, {
+      x: function () { return -getTravel(); },
       ease: 'none',
       scrollTrigger: {
         id: 'benefits-horizontal-scroll',
         trigger: outer,
         start: 'top top',
-        end: function () {
-          return '+=' + getScrollLength();
-        },
+        end: function () { return '+=' + getTravel(); },
         pin: sticky,
         pinSpacing: true,
         scrub: 1,
         invalidateOnRefresh: true,
         anticipatePin: 1,
         onUpdate: function (self) {
-          if (bar) {
-            bar.style.width = (self.progress * 100) + '%';
-          }
+          if (bar) bar.style.width = (self.progress * 100) + '%';
         }
       }
     });
 
-    // Refresca medidas después de cargar las fuentes y ajustar el layout.
-    function refreshHorizontalScroll() {
-      ScrollTrigger.refresh();
-    }
+    function refresh() { ScrollTrigger.refresh(); }
+    window.addEventListener('load', refresh);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+    requestAnimationFrame(refresh);
 
-    window.addEventListener('load', refreshHorizontalScroll);
-
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(refreshHorizontalScroll);
-    }
-
-    // Limpia el listener si GSAP desmonta esta media query.
+    // Al pasar a móvil (o desmontar), se vuelve al layout apilado.
     return function () {
-      window.removeEventListener('load', refreshHorizontalScroll);
-      horizontalTween.scrollTrigger &&
-        horizontalTween.scrollTrigger.kill();
-      horizontalTween.kill();
+      window.removeEventListener('load', refresh);
+      if (tween.scrollTrigger) tween.scrollTrigger.kill();
+      tween.kill();
+      gsap.set(track, { clearProps: 'transform' });
+      root.classList.remove('hs-on');
+      if (bar) bar.style.width = '0';
     };
   });
-
-   
 
   /* What is section */
   gsap.from('.what-features li',{
@@ -1716,11 +1723,11 @@ footer h5{
 
   /* Pre-footer */
   gsap.from('.pf-grid > div:first-child > *',{
-    scrollTrigger:{trigger:'#pre-footer',start:'top 80%'},
+    scrollTrigger:{trigger:'#registro-final',start:'top 80%'},
     duration:.7,opacity:0,x:-40,stagger:.12,ease:'power3.out'
   });
   gsap.from('.pf-grid .hero-form-card',{
-    scrollTrigger:{trigger:'#pre-footer',start:'top 80%'},
+    scrollTrigger:{trigger:'#registro-final',start:'top 80%'},
     duration:.9,opacity:0,x:40,ease:'back.out(1.3)'
   });
 
