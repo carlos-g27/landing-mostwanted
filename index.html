@@ -6,6 +6,22 @@
 <title>MostWanted | Los más buscados del FBI, al alcance de tu mano</title>
 <meta name="description" content="Regístrate y accede a información actualizada de los criminales más buscados del FBI con MostWanted.">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Consent Mode v2: DEBE ir antes del snippet de GTM -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
+</script>
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -15,530 +31,1699 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-NF3VB82B');</script>
 <!-- End Google Tag Manager -->
 
-<!-- GSAP desde CDN -->
+<!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <style>
-:root{--navy:#0B1F33;--navy2:#13304d;--red:#C62828;--red2:#a51f1f;--bg:#F8FAFC;--txt:#1b2a3a;--mut:#5b6b7b;--line:#dde4ec;--card:#fff}
-@media(prefers-color-scheme:dark){:root{--bg:#0a1827;--txt:#e8eef5;--mut:#9fb0c2;--line:#1f3550;--card:#102338}}
-*{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
-a{color:inherit}
-.w{max-width:1100px;margin:auto;padding:0 20px}
-section{padding:72px 0}
-h1,h2,h3{line-height:1.2}
-h2{font-size:clamp(1.6rem,3.5vw,2.2rem);text-align:center;margin-bottom:12px}
-.sub{text-align:center;color:var(--mut);max-width:620px;margin:0 auto 40px}
-.btn{display:inline-block;background:var(--red);color:#fff;border:0;padding:14px 28px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s,transform .1s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
-.btn:hover{background:var(--red2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(198,40,40,.35)}
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root{
+  --navy:#0B1F33;
+  --navy2:#0f2a44;
+  --navy3:#162d48;
+  --red:#C62828;
+  --red2:#a51f1f;
+  --red-glow:rgba(198,40,40,0.35);
+  --cream:#F5F0E8;
+  --bg:#F8FAFC;
+  --txt:#0d1b29;
+  --mut:#6b7d8f;
+  --line:#dde4ec;
+  --card:#ffffff;
+  --serif:'Bebas Neue',sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#060e18;
+    --txt:#e8eef5;
+    --mut:#8aa0b5;
+    --line:#1a2e44;
+    --card:#0d1e30;
+    --cream:#0d1e30;
+  }
+}
 
-/* header */
-header{position:sticky;top:0;z-index:10;background:var(--navy);color:#fff}
-header .w{display:flex;justify-content:space-between;align-items:center;height:64px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none;font-size:1.15rem}
-.logo img{width:38px;height:38px}
-header a.c{font-weight:600;text-decoration:none;border:1px solid #ffffff55;padding:8px 16px;border-radius:8px;font-size:.9rem}
-header a.c:hover{background:#ffffff1a}
+/* ─── RESET & BASE ───────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--txt);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font-family:var(--sans);cursor:pointer}
 
-/* hero */
-.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:64px 0;will-change:transform}
-.hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
-.tag{display:inline-block;background:#C6282833;color:#ffb4b4;padding:4px 12px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:16px}
-.hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:16px}
-.hero h1 span{color:#ff6b6b}
-.hero p{color:#cbd8e6;font-size:1.1rem}
-form{background:var(--card);color:var(--txt);padding:28px;border-radius:16px;box-shadow:0 20px 50px #0006}
-form h3{margin-bottom:4px}
-form .s{color:var(--mut);font-size:.9rem;margin-bottom:16px}
-label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 4px}
-input[type=text],input[type=email],input[type=tel]{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--txt)}
-input:focus{outline:2px solid var(--red);border-color:transparent}
-.chk{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;color:var(--mut);margin:14px 0}
-.chk input{margin-top:4px}
-form .btn{width:100%}
-.ok{display:none;text-align:center;padding:20px 0}
-.ok b{color:var(--red);font-size:1.2rem}
-.err{color:var(--red);font-size:.78rem;display:none}
+/* ─── LAYOUT ─────────────────────────────────────────── */
+.w{max-width:1160px;margin:auto;padding:0 24px}
+.w--wide{max-width:1400px;margin:auto;padding:0 24px}
 
-/* grids */
-.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;overflow:hidden;position:relative;transform-style:preserve-3d;transition:box-shadow .3s}
-.card::after{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-20deg);pointer-events:none;opacity:0;transition:opacity .3s}
-.card:hover::after{opacity:1;animation:shimmer .6s ease forwards}
-@keyframes shimmer{0%{left:-60%}100%{left:120%}}
-.ic{display:none}
-.card p{color:var(--mut);font-size:.95rem}
-.cta{background:var(--red);color:#fff;text-align:center;padding:56px 0}
-.cta h2{margin-bottom:10px}
-.cta p{margin-bottom:24px;opacity:.9}
-.cta .btn{background:#fff;color:var(--red)}
-.cta .btn:hover{background:var(--navy);color:#fff}
-.cta.alt{background:var(--navy)}
-.cta.alt .btn{background:var(--red);color:#fff}
-.who{margin-top:16px;font-size:.85rem;font-weight:700}
-.who small{display:block;font-weight:400;color:var(--mut)}
-.stars{display:flex;gap:3px}.i{color:var(--red);margin-bottom:10px}
-.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin-bottom:44px;text-align:center}
-.stats b{display:block;font-size:2.4rem;color:var(--red);font-variant-numeric:tabular-nums}
-.stats span{color:var(--mut);font-size:.9rem}
-.exp{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-.exp ul{list-style:none;padding:0}
-.exp li{padding:8px 0 8px 28px;position:relative}
-.exp li:before{content:"";position:absolute;left:0;top:13px;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C62828' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l5 5L20 6'/%3E%3C/svg%3E") no-repeat}
-.box{background:var(--navy);color:#fff;border-radius:16px;padding:32px}
-.box h3{margin-bottom:10px}
-.box p{color:#cbd8e6;font-size:.95rem}
-details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:12px;max-width:760px;margin-left:auto;margin-right:auto}
-summary{cursor:pointer;font-weight:700}
-details p{margin-top:10px;color:var(--mut)}
-.pre{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}
-.pre .w{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.pre h2{text-align:left}
-.pre p{color:#cbd8e6}
-footer{background:#06121f;color:#9fb0c2;padding:48px 0 24px;font-size:.9rem}
-footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;margin-bottom:32px}
-footer h4{color:#fff;margin-bottom:10px}
-footer a{display:block;text-decoration:none;padding:3px 0}
-footer a:hover{color:#fff}
-footer .bot{border-top:1px solid #1f3550;padding-top:18px;text-align:center;font-size:.8rem}
-@media(max-width:800px){.hero .w,.exp,.pre .w{grid-template-columns:1fr}section{padding:52px 0}.pre h2{text-align:center}}
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.display{
+  font-family:var(--serif);
+  font-size:clamp(4rem,10vw,9rem);
+  line-height:.92;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+.display--sm{font-size:clamp(2.8rem,6vw,5.5rem)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:20px;
+}
+.eyebrow::before{
+  content:'';display:block;width:24px;height:2px;background:var(--red);
+}
+.section-title{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,5vw,4rem);
+  line-height:1;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.section-sub{
+  color:var(--mut);font-size:1rem;max-width:540px;line-height:1.7;
+}
 
-/* Woosh line decorativa en h2 */
-h2.gsap-hidden::after{content:'';display:block;width:48px;height:3px;background:var(--red);margin:10px auto 0;border-radius:2px}
+/* ─── BUTTON ─────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 32px;
+  background:var(--red);color:#fff;
+  border:none;border-radius:4px;
+  font-size:.95rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;
+  transition:background .25s,transform .15s,box-shadow .25s;
+  position:relative;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.15) 50%,transparent 60%);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.btn:hover{background:var(--red2);transform:translateY(-2px);box-shadow:0 12px 32px var(--red-glow)}
+.btn:hover::after{transform:translateX(100%)}
+.btn:active{transform:translateY(0);box-shadow:none}
+.btn--outline{
+  background:transparent;
+  border:1.5px solid rgba(255,255,255,.4);
+  color:#fff;
+}
+.btn--outline:hover{background:rgba(255,255,255,.08);border-color:#fff;box-shadow:none}
+.btn svg{width:18px;height:18px;flex-shrink:0}
+
+/* ─── HEADER ─────────────────────────────────────────── */
+#site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:72px;
+  display:flex;align-items:center;
+  transition:background .3s,backdrop-filter .3s,border-color .3s;
+  border-bottom:1px solid transparent;
+}
+#site-header.scrolled{
+  background:rgba(11,31,51,.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-color:rgba(255,255,255,.07);
+}
+#site-header .w{
+  display:flex;justify-content:space-between;align-items:center;width:100%;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--serif);font-size:1.5rem;letter-spacing:.06em;
+  color:#fff;text-transform:uppercase;
+}
+.logo img{width:36px;height:36px}
+.header-nav{display:flex;align-items:center;gap:8px}
+.header-nav a{
+  color:rgba(255,255,255,.7);font-size:.85rem;font-weight:500;
+  padding:8px 14px;border-radius:4px;
+  transition:color .2s,background .2s;
+}
+.header-nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.header-nav .btn{font-size:.82rem;padding:10px 22px;border-radius:4px}
+
+/* ─── HERO ───────────────────────────────────────────── */
+#hero{
+  min-height:100svh;
+  background:var(--navy);
+  color:#fff;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  position:relative;
+  overflow:hidden;
+  padding-top:72px;
+}
+
+/* Grid backdrop SVG */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 30%,black 40%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 30%,black 40%,transparent 100%);
+}
+
+/* Red accent blob */
+.hero-blob{
+  position:absolute;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(198,40,40,.22) 0%,transparent 70%);
+  top:-100px;right:-100px;
+  pointer-events:none;
+}
+.hero-blob2{
+  position:absolute;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(198,40,40,.12) 0%,transparent 70%);
+  bottom:15%;left:5%;
+  pointer-events:none;
+}
+
+/* Noise texture overlay */
+.hero-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:.4;pointer-events:none;
+}
+
+.hero-inner{
+  position:relative;z-index:2;
+  padding:0 0 80px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  grid-template-rows:auto auto;
+  gap:0 64px;
+  align-items:end;
+}
+.hero-text-col{
+  grid-column:1;
+  grid-row:1 / span 2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero-form-col{
+  grid-column:2;
+  grid-row:1 / span 2;
+  display:flex;align-items:flex-end;
+  padding-bottom:0;
+}
+@media(max-width:960px){
+  .hero-inner{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto;
+    gap:40px 0;
+  }
+  .hero-text-col,.hero-form-col{grid-column:1}
+  .hero-form-col{padding-bottom:0}
+  .hero-form-card{max-width:100%}
+}
+.hero-eyebrow{margin-bottom:24px}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(5rem,12vw,11rem);
+  line-height:.88;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  margin-bottom:0;
+}
+.hero-title .line{display:block;overflow:hidden}
+.hero-title .word{display:inline-block}
+.hero-title .accent{color:var(--red)}
+.hero-subtitle{
+  color:rgba(203,216,230,.8);
+  font-size:clamp(1rem,1.8vw,1.2rem);
+  max-width:480px;
+  line-height:1.7;
+  margin-top:28px;
+}
+.hero-bottom{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:40px;
+  margin-top:48px;
+  padding-top:32px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-scroll{
+  display:flex;align-items:center;gap:12px;
+  color:rgba(255,255,255,.4);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  flex-shrink:0;
+}
+.hero-scroll-line{
+  width:1px;height:48px;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.3));
+}
+.hero-form-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-radius:12px;
+  padding:32px 36px 36px;
+  width:100%;
+  max-width:420px;
+  flex-shrink:0;
+  align-self:flex-end;
+}
+
+/* ─── FORM ───────────────────────────────────────────── */
+.form-title{
+  font-family:var(--serif);font-size:1.8rem;letter-spacing:.04em;
+  text-transform:uppercase;color:#fff;margin-bottom:4px;
+}
+.form-sub{color:rgba(203,216,230,.6);font-size:.85rem;margin-bottom:24px}
+.form-field{margin-bottom:14px}
+.form-field label{
+  display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:rgba(203,216,230,.6);margin-bottom:6px;
+}
+.form-field input{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:4px;
+  font-size:.95rem;font-family:var(--sans);
+  color:#fff;
+  transition:border-color .2s,background .2s;
+}
+.form-field input::placeholder{color:rgba(255,255,255,.25)}
+.form-field input:focus{
+  outline:none;
+  border-color:var(--red);
+  background:rgba(198,40,40,.06);
+}
+.form-check{
+  display:flex;gap:10px;align-items:flex-start;
+  font-size:.78rem;color:rgba(203,216,230,.5);margin:16px 0;
+}
+.form-check input[type=checkbox]{margin-top:3px;accent-color:var(--red);flex-shrink:0}
+.form-check a{color:rgba(203,216,230,.8);text-decoration:underline;text-underline-offset:3px}
+.form-err{color:#ff7070;font-size:.78rem;margin-bottom:8px;display:none}
+.form-ok{display:none;text-align:center;padding:32px 0}
+.form-ok .ok-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(198,40,40,.15);border:1.5px solid var(--red);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+}
+.form-ok strong{display:block;font-family:var(--serif);font-size:1.6rem;color:#fff;margin-bottom:6px}
+.form-ok p{color:rgba(203,216,230,.6);font-size:.9rem}
+.form-btn-wrap .btn{width:100%;justify-content:center;border-radius:4px;padding:15px}
+
+/* ─── TICKER ─────────────────────────────────────────── */
+.ticker-wrap{
+  background:var(--red);
+  padding:12px 0;overflow:hidden;
+  position:relative;z-index:2;
+}
+.ticker-track{
+  display:flex;gap:0;
+  animation:ticker 28s linear infinite;
+  width:max-content;
+}
+.ticker-item{
+  font-family:var(--serif);font-size:1rem;letter-spacing:.12em;
+  text-transform:uppercase;color:#fff;
+  padding:0 36px;white-space:nowrap;
+  display:flex;align-items:center;gap:36px;
+}
+.ticker-item::after{content:'—';opacity:.5}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+/* ─── STATS BAND ─────────────────────────────────────── */
+#stats-band{
+  background:var(--navy);color:#fff;
+  padding:80px 0;
+  position:relative;overflow:hidden;
+}
+#stats-band::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(198,40,40,.5),transparent);
+}
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;overflow:hidden;
+}
+.stat-item{
+  padding:48px 40px;
+  border-right:1px solid rgba(255,255,255,.08);
+  position:relative;
+}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-family:var(--serif);
+  font-size:clamp(3rem,6vw,5.5rem);
+  line-height:1;color:var(--red);
+  letter-spacing:.02em;
+  display:block;margin-bottom:8px;
+}
+.stat-label{
+  font-size:.82rem;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(203,216,230,.5);
+}
+@media(max-width:700px){
+  .stats-grid{grid-template-columns:1fr}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);padding:36px 28px}
+  .stat-item:last-child{border-bottom:none}
+}
+
+/* ─── HORIZONTAL SCROLL BENEFITS ────────────────────── */
+#benefits{position:relative}
+.hscroll-outer{
+  position:relative;
+  height:500vh; /* scroll space */
+}
+.hscroll-sticky{
+  position:sticky;top:72px;
+  height:calc(100svh - 72px);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.hscroll-header{
+  padding:48px 24px 32px;
+  max-width:1160px;margin:0 auto;width:100%;
+  flex-shrink:0;
+}
+.hscroll-progress{
+  height:2px;background:rgba(255,255,255,.1);
+  position:relative;overflow:hidden;
+  flex-shrink:0;
+  margin:0 24px;
+  max-width:1112px;align-self:center;width:calc(100% - 48px);
+}
+.hscroll-progress-bar{
+  position:absolute;left:0;top:0;bottom:0;
+  background:var(--red);
+  width:0%;transition:width .1s linear;
+}
+.hscroll-track{
+  display:flex;align-items:stretch;
+  flex:1;
+  will-change:transform;
+}
+.benefit-panel{
+  min-width:calc(100svw - 0px);
+  display:flex;align-items:center;
+  padding:40px 24px;
+  flex-shrink:0;
+}
+.benefit-inner{
+  max-width:1160px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+.benefit-num{
+  font-family:var(--serif);
+  font-size:clamp(6rem,15vw,14rem);
+  line-height:1;
+  color:rgba(198,40,40,.12);
+  position:absolute;
+  top:50%;left:-10px;
+  transform:translateY(-50%);
+  pointer-events:none;
+  user-select:none;
+  letter-spacing:-.02em;
+}
+.benefit-text-col{position:relative}
+.benefit-index{
+  font-size:.72rem;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--red);margin-bottom:16px;
+}
+.benefit-title{
+  font-family:var(--serif);
+  font-size:clamp(2.2rem,4.5vw,3.8rem);
+  line-height:1;letter-spacing:.03em;text-transform:uppercase;
+  margin-bottom:20px;
+}
+.benefit-desc{color:var(--mut);line-height:1.8;font-size:1rem;max-width:400px}
+.benefit-vis{
+  height:340px;border-radius:8px;overflow:hidden;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+/* Panel 1 — azul oscuro */
+.bp1{background:var(--navy)}
+.bp1 .benefit-vis{background:linear-gradient(135deg,#0d2540,#1a3a60)}
+/* Panel 2 — crema/contraste */
+.bp2{background:var(--cream)}
+.bp2 .benefit-title,.bp2 .benefit-index{color:var(--navy)}
+.bp2 .benefit-desc{color:#6b7d8f}
+.bp2 .benefit-vis{background:linear-gradient(135deg,#e8e0d0,#d0c8b8)}
+/* Panel 3 — navy oscuro */
+.bp3{background:#060e18}
+.bp3 .benefit-vis{background:linear-gradient(135deg,#0a1824,#12263c)}
+/* Panel 4 — rojo */
+.bp4{background:var(--red)}
+.bp4 .benefit-title,.bp4 .benefit-index{color:#fff}
+.bp4 .benefit-desc{color:rgba(255,255,255,.7)}
+.bp4 .benefit-vis{background:linear-gradient(135deg,#a51f1f,#8a1818)}
+/* Panel 5 — blanco */
+.bp5{background:var(--card);color:var(--txt)}
+.bp5 .benefit-title,.bp5 .benefit-index{color:var(--navy)}
+.bp5 .benefit-desc{color:var(--mut)}
+.bp5 .benefit-vis{background:linear-gradient(135deg,#e8f0f8,#d0dce8)}
+/* Panel 6 */
+.bp6{background:var(--navy2)}
+.bp6 .benefit-vis{background:linear-gradient(135deg,#0f2030,#1a3248)}
+
+/* Benefit visual icon */
+.bv-icon{
+  width:80px;height:80px;
+  background:rgba(255,255,255,.1);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.bv-icon svg{width:36px;height:36px;stroke:rgba(255,255,255,.8)}
+.bp2 .bv-icon{background:rgba(11,31,51,.1)}
+.bp2 .bv-icon svg{stroke:var(--navy)}
+.bp5 .bv-icon{background:rgba(11,31,51,.08)}
+.bp5 .bv-icon svg{stroke:var(--navy)}
+
+/* Visual abstract: radar */
+.bv-radar{
+  width:200px;height:200px;position:relative;
+}
+.bv-radar-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.bv-radar-sweep{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(rgba(198,40,40,.4) 0deg,transparent 60deg);
+  animation:sweep 3s linear infinite;
+}
+@keyframes sweep{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.bv-radar-sweep{animation:none}}
+
+/* Mobile fallback for hscroll */
+@media(max-width:800px){
+  .hscroll-outer{height:auto}
+  .hscroll-sticky{position:relative;top:auto;height:auto;overflow:visible}
+  .hscroll-track{flex-direction:column}
+  .benefit-panel{min-width:100%;padding:60px 0}
+  .benefit-inner{grid-template-columns:1fr;gap:32px}
+  .benefit-num{display:none}
+  .benefit-vis{height:220px}
+  .hscroll-progress{display:none}
+}
+
+/* ─── WHAT IS ─────────────────────────────────────────── */
+#what{padding:120px 0;background:var(--card)}
+.what-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;
+}
+.what-features{list-style:none;margin-top:36px}
+.what-features li{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:20px 0;border-bottom:1px solid var(--line);
+}
+.what-features li:first-child{border-top:1px solid var(--line)}
+.wf-num{
+  font-family:var(--serif);font-size:1.2rem;color:var(--red);
+  flex-shrink:0;margin-top:2px;
+}
+.wf-content h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.wf-content p{font-size:.9rem;color:var(--mut);line-height:1.6}
+.what-visual{
+  background:var(--navy);border-radius:12px;
+  padding:40px;color:#fff;position:relative;overflow:hidden;
+  min-height:460px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.what-visual::before{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(135deg,rgba(198,40,40,.12) 0%,transparent 50%),
+    radial-gradient(circle at 30% 20%,rgba(198,40,40,.2) 0%,transparent 50%);
+}
+.what-visual-badge{
+  position:absolute;top:32px;right:32px;
+  background:rgba(198,40,40,.15);border:1px solid rgba(198,40,40,.4);
+  border-radius:4px;padding:8px 14px;
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ff9090;
+}
+.what-source{
+  position:relative;z-index:1;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:24px;
+}
+.ws-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(203,216,230,.4);margin-bottom:10px}
+.ws-title{font-family:var(--serif);font-size:1.6rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.ws-desc{color:rgba(203,216,230,.6);font-size:.88rem;line-height:1.6}
+.what-grid-vis{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;position:relative;z-index:1;
+}
+.wgv-item{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;padding:16px;
+}
+.wgv-icon{width:28px;height:28px;margin-bottom:8px;opacity:.6}
+.wgv-label{font-size:.78rem;color:rgba(203,216,230,.5);line-height:1.4}
+@media(max-width:800px){
+  .what-grid{grid-template-columns:1fr;gap:48px}
+}
+
+/* ─── TESTIMONIALS ────────────────────────────────────── */
+#testimonials{
+  padding:120px 0;
+  background:var(--navy);color:#fff;
+  position:relative;overflow:hidden;
+}
+#testimonials::before{
+  content:'WANTED';
+  font-family:var(--serif);
+  font-size:clamp(8rem,20vw,18rem);
+  line-height:1;letter-spacing:.04em;
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  color:rgba(255,255,255,.025);
+  pointer-events:none;user-select:none;white-space:nowrap;
+}
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  margin-top:64px;
+}
+.tcard{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:32px;
+  position:relative;
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.tcard:hover{
+  background:rgba(255,255,255,.07);
+  border-color:rgba(198,40,40,.4);
+  transform:translateY(-4px);
+}
+.tcard-stars{display:flex;gap:4px;margin-bottom:20px}
+.tcard-stars svg{width:14px;height:14px}
+.tcard-quote{
+  font-size:.95rem;line-height:1.7;color:rgba(203,216,230,.8);
+  margin-bottom:24px;
+  font-style:italic;
+}
+.tcard-author{
+  display:flex;align-items:center;gap:12px;
+  padding-top:20px;border-top:1px solid rgba(255,255,255,.07);
+}
+.tcard-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#7a1010);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1rem;color:#fff;flex-shrink:0;
+}
+.tcard-name{font-weight:700;font-size:.9rem}
+.tcard-role{font-size:.78rem;color:rgba(203,216,230,.4)}
+.tcard-disclaimer{text-align:center;color:rgba(203,216,230,.25);font-size:.72rem;margin-top:32px}
+@media(max-width:800px){
+  .testimonials-grid{grid-template-columns:1fr}
+}
+
+/* ─── FAQ ─────────────────────────────────────────────── */
+#faq{padding:120px 0}
+.faq-grid{
+  display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;
+  margin-top:16px;
+}
+.faq-sticky{position:sticky;top:100px}
+.faq-list{margin-top:0}
+.faq-item{
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.faq-item:first-child{border-top:1px solid var(--line)}
+.faq-trigger{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:24px 0;
+  width:100%;background:none;border:none;color:var(--txt);
+  font-size:1rem;font-weight:600;text-align:left;
+  cursor:pointer;gap:16px;
+  transition:color .2s;
+}
+.faq-trigger:hover{color:var(--red)}
+.faq-icon{
+  width:24px;height:24px;border-radius:50%;
+  border:1.5px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:border-color .2s,background .2s,transform .3s;
+}
+.faq-icon svg{width:12px;height:12px;transition:transform .3s}
+.faq-item.open .faq-icon{border-color:var(--red);background:var(--red)}
+.faq-item.open .faq-icon svg{stroke:#fff;transform:rotate(45deg)}
+.faq-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.16,1,.3,1);
+}
+.faq-body p{
+  padding-bottom:24px;color:var(--mut);line-height:1.8;font-size:.95rem;
+}
+@media(max-width:800px){
+  .faq-grid{grid-template-columns:1fr;gap:40px}
+  .faq-sticky{position:relative;top:auto}
+}
+
+/* ─── CTA SECTION ─────────────────────────────────────── */
+#cta-mid{
+  padding:100px 0;
+  background:var(--red);color:#fff;text-align:center;
+  position:relative;overflow:hidden;
+}
+#cta-mid::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 50%,rgba(255,255,255,.08) 0%,transparent 50%),
+    radial-gradient(circle at 80% 50%,rgba(0,0,0,.15) 0%,transparent 50%);
+}
+.cta-mid-inner{position:relative;z-index:1}
+.cta-mid-title{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,6vw,5rem);
+  letter-spacing:.03em;text-transform:uppercase;
+  margin-bottom:16px;line-height:.95;
+}
+.cta-mid-sub{opacity:.8;font-size:1.1rem;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-mid-btn{background:#fff;color:var(--red)}
+.cta-mid-btn:hover{background:var(--navy);color:#fff;box-shadow:none}
+
+/* ─── PRE-FOOTER CTA ─────────────────────────────────── */
+#pre-footer{
+  padding:120px 0 0;
+  background:var(--navy);color:#fff;
+  position:relative;overflow:hidden;
+}
+#pre-footer::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(198,40,40,.5),transparent);
+}
+.pf-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+  padding-bottom:80px;
+}
+.pf-title{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,5vw,4.5rem);
+  line-height:.95;letter-spacing:.02em;text-transform:uppercase;
+  margin-bottom:20px;
+}
+.pf-sub{color:rgba(203,216,230,.6);line-height:1.8;margin-bottom:36px;font-size:1rem}
+.pf-trust{
+  display:flex;align-items:center;gap:12px;
+  color:rgba(203,216,230,.4);font-size:.82rem;
+}
+.pf-trust-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;
+}
+@media(max-width:800px){
+  .pf-grid{grid-template-columns:1fr;gap:48px}
+  .pf-grid .hero-form-card{border-radius:12px;border:1px solid rgba(255,255,255,.1)}
+}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{
+  background:#04101c;color:rgba(159,176,194,.7);
+  padding:64px 0 32px;font-size:.88rem;
+}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.8fr 1fr 1fr 1fr;
+  gap:40px;margin-bottom:56px;
+}
+.footer-brand p{max-width:240px;margin-top:14px;line-height:1.7;font-size:.85rem}
+footer h5{
+  color:#fff;font-size:.72rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;
+}
+.footer-links{display:flex;flex-direction:column;gap:8px}
+.footer-links a{
+  color:rgba(159,176,194,.6);
+  transition:color .2s;padding:2px 0;
+}
+.footer-links a:hover{color:#fff}
+.footer-bot{
+  border-top:1px solid rgba(255,255,255,.06);
+  padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;flex-wrap:wrap;
+  font-size:.78rem;
+}
+@media(max-width:800px){
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media(max-width:500px){
+  .footer-top{grid-template-columns:1fr}
+  .footer-bot{flex-direction:column;text-align:center}
+}
+
+/* ─── CURSOR FOLLOWER ────────────────────────────────── */
+#cursor{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--red);
+  position:fixed;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s,width .25s,height .25s,background .25s,opacity .25s;
+  mix-blend-mode:normal;
+  opacity:0;
+}
+#cursor.active{opacity:1}
+#cursor.hovering{width:40px;height:40px;background:rgba(198,40,40,.25)}
+@media(hover:none){#cursor{display:none}}
+
+/* ─── UTILITIES ──────────────────────────────────────── */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.text-red{color:var(--red)}
+.mt-sm{margin-top:16px}
+.mt-md{margin-top:32px}
+
+/* ─── REDUCED MOTION ─────────────────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .ticker-track{animation:none}
+}
 </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF3VB82B"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<!-- GTM noscript -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF3VB82B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<!-- 1. HEADER -->
-<header>
-<div class="w">
-<a class="logo" href="#top" aria-label="MostWanted"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="Logo MostWanted"><span>MostWanted</span></a>
-<a class="c" href="mailto:contacto@mostwanted.app" data-track="contacto_header">Contacto</a>
-</div>
+<!-- Custom cursor -->
+<div id="cursor" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════ -->
+<header id="site-header">
+  <div class="w">
+    <a class="logo" href="#top" aria-label="MostWanted inicio">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="Logo MostWanted" width="36" height="36">
+      <span>MostWanted</span>
+    </a>
+    <nav class="header-nav">
+      <a class="btn" href="#registro-final" data-track="cta_header">Registrarme</a>
+    </nav>
+  </div>
 </header>
 
-<!-- 2. HERO -->
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
 <main id="top">
-<section class="hero" id="registro">
-<div class="w">
-<div>
-<span class="tag gsap-slide-left">DATOS PÚBLICOS DEL FBI</span>
-<h1 class="gsap-slide-left">Conoce a los más buscados del FBI. <span>Antes que nadie.</span></h1>
-<p class="gsap-slide-left">Déjanos tus datos y recibe acceso a información actualizada, organizada y fácil de consultar. Estar informado puede marcar la diferencia.</p>
-</div>
-<form class="lead gsap-slide-right" novalidate data-form="hero">
-<div class="fw">
-<h3>Regístrate gratis</h3>
-<p class="s">Solo toma 30 segundos.</p>
-<label>Nombre completo<input type="text" name="nombre" autocomplete="name" placeholder="Tu nombre" required></label>
-<label>Correo electrónico<input type="email" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com" required></label>
-<label>Teléfono<input type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required></label>
-<div class="err"></div>
-<div class="chk"><input type="checkbox" name="acepta" required><span>Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</span></div>
-<button class="btn" type="submit">Quiero acceder ahora</button>
-</div>
-<div class="ok"><b>¡Registro exitoso!</b><p>Gracias, pronto recibirás novedades en tu correo.</p></div>
-</form>
-</div>
+<section id="hero" id="registro">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-blob" aria-hidden="true"></div>
+  <div class="hero-blob2" aria-hidden="true"></div>
+  <div class="hero-noise" aria-hidden="true"></div>
+
+  <div class="w hero-inner">
+    <!-- Columna izquierda: texto -->
+    <div class="hero-text-col">
+      <div class="hero-eyebrow">
+        <span class="eyebrow" id="h-eyebrow">Datos públicos del FBI</span>
+      </div>
+
+      <h1 class="hero-title" id="h-title">
+        <span class="line"><span class="word">Más</span></span>
+        <span class="line"><span class="word accent">Buscados.</span></span>
+        <span class="line"><span class="word">Más</span> <span class="word">Cerca.</span></span>
+      </h1>
+
+      <p class="hero-subtitle" id="h-sub">
+        Accede a la lista oficial del FBI, organizada, actualizada y lista para consultarla en segundos. Regístrate gratis y sé el primero en saber.
+      </p>
+
+      <div class="hero-bottom" id="h-bottom">
+        <div class="hero-cta">
+          <a class="btn" href="#registro-final" data-track="cta_hero_primary">
+            Acceder ahora
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn--outline" href="#benefits" data-track="cta_hero_secondary">Ver beneficios</a>
+        </div>
+        <div class="hero-scroll" aria-hidden="true">
+          <div class="hero-scroll-line"></div>
+          <span>Scroll</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: formulario -->
+    <div class="hero-form-col">
+  <div class="hero-form-card" id="h-form-card">
+    <div id="form-fw-hero">
+      <p class="form-title">Regístrate</p>
+      <p class="form-sub">Solo toma 30 segundos. Sin costo.</p>
+      <form class="lead" novalidate data-form="hero" autocomplete="on">
+        <div class="form-field">
+          <label for="h-nombre">Nombre completo</label>
+          <input id="h-nombre" type="text" name="nombre" autocomplete="name" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-field">
+          <label for="h-correo">Correo electrónico</label>
+          <input id="h-correo" type="email" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com" required>
+        </div>
+        <div class="form-field">
+          <label for="h-tel">Teléfono</label>
+          <input id="h-tel" type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required>
+        </div>
+        <div class="form-err" role="alert"></div>
+        <div class="form-check">
+          <input type="checkbox" name="acepta" id="h-acepta" required>
+          <label for="h-acepta">Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</label>
+        </div>
+        <div class="form-btn-wrap">
+          <button class="btn" type="submit">Quiero acceder ahora</button>
+        </div>
+      </form>
+    </div>
+    <div class="form-ok" id="form-ok-hero">
+      <div class="ok-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+      </div>
+      <strong>¡Registro exitoso!</strong>
+      <p>Gracias, pronto recibirás novedades en tu correo.</p>
+    </div>
+  </div><!-- /hero-form-card -->
+  </div><!-- /hero-form-col -->
 </section>
 
-<!-- 3. BENEFICIOS -->
-<section id="beneficios">
-<div class="w">
-<h2 class="gsap-hidden">Lo que obtienes al registrarte</h2>
-<p class="sub gsap-hidden">Al dejar tus datos pasas a formar parte de la comunidad MostWanted.</p>
-<div class="g3">
-<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg></div><h3>Información actualizada</h3><p>Accede a fichas de los criminales más buscados con datos tomados de fuentes oficiales.</p></div>
-<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div><h3>Alertas por correo</h3><p>Recibe avisos cuando haya nuevos casos o cambios importantes en la lista.</p></div>
-<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><h3>Búsqueda sencilla</h3><p>Consulta perfiles, delitos y recompensas en una interfaz clara y rápida.</p></div>
-<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><h3>Contacto directo</h3><p>Te escribimos por teléfono o correo solo con información relevante, sin spam.</p></div>
-<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div><h3>Acceso prioritario</h3><p>Los primeros registrados prueban las nuevas funciones antes que el resto.</p></div>
-<div class="card gsap-hidden"><div class="ic"><svg class="i" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div><h3>100% gratuito</h3><p>Registrarte no tiene costo ni compromiso. Puedes darte de baja cuando quieras.</p></div>
+<!-- ══════════════════════════════════════════════
+     TICKER
+══════════════════════════════════════════════ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-item">Información actualizada</div>
+    <div class="ticker-item">Fuentes oficiales FBI</div>
+    <div class="ticker-item">Alertas por correo</div>
+    <div class="ticker-item">Acceso prioritario</div>
+    <div class="ticker-item">100% gratuito</div>
+    <div class="ticker-item">Búsqueda rápida</div>
+    <div class="ticker-item">Información actualizada</div>
+    <div class="ticker-item">Fuentes oficiales FBI</div>
+    <div class="ticker-item">Alertas por correo</div>
+    <div class="ticker-item">Acceso prioritario</div>
+    <div class="ticker-item">100% gratuito</div>
+    <div class="ticker-item">Búsqueda rápida</div>
+  </div>
 </div>
-</div>
+
+<!-- ══════════════════════════════════════════════
+     STATS BAND
+══════════════════════════════════════════════ -->
+<section id="stats-band" aria-label="Estadísticas">
+  <div class="w">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-num" id="stat-1">+12.000</span>
+        <span class="stat-label">Usuarios registrados</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" id="stat-2">4.8/5</span>
+        <span class="stat-label">Valoración promedio</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" id="stat-3">100%</span>
+        <span class="stat-label">Fuentes oficiales</span>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- 4. CTA 1 -->
-<div class="cta">
-<div class="w">
-<h2 class="gsap-hidden">La información está lista. Solo falta tu registro.</h2>
-<p>Únete hoy y empieza a recibir datos que otros no ven.</p>
-<a class="btn" href="#registro" data-track="cta_1">Ir al formulario</a>
-</div>
-</div>
+<!-- ══════════════════════════════════════════════
+     BENEFITS — HORIZONTAL SCROLL
+══════════════════════════════════════════════ -->
+<section id="benefits" aria-label="Beneficios">
+  <div class="hscroll-outer" id="hscroll-outer">
+    <div class="hscroll-sticky" id="hscroll-sticky">
 
-<!-- 5. SOCIAL PROOF -->
-<section id="testimonios">
-<div class="w">
-<h2 class="gsap-hidden">Lo que dicen nuestros usuarios</h2>
-<p class="sub gsap-hidden">Personas reales que ya confían en MostWanted.</p>
-<div class="stats">
-<div class="gsap-scale"><b id="stat-1">+12.000</b><span>usuarios registrados</span></div>
-<div class="gsap-scale"><b id="stat-2">4.8/5</b><span>valoración promedio</span></div>
-<div class="gsap-scale"><b id="stat-3">100%</b><span>fuentes oficiales</span></div>
-</div>
-<div class="g3">
-<div class="card gsap-hidden"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg></div><p>"Muy clara y fácil de usar. Encontré en segundos la información que buscaba."</p><div class="who">Laura M.<small>Estudiante de criminología</small></div></div>
-<div class="card gsap-hidden"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg></div><p>"Las alertas llegan a tiempo y siempre con datos verificados. Lo recomiendo."</p><div class="who">Andrés R.<small>Periodista</small></div></div>
-<div class="card gsap-hidden"><div class="stars"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#f5a623"/></svg><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6" fill="#c9d3de"/></svg></div><p>"Me gusta que sea gratis y sin complicaciones. El registro tomó un minuto."</p><div class="who">Camila P.<small>Aficionada al true crime</small></div></div>
-</div>
-<p style="text-align:center;color:var(--mut);font-size:.75rem;margin-top:20px">Testimonios ilustrativos.</p>
-</div>
+      <div class="hscroll-header">
+        <span class="eyebrow">Lo que obtienes</span>
+        <h2 class="section-title" style="color:#2563EB;max-width:600px">Al registrarte, accedes a todo esto</h2>
+      </div>
+
+      <div class="hscroll-progress" role="progressbar" aria-label="Progreso de la sección">
+        <div class="hscroll-progress-bar" id="hscroll-bar"></div>
+      </div>
+
+      <div class="hscroll-track" id="hscroll-track">
+
+        <!-- Panel 1 -->
+        <div class="benefit-panel bp1">
+          <div class="benefit-inner w">
+            <div class="benefit-text-col">
+              <div class="benefit-num" aria-hidden="true">01</div>
+              <p class="benefit-index">01 / 06</p>
+              <h3 class="benefit-title" style="color:#ffffffe0">Información<br>Actualizada</h3>
+              <p class="benefit-desc">Fichas completas de los criminales más buscados con datos tomados directamente de fuentes oficiales del FBI.</p>
+            </div>
+            <div class="benefit-vis">
+              <div class="bv-radar">
+                <div class="bv-radar-ring" style="width:60px;height:60px"></div>
+                <div class="bv-radar-ring" style="width:120px;height:120px"></div>
+                <div class="bv-radar-ring" style="width:180px;height:180px"></div>
+                <div class="bv-radar-sweep"></div>
+                <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;background:var(--red);border-radius:50%;transform:translate(-50%,-50%)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="benefit-panel bp2">
+          <div class="benefit-inner w">
+            <div class="benefit-text-col">
+              <div class="benefit-num" aria-hidden="true">02</div>
+              <p class="benefit-index" style="color:var(--red)">02 / 06</p>
+              <h3 class="benefit-title">Alertas<br>por Correo</h3>
+              <p class="benefit-desc">Recibe avisos inmediatos cuando haya nuevos casos o cambios en la lista. Tú siempre un paso adelante.</p>
+            </div>
+            <div class="benefit-vis">
+              <div class="bv-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="benefit-panel bp3">
+          <div class="benefit-inner w">
+            <div class="benefit-text-col">
+              <div class="benefit-num" aria-hidden="true">03</div>
+              <p class="benefit-index">03 / 06</p>
+              <h3 class="benefit-title" style="color:#fff">Búsqueda<br>Sencilla</h3>
+              <p class="benefit-desc">Consulta perfiles, delitos y recompensas en una interfaz clara, rápida y diseñada para facilitar la búsqueda.</p>
+            </div>
+            <div class="benefit-vis">
+              <div class="bv-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4 -->
+        <div class="benefit-panel bp4">
+          <div class="benefit-inner w">
+            <div class="benefit-text-col">
+              <div class="benefit-num" aria-hidden="true">04</div>
+              <p class="benefit-index" style="color:rgba(255,255,255,.6)">04 / 06</p>
+              <h3 class="benefit-title" style="color:#fff">Contacto<br>Directo</h3>
+              <p class="benefit-desc">Te escribimos solo cuando haya algo relevante para ti. Sin spam, sin ruido. Solo lo que importa.</p>
+            </div>
+            <div class="benefit-vis" style="background:rgba(0,0,0,.2)">
+              <div class="bv-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 5 -->
+        <div class="benefit-panel bp5">
+          <div class="benefit-inner w">
+            <div class="benefit-text-col">
+              <div class="benefit-num" aria-hidden="true">05</div>
+              <p class="benefit-index" style="color:var(--red)">05 / 06</p>
+              <h3 class="benefit-title">Acceso<br>Prioritario</h3>
+              <p class="benefit-desc">Los primeros registrados prueban las nuevas funciones antes que el resto. Tu registro de hoy vale más mañana.</p>
+            </div>
+            <div class="benefit-vis">
+              <div class="bv-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 6 -->
+        <div class="benefit-panel bp6">
+          <div class="benefit-inner w">
+            <div class="benefit-text-col">
+              <div class="benefit-num" aria-hidden="true">06</div>
+              <p class="benefit-index">06 / 06</p>
+              <h3 class="benefit-title" style="color:#fff">100%<br>Gratuito</h3>
+              <p class="benefit-desc">Registrarte no tiene ningún costo ni compromiso. Puedes darte de baja cuando quieras, sin preguntas.</p>
+            </div>
+            <div class="benefit-vis">
+              <div class="bv-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /hscroll-track -->
+    </div><!-- /hscroll-sticky -->
+  </div><!-- /hscroll-outer -->
 </section>
 
-<!-- 6. EXPLICACIÓN -->
-<section id="producto" style="background:var(--card)">
-<div class="w">
-<h2 class="gsap-hidden">¿Qué es MostWanted?</h2>
-<p class="sub gsap-hidden">Una app que organiza la lista pública de los más buscados del FBI.</p>
-<div class="exp">
-<div>
-<ul class="gsap-slide-left">
-<li>Datos provenientes de la lista pública <b>FBI Most Wanted</b>.</li>
-<li>Fichas con descripción, delitos, rasgos físicos y recompensas.</li>
-<li>Búsqueda y filtros por categoría o tipo de caso.</li>
-<li>Diseño rápido, claro y compatible con móvil.</li>
-<li>Información de carácter público y con fines informativos.</li>
-</ul>
+<!-- ══════════════════════════════════════════════
+     CTA MID
+══════════════════════════════════════════════ -->
+<div id="cta-mid">
+  <div class="w cta-mid-inner">
+    <h2 class="cta-mid-title">La información está<br>lista. Solo falta tu<br>registro.</h2>
+    <p class="cta-mid-sub">Únete hoy y empieza a recibir datos que otros no ven.</p>
+    <a class="btn cta-mid-btn" href="#registro-final" data-track="cta_1">Ir al formulario</a>
+  </div>
 </div>
-<div class="box gsap-slide-right"><h3>¿De dónde sale la información?</h3><p>MostWanted consume una API propia que toma los datos públicos publicados por el FBI y los presenta de forma ordenada. No somos una entidad gubernamental ni estamos afiliados al FBI.</p></div>
-</div>
-</div>
+
+<!-- ══════════════════════════════════════════════
+     WHAT IS MOSTWANTED
+══════════════════════════════════════════════ -->
+<section id="what" aria-labelledby="what-title">
+  <div class="w">
+    <div class="what-grid">
+      <div>
+        <span class="eyebrow">Qué es MostWanted</span>
+        <h2 class="section-title" id="what-title">Una app que organiza los más buscados del FBI</h2>
+        <p class="section-sub">MostWanted consume una API propia que toma los datos públicos publicados por el FBI y los presenta de forma organizada. No somos una entidad gubernamental ni estamos afiliados al FBI.</p>
+        <ul class="what-features">
+          <li>
+            <span class="wf-num">01</span>
+            <div class="wf-content">
+              <h4>Datos oficiales FBI</h4>
+              <p>Provenientes directamente de la lista pública FBI Most Wanted.</p>
+            </div>
+          </li>
+          <li>
+            <span class="wf-num">02</span>
+            <div class="wf-content">
+              <h4>Fichas completas</h4>
+              <p>Descripción, delitos, rasgos físicos y recompensas por caso.</p>
+            </div>
+          </li>
+          <li>
+            <span class="wf-num">03</span>
+            <div class="wf-content">
+              <h4>Búsqueda y filtros</h4>
+              <p>Por categoría, tipo de caso o palabras clave.</p>
+            </div>
+          </li>
+          <li>
+            <span class="wf-num">04</span>
+            <div class="wf-content">
+              <h4>Diseño móvil primero</h4>
+              <p>Interfaz rápida, clara y optimizada para cualquier dispositivo.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="what-visual">
+        <div class="what-visual-badge">Datos públicos</div>
+        <div class="what-grid-vis">
+          <div class="wgv-item">
+            <svg class="wgv-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg>
+            <p class="wgv-label">Actualización<br>continua</p>
+          </div>
+          <div class="wgv-item">
+            <svg class="wgv-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <p class="wgv-label">Fuente<br>verificada</p>
+          </div>
+          <div class="wgv-item">
+            <svg class="wgv-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+            <p class="wgv-label">Proyecto<br>independiente</p>
+          </div>
+          <div class="wgv-item">
+            <svg class="wgv-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
+            <p class="wgv-label">Alertas en<br>tiempo real</p>
+          </div>
+        </div>
+        <div class="what-source">
+          <p class="ws-label">Fuente de datos</p>
+          <h4 class="ws-title">FBI Most Wanted</h4>
+          <p class="ws-desc">Datos de carácter público con fines estrictamente informativos. MostWanted no está afiliado al FBI.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- 7. CTA 2 -->
-<div class="cta alt">
-<div class="w">
-<h2 class="gsap-hidden">¿Listo para estar un paso adelante?</h2>
-<p>Regístrate en menos de un minuto, sin costo.</p>
-<a class="btn" href="#registro" data-track="cta_2">Quiero registrarme</a>
-</div>
-</div>
-
-<!-- 8. FAQ -->
-<section id="faq">
-<div class="w">
-<h2 class="gsap-hidden">Preguntas frecuentes</h2>
-<p class="sub gsap-hidden">Resolvemos tus dudas antes de que las tengas.</p>
-<details class="gsap-hidden"><summary>¿Tiene algún costo registrarme?</summary><p>No. El registro es totalmente gratuito y sin compromiso.</p></details>
-<details class="gsap-hidden"><summary>¿Para qué usan mis datos?</summary><p>Únicamente para enviarte información y novedades de MostWanted. No vendemos tus datos a terceros.</p></details>
-<details class="gsap-hidden"><summary>¿La información es real?</summary><p>Sí. Proviene de la lista pública del FBI, aunque MostWanted es un proyecto independiente.</p></details>
-<details class="gsap-hidden"><summary>¿Con qué frecuencia recibiré mensajes?</summary><p>Solo cuando haya novedades relevantes. Evitamos el spam.</p></details>
-<details class="gsap-hidden"><summary>¿Puedo darme de baja?</summary><p>Claro, en cualquier momento desde el enlace de cada correo o escribiéndonos.</p></details>
-<details class="gsap-hidden"><summary>¿Está afiliada al FBI?</summary><p>No. Somos independientes y usamos datos públicos con fines informativos.</p></details>
-</div>
+<!-- ══════════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════════ -->
+<section id="testimonials" aria-labelledby="test-title">
+  <div class="w">
+    <span class="eyebrow" style="color:rgba(203,216,230,.5)">Lo que dicen</span>
+    <h2 class="section-title" id="test-title" style="color:#fff">Personas que ya<br>confían en MostWanted</h2>
+    <div class="testimonials-grid">
+      <article class="tcard">
+        <div class="tcard-stars" aria-label="5 de 5 estrellas">
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+        </div>
+        <p class="tcard-quote">Muy clara y fácil de usar. Encontré en segundos la información que buscaba. Una herramienta increíble para estudiantes.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" aria-hidden="true">L</div>
+          <div>
+            <p class="tcard-name">Laura M.</p>
+            <p class="tcard-role">Estudiante de criminología</p>
+          </div>
+        </div>
+      </article>
+      <article class="tcard">
+        <div class="tcard-stars" aria-label="5 de 5 estrellas">
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+        </div>
+        <p class="tcard-quote">Las alertas llegan a tiempo y siempre con datos verificados. Para un periodista, este tipo de herramienta es invaluable.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" aria-hidden="true">A</div>
+          <div>
+            <p class="tcard-name">Andrés R.</p>
+            <p class="tcard-role">Periodista</p>
+          </div>
+        </div>
+      </article>
+      <article class="tcard">
+        <div class="tcard-stars" aria-label="4 de 5 estrellas">
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+          <svg viewBox="0 0 24 24" fill="#c9d3de" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
+        </div>
+        <p class="tcard-quote">Me gusta que sea gratis y sin complicaciones. El registro tomó un minuto y ya estoy recibiendo información relevante.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" aria-hidden="true">C</div>
+          <div>
+            <p class="tcard-name">Camila P.</p>
+            <p class="tcard-role">Aficionada al true crime</p>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="tcard-disclaimer">Testimonios ilustrativos.</p>
+  </div>
 </section>
 
-<!-- 9. PREFOOTER -->
-<section class="pre" id="registro-final">
-<div class="w">
-<div class="gsap-slide-left">
-<h2>Última oportunidad: únete hoy a MostWanted</h2>
-<p>Miles de personas ya están informadas. Deja tus datos y sé el siguiente.</p>
-</div>
-<form class="lead gsap-slide-right" novalidate data-form="prefooter">
-<div class="fw">
-<h3>Regístrate gratis</h3>
-<p class="s">Sin costo ni compromiso.</p>
-<label>Nombre completo<input type="text" name="nombre" autocomplete="name" placeholder="Tu nombre" required></label>
-<label>Correo electrónico<input type="email" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com" required></label>
-<label>Teléfono<input type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required></label>
-<div class="err"></div>
-<div class="chk"><input type="checkbox" name="acepta" required><span>Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</span></div>
-<button class="btn" type="submit">Registrarme ahora</button>
-</div>
-<div class="ok"><b>¡Registro exitoso!</b><p>Gracias, pronto recibirás novedades en tu correo.</p></div>
-</form>
-</div>
+<!-- ══════════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════════ -->
+<section id="faq" aria-labelledby="faq-title">
+  <div class="w">
+    <div class="faq-grid">
+      <div class="faq-sticky">
+        <span class="eyebrow">FAQ</span>
+        <h2 class="section-title" id="faq-title">Preguntas<br>frecuentes</h2>
+        <p class="section-sub">Resolvemos tus dudas antes de que las tengas. Si algo no está aquí, escríbenos.</p>
+        <a class="btn mt-md" href="mailto:contacto@mostwanted.app" data-track="contacto_faq" style="display:inline-flex;margin-top:32px">
+          Contactar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="faq-list" role="list">
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            ¿Tiene algún costo registrarme?
+            <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-body"><p>No. El registro es totalmente gratuito y sin compromiso. Puedes darte de baja cuando quieras.</p></div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            ¿Para qué usan mis datos?
+            <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-body"><p>Únicamente para enviarte información y novedades de MostWanted. No vendemos tus datos a terceros.</p></div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            ¿La información es real?
+            <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-body"><p>Sí. Proviene de la lista pública del FBI, aunque MostWanted es un proyecto independiente y no está afiliado al gobierno de los Estados Unidos.</p></div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            ¿Con qué frecuencia recibiré mensajes?
+            <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-body"><p>Solo cuando haya novedades relevantes. Evitamos el spam y respetamos tu bandeja de entrada.</p></div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            ¿Puedo darme de baja?
+            <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-body"><p>Claro, en cualquier momento desde el enlace de cada correo o escribiéndonos a contacto@mostwanted.app.</p></div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            ¿Están afiliados al FBI?
+            <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-body"><p>No. Somos un proyecto independiente que usa datos públicos con fines estrictamente informativos.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PRE-FOOTER REGISTER
+══════════════════════════════════════════════ -->
+<section id="pre-footer" id="registro-final" aria-labelledby="pf-title">
+  <div class="w">
+    <div class="pf-grid">
+      <div>
+        <span class="eyebrow">Última oportunidad</span>
+        <h2 class="pf-title" id="pf-title">Únete hoy a<br><span style="color:var(--red)">MostWanted.</span></h2>
+        <p class="pf-sub">Miles de personas ya están informadas. Deja tus datos y sé el siguiente en recibir acceso prioritario.</p>
+        <div class="pf-trust">
+          <div class="pf-trust-dot"></div>
+          Sin costo
+          <div class="pf-trust-dot"></div>
+          Sin compromiso
+          <div class="pf-trust-dot"></div>
+          Cancela cuando quieras
+        </div>
+      </div>
+      <div class="hero-form-card" style="position:relative;right:auto;bottom:auto;border-radius:12px;border:1px solid rgba(255,255,255,.1)">
+        <div id="form-fw-pf">
+          <p class="form-title">Regístrate gratis</p>
+          <p class="form-sub">Sin costo ni compromiso.</p>
+          <form class="lead" novalidate data-form="prefooter" autocomplete="on">
+            <div class="form-field">
+              <label for="pf-nombre">Nombre completo</label>
+              <input id="pf-nombre" type="text" name="nombre" autocomplete="name" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-field">
+              <label for="pf-correo">Correo electrónico</label>
+              <input id="pf-correo" type="email" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com" required>
+            </div>
+            <div class="form-field">
+              <label for="pf-tel">Teléfono</label>
+              <input id="pf-tel" type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required>
+            </div>
+            <div class="form-err" role="alert"></div>
+            <div class="form-check">
+              <input type="checkbox" name="acepta" id="pf-acepta" required>
+              <label for="pf-acepta">Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</label>
+            </div>
+            <div class="form-btn-wrap">
+              <button class="btn" type="submit">Registrarme ahora</button>
+            </div>
+          </form>
+        </div>
+        <div class="form-ok" id="form-ok-pf">
+          <div class="ok-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
+          </div>
+          <strong>¡Registro exitoso!</strong>
+          <p>Gracias, pronto recibirás novedades en tu correo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 </main>
 
-
-
-<!-- 10. FOOTER -->
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
 <footer>
-<div class="w">
-<div class="top">
-<div><a class="logo" href="#top" style="color:#fff"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="" width="32" height="32"><span>MostWanted</span></a><p style="max-width:260px;margin-top:10px">Información pública del FBI, organizada para ti.</p></div>
-<div><h4>Enlaces</h4><a href="#beneficios">Beneficios</a><a href="#testimonios">Testimonios</a><a href="#producto">Qué es</a><a href="#faq">Preguntas</a></div>
-<div><h4>Legal</h4><a href="#" data-track="footer_privacidad">Política de privacidad</a><a href="#" data-track="footer_terminos">Términos y condiciones</a><a href="mailto:contacto@mostwanted.app" data-track="footer_contacto">contacto@mostwanted.app</a></div>
-<div><h4>Síguenos</h4><a href="#" data-track="social_instagram" rel="noopener">Instagram</a><a href="#" data-track="social_x" rel="noopener">X (Twitter)</a><a href="#" data-track="social_facebook" rel="noopener">Facebook</a><a href="https://github.com/carlos-g27/mostwanted" target="_blank" rel="noopener" data-track="social_github">GitHub</a></div>
-</div>
-<div class="bot">© 2026 MostWanted. Proyecto independiente, no afiliado al FBI. Datos de fuentes públicas. Carlos Alvarez , Yesica Causado</div>
-</div>
+  <div class="w">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="#top" aria-label="MostWanted inicio" style="color:#fff">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="" width="32" height="32">
+          <span>MostWanted</span>
+        </a>
+        <p>Información pública del FBI, organizada para ti. Proyecto independiente, no afiliado a ninguna entidad gubernamental.</p>
+      </div>
+      <div>
+        <h5>Navegación</h5>
+        <nav class="footer-links">
+          <a href="#benefits">Beneficios</a>
+          <a href="#testimonials">Testimonios</a>
+          <a href="#what">Qué es</a>
+          <a href="#faq">Preguntas frecuentes</a>
+        </nav>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <nav class="footer-links">
+          <a href="#" data-track="footer_privacidad">Política de privacidad</a>
+          <a href="#" data-track="footer_terminos">Términos y condiciones</a>
+          <a href="mailto:contacto@mostwanted.app" data-track="footer_contacto">contacto@mostwanted.app</a>
+        </nav>
+      </div>
+      <div>
+        <h5>Síguenos</h5>
+        <nav class="footer-links">
+          <a href="#" data-track="social_instagram" rel="noopener">Instagram</a>
+          <a href="#" data-track="social_x" rel="noopener">X (Twitter)</a>
+          <a href="#" data-track="social_facebook" rel="noopener">Facebook</a>
+          <a href="https://github.com/carlos-g27/mostwanted" target="_blank" rel="noopener" data-track="social_github">GitHub</a>
+        </nav>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© 2026 MostWanted. Proyecto independiente, no afiliado al FBI. Carlos Alvarez, Yesica Causado.</span>
+      <span>Datos de fuentes públicas con fines informativos.</span>
+    </div>
+  </div>
 </footer>
 
+<!-- ══════════════════════════════════════════════
+     HUBSPOT + GTM EVENTS
+══════════════════════════════════════════════ -->
 <script>
 (function(){
-// ===== CONFIGURACIÓN HUBSPOT =====
-var HS={portalId:'52139957',formGuid:'fa7ea6e7-e3c4-449b-a42f-b2634c24479d',region:'na1',phoneField:'phone'};
-var dl=window.dataLayer=window.dataLayer||[];
-var host=HS.region==='eu1'?'api-eu1.hsforms.com':'api.hsforms.com';
-var URL_HS='https://'+host+'/submissions/v3/integration/submit/'+HS.portalId+'/'+HS.formGuid;
-
-function cookie(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?m[1]:undefined;}
-
-// EVENTO 1: click_tracking
-document.addEventListener('click',function(e){
-  var t=e.target.closest('[data-track]');if(!t)return;
-  var id=t.getAttribute('data-track'),tp=/^cta_/.test(id)?'cta':/^social_/.test(id)?'social':/contacto/.test(id)?'contacto':'legal';
-  dl.push({event:'click_tracking',click_id:id,click_type:tp,click_text:t.textContent.trim().slice(0,50)});
-});
-
-// EVENTO 2: faq_open
-document.querySelectorAll('details').forEach(function(d){
-  d.addEventListener('toggle',function(){if(d.open)dl.push({event:'faq_open',faq_question:d.querySelector('summary').textContent});});
-});
-
-// EVENTO 3: scroll_depth
-var marks={25:0,50:0,75:0,90:0};
-addEventListener('scroll',function(){
-  var p=(scrollY+innerHeight)/document.documentElement.scrollHeight*100;
-  for(var k in marks)if(!marks[k]&&p>=k){marks[k]=1;dl.push({event:'scroll_depth',percent:+k});}
-},{passive:true});
-
-// EVENTOS 4 y 5: form_start y generate_lead
-document.querySelectorAll('form.lead').forEach(function(f){
-  var loc=f.dataset.form,started=false;
-  f.addEventListener('focusin',function(){if(!started){started=true;dl.push({event:'form_start',form_location:loc});}});
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    var d=new FormData(f),n=(d.get('nombre')||'').trim(),c=(d.get('correo')||'').trim(),t=(d.get('telefono')||'').trim(),er=f.querySelector('.err'),m='';
-    if(n.length<3)m='Ingresa tu nombre completo.';
-    else if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c))m='Ingresa un correo válido.';
-    else if(t.replace(/\D/g,'').length<7)m='Ingresa un teléfono válido.';
-    else if(!f.acepta.checked)m='Debes aceptar la política de privacidad.';
-    if(m){er.textContent=m;er.style.display='block';return;}
-    er.style.display='none';
-    var btn=f.querySelector('button'),lbl=btn.textContent;btn.disabled=true;btn.textContent='Enviando...';
-    var parts=n.split(/\s+/),first=parts.shift(),last=parts.join(' ');
-    var fields=[{name:'firstname',value:first},{name:'email',value:c},{name:HS.phoneField,value:t}];
-    if(last)fields.push({name:'lastname',value:last});
-    var body={
-      submittedAt:Date.now(),
-      fields:fields,
-      context:{hutk:cookie('hubspotutk'),pageUri:location.href,pageName:document.title}
-    };
-    fetch(URL_HS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
-      .then(function(r){return r.text().then(function(tx){
-        if(!r.ok){console.error('HubSpot error',r.status,tx);throw 0;}
-        console.log('HubSpot OK',r.status,tx);
-        f.querySelector('.fw').style.display='none';f.querySelector('.ok').style.display='block';
-        dl.push({event:'generate_lead',form_location:loc});
-      });})
-      .catch(function(err){console.error('Fallo envío',err);btn.disabled=false;btn.textContent=lbl;er.textContent='No se pudo enviar. Inténtalo de nuevo.';er.style.display='block';});
-  });
-});
-})();
-
-// ===== BANNER DE COOKIES =====
-(function(){
+  var HS={portalId:'52139957',formGuid:'fa7ea6e7-e3c4-449b-a42f-b2634c24479d',region:'na1',phoneField:'phone'};
   var dl=window.dataLayer=window.dataLayer||[];
-  var banner=document.getElementById('cookie-banner');
-  var accepted=localStorage.getItem('mw_cookies');
-  if(!accepted&&banner){banner.style.display='flex';}
-  function setCookies(v){
-    try{localStorage.setItem('mw_cookies',v);}catch(e){}
-    if(banner)banner.style.display='none';
-    dl.push({event:'cookie_consent',consent_value:v});
-  }
-  var btnA=document.getElementById('cookie-accept');
-  var btnR=document.getElementById('cookie-reject');
-  if(btnA)btnA.addEventListener('click',function(){setCookies('all');});
-  if(btnR)btnR.addEventListener('click',function(){setCookies('essential');});
-})();
+  var host=HS.region==='eu1'?'api-eu1.hsforms.com':'api.hsforms.com';
+  var URL_HS='https://'+host+'/submissions/v3/integration/submit/'+HS.portalId+'/'+HS.formGuid;
 
-// ===== FEEDBACK CONTENTSQUARE =====
-(function(){
-  var dl=window.dataLayer=window.dataLayer||[];
-  var btn=document.getElementById('cs-feedback-btn');
-  var modal=document.getElementById('cs-feedback-modal');
-  var closeBtn=document.getElementById('cs-close');
-  var submitBtn=document.getElementById('cs-submit');
-  var thanks=document.getElementById('cs-thanks');
-  var selectedScore=null;
-  
-  setTimeout(function(){
-    try{if(localStorage.getItem('mw_feedback'))return;}catch(e){}
-    if(btn)btn.style.display='flex';
-  },15000);
-  
-  if(btn)btn.addEventListener('click',function(){
-    if(modal){modal.style.display=modal.style.display==='block'?'none':'block';}
-    dl.push({event:'feedback_open',feedback_trigger:'button_click'});
+  function cookie(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?m[1]:undefined;}
+
+  // EVENTO 1: click_tracking
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('[data-track]');if(!t)return;
+    var id=t.getAttribute('data-track'),tp=/^cta_/.test(id)?'cta':/^social_/.test(id)?'social':/contacto/.test(id)?'contacto':'legal';
+    dl.push({event:'click_tracking',click_id:id,click_type:tp,click_text:t.textContent.trim().slice(0,50)});
   });
-  if(closeBtn)closeBtn.addEventListener('click',function(){if(modal)modal.style.display='none';});
-  document.querySelectorAll('.cs-score').forEach(function(b){
-    b.addEventListener('click',function(){
-      selectedScore=+b.getAttribute('data-score');
-      document.querySelectorAll('.cs-score').forEach(function(x){x.style.filter='grayscale(1)';});
-      b.style.filter='grayscale(0)';
-      if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity='1';}
+
+  // EVENTO 2: faq_open (delegado al nuevo FAQ)
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('.faq-trigger');if(!btn)return;
+    var item=btn.closest('.faq-item');
+    if(item&&item.classList.contains('open')){
+      dl.push({event:'faq_open',faq_question:btn.textContent.trim()});
+    }
+  });
+
+  // EVENTO 3: scroll_depth
+  var marks={25:0,50:0,75:0,90:0};
+  window.addEventListener('scroll',function(){
+    var p=(window.scrollY+window.innerHeight)/document.documentElement.scrollHeight*100;
+    for(var k in marks)if(!marks[k]&&p>=+k){marks[k]=1;dl.push({event:'scroll_depth',percent:+k});}
+  },{passive:true});
+
+  // EVENTOS 4 y 5: form_start y generate_lead
+  document.querySelectorAll('form.lead').forEach(function(f){
+    var loc=f.dataset.form,started=false;
+    var fw=f.closest('[id^="form-fw"]');
+    var okEl=document.getElementById(fw?fw.id.replace('fw','ok'):null);
+
+    f.addEventListener('focusin',function(){
+      if(!started){started=true;dl.push({event:'form_start',form_location:loc});}
     });
-  });
-  if(submitBtn)submitBtn.addEventListener('click',function(){
-    var comment=(document.getElementById('cs-comment')||{}).value||'';
-    dl.push({event:'feedback_submit',feedback_score:selectedScore,feedback_comment_length:comment.trim().length});
-    try{localStorage.setItem('mw_feedback','1');}catch(e){}
-    modal.querySelectorAll('h3,p,#cs-score-btns,#cs-comment,#cs-submit').forEach(function(el){el.style.display='none';});
-    if(thanks)thanks.style.display='block';
-    setTimeout(function(){if(modal)modal.style.display='none';},2500);
+
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var fd=new FormData(f);
+      var n=(fd.get('nombre')||'').trim();
+      var c=(fd.get('correo')||'').trim();
+      var t=(fd.get('telefono')||'').trim();
+      var er=f.querySelector('.form-err');
+      var m='';
+      if(n.length<3)m='Ingresa tu nombre completo.';
+      else if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c))m='Ingresa un correo válido.';
+      else if(t.replace(/\D/g,'').length<7)m='Ingresa un teléfono válido.';
+      else if(!f.acepta.checked)m='Debes aceptar la política de privacidad.';
+      if(m){er.textContent=m;er.style.display='block';return;}
+      er.style.display='none';
+      var btn=f.querySelector('button[type=submit]'),lbl=btn.textContent;
+      btn.disabled=true;btn.textContent='Enviando…';
+      var parts=n.split(/\s+/),first=parts.shift(),last=parts.join(' ');
+      var fields=[{name:'firstname',value:first},{name:'email',value:c},{name:HS.phoneField,value:t}];
+      if(last)fields.push({name:'lastname',value:last});
+      var body={submittedAt:Date.now(),fields:fields,context:{hutk:cookie('hubspotutk'),pageUri:location.href,pageName:document.title}};
+      fetch(URL_HS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+        .then(function(r){return r.text().then(function(tx){
+          if(!r.ok){console.error('HubSpot error',r.status,tx);throw 0;}
+          // Ocultar form, mostrar OK
+          if(fw)fw.style.display='none';
+          var okTarget=f.closest('.hero-form-card')||f.closest('[id^="form-fw"]');
+          if(otTarget){
+            // Find sibling ok
+          }
+          // Simpler: hide all siblings, show the .form-ok in the same card
+          var card=f.closest('.hero-form-card');
+          if(card){
+            var fwEl=card.querySelector('[id^="form-fw"]');
+            var okEl2=card.querySelector('.form-ok');
+            if(fwEl)fwEl.style.display='none';
+            if(okEl2)okEl2.style.display='block';
+          }
+          dl.push({event:'generate_lead',form_location:loc});
+        });})
+        .catch(function(err){
+          console.error('Fallo envío',err);
+          btn.disabled=false;btn.textContent=lbl;
+          er.textContent='No se pudo enviar. Inténtalo de nuevo.';er.style.display='block';
+        });
+    });
   });
 })();
 </script>
 
+<!-- ══════════════════════════════════════════════
+     MOTION & INTERACTIONS
+══════════════════════════════════════════════ -->
 <script>
-// GSAP Motion Design
 (function(){
-  if(typeof gsap === 'undefined') return;
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  // ── PASO 1: ocultar elementos con GSAP ──
-  gsap.set('.gsap-hidden', {opacity:0, y:45});
-  gsap.set('.gsap-slide-left', {opacity:0, x:-60});
-  gsap.set('.gsap-slide-right', {opacity:0, x:60});
-  gsap.set('.gsap-scale', {opacity:0, scale:0.8});
-
-  // ── Hero entrance ──
-  var heroTl = gsap.timeline({delay:0.15});
-  heroTl
-    .to('.tag.gsap-slide-left', {duration:0.6, opacity:1, x:0, ease:'back.out(1.7)'})
-    .to('.hero h1.gsap-slide-left', {duration:0.8, opacity:1, x:0, ease:'power3.out'}, '-=0.3')
-    .to('.hero > .w > div > p.gsap-slide-left', {duration:0.7, opacity:1, x:0, ease:'power2.out'}, '-=0.4')
-    .to('form.lead.gsap-slide-right', {duration:0.9, opacity:1, x:0, ease:'back.out(1.4)'}, '-=0.5');
-
-  // ── Partículas de fondo en el hero ──
-  var hero = document.querySelector('.hero');
-  if(hero){
-    hero.style.position='relative';
-    hero.style.overflow='hidden';
-    for(var i=0;i<12;i++){
-      var p=document.createElement('div');
-      p.style.cssText='position:absolute;width:'+(4+Math.random()*8)+'px;height:'+(4+Math.random()*8)+'px;border-radius:50%;background:rgba(198,40,40,'+(0.1+Math.random()*0.2)+');pointer-events:none;top:'+(Math.random()*100)+'%;left:'+(Math.random()*100)+'%';
-      hero.appendChild(p);
-      gsap.to(p,{duration:3+Math.random()*4, y:-(50+Math.random()*100), x:(Math.random()-0.5)*60, opacity:0, repeat:-1, delay:Math.random()*3, ease:'power1.out'});
-    }
+  /* ── Cursor ──────────────────────────────────── */
+  var cur=document.getElementById('cursor');
+  var cx=window.innerWidth/2,cy=window.innerHeight/2;
+  if(cur&&window.matchMedia('(hover:hover)').matches){
+    cur.classList.add('active');
+    document.addEventListener('mousemove',function(e){
+      cx=e.clientX;cy=e.clientY;
+      cur.style.left=cx+'px';cur.style.top=cy+'px';
+    });
+    document.querySelectorAll('a,button,.tcard,.faq-trigger').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cur.classList.add('hovering')});
+      el.addEventListener('mouseleave',function(){cur.classList.remove('hovering')});
+    });
   }
 
-  // ── ScrollTrigger: elementos con gsap-hidden ──
-  gsap.utils.toArray('.gsap-hidden').forEach(function(el){
-    gsap.to(el,{
-      scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'},
-      duration:0.7, opacity:1, y:0, ease:'power3.out'
-    });
-  });
+  /* ── Header scroll state ─────────────────────── */
+  var header=document.getElementById('site-header');
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>40){header.classList.add('scrolled');}
+    else{header.classList.remove('scrolled');}
+  },{passive:true});
 
-  // ── Cards: stagger woosh desde abajo ──
-  document.querySelectorAll('.g3').forEach(function(grid){
-    var cards = grid.querySelectorAll('.card');
-    gsap.set(cards,{opacity:0, y:50});
-    gsap.to(cards,{
-      scrollTrigger:{trigger:grid, start:'top 85%'},
-      duration:0.6, opacity:1, y:0, stagger:0.12, ease:'back.out(1.5)'
-    });
-  });
-
-  // ── Stats counter animation ──
-  var stats = document.querySelectorAll('.stats b');
-  if(stats.length >= 3){
-    gsap.to('.gsap-scale',{
-      scrollTrigger:{trigger:'.stats', start:'top 85%'},
-      duration:0.6, opacity:1, scale:1, stagger:0.15, ease:'back.out(1.7)'
-    });
-    ScrollTrigger.create({
-      trigger:'.stats', start:'top 80%', once:true,
-      onEnter:function(){
-        var o1={val:0};
-        gsap.to(o1,{duration:1.5,val:12000,ease:'power2.out',
-          onUpdate:function(){stats[0].textContent='+'+Math.round(o1.val).toLocaleString('es-CO');}});
-        var o2={val:0};
-        gsap.to(o2,{duration:1.5,val:4.8,ease:'power2.out',
-          onUpdate:function(){stats[1].textContent=o2.val.toFixed(1)+'/5';}});
-        var o3={val:0};
-        gsap.to(o3,{duration:1.2,val:100,ease:'power2.out',
-          onUpdate:function(){stats[2].textContent=Math.round(o3.val)+'%';}});
+  /* ── FAQ accordion ───────────────────────────── */
+  document.querySelectorAll('.faq-trigger').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.closest('.faq-item');
+      var body=item.querySelector('.faq-body');
+      var isOpen=item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-item.open').forEach(function(oi){
+        oi.classList.remove('open');
+        oi.querySelector('.faq-body').style.maxHeight='0';
+        oi.querySelector('.faq-trigger').setAttribute('aria-expanded','false');
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        body.style.maxHeight=body.scrollHeight+'px';
+        btn.setAttribute('aria-expanded','true');
       }
     });
+  });
+
+  /* ── GSAP ────────────────────────────────────── */
+  if(typeof gsap==='undefined')return;
+  gsap.registerPlugin(ScrollTrigger);
+  var mm=gsap.matchMedia();
+  var prefersReduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  if(prefersReduced){
+    // make everything visible immediately
+    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(function(el){
+      el.style.opacity=1;
+    });
+    return;
   }
 
-  // ── Explicación: slide in desde lados ──
-  gsap.set('.exp ul', {opacity:0, x:-70});
-  gsap.set('.box', {opacity:0, x:70});
-  gsap.to('.exp ul',{
-    scrollTrigger:{trigger:'.exp', start:'top 80%'},
-    duration:0.8, opacity:1, x:0, ease:'power3.out'
-  });
-  gsap.to('.box',{
-    scrollTrigger:{trigger:'.exp', start:'top 80%'},
-    duration:0.8, opacity:1, x:0, ease:'power3.out', delay:0.15
-  });
+  /* Hero entrance */
+  var heroTl=gsap.timeline({delay:.1});
+  heroTl
+    .from('#h-eyebrow',{duration:.7,opacity:0,y:20,ease:'power3.out'})
+    .from('.hero-title .word',{
+      duration:.9,opacity:0,y:'110%',
+      stagger:.08,ease:'power4.out',
+      clipPath:'inset(0 0 100% 0)',
+    },'-=.3')
+    .from('#h-sub',{duration:.8,opacity:0,y:24,ease:'power3.out'},'-=.4')
+    .from('#h-bottom',{duration:.7,opacity:0,y:20,ease:'power2.out'},'-=.4')
+    .from('#h-form-card',{duration:1,opacity:0,x:40,ease:'back.out(1.5)'},'-=.6');
 
-  // ── FAQ: stagger accordion items ──
-  var faqItems = document.querySelectorAll('details');
-  gsap.set(faqItems, {opacity:0, y:30});
-  gsap.to(faqItems,{
-    scrollTrigger:{trigger:'#faq', start:'top 80%'},
-    duration:0.5, opacity:1, y:0, stagger:0.1, ease:'power2.out'
-  });
-
-  // ── Pre-footer: woosh bilateral ──
-  var preLeft = document.querySelector('.pre .w > div:first-child');
-  var preForm = document.querySelector('.pre form');
-  if(preLeft){ gsap.set(preLeft,{opacity:0,x:-80}); gsap.to(preLeft,{scrollTrigger:{trigger:'.pre',start:'top 80%'},duration:0.8,opacity:1,x:0,ease:'back.out(1.4)'}); }
-  if(preForm){ gsap.set(preForm,{opacity:0,x:80}); gsap.to(preForm,{scrollTrigger:{trigger:'.pre',start:'top 80%'},duration:0.8,opacity:1,x:0,ease:'back.out(1.4)',delay:0.15}); }
-
-  // ── CTA sections: scale in ──
-  gsap.utils.toArray('.cta').forEach(function(cta){
-    var h=cta.querySelector('h2'); var b=cta.querySelector('.btn');
-    if(h){ gsap.set(h,{opacity:0,scale:0.85}); gsap.to(h,{scrollTrigger:{trigger:cta,start:'top 85%'},duration:0.7,opacity:1,scale:1,ease:'back.out(1.7)'}); }
-    if(b){ gsap.set(b,{opacity:0,y:20}); gsap.to(b,{scrollTrigger:{trigger:cta,start:'top 80%'},duration:0.6,opacity:1,y:0,ease:'back.out(2)',delay:0.3}); }
+  /* Ticker */
+  gsap.from('.ticker-wrap',{
+    scrollTrigger:{trigger:'.ticker-wrap',start:'top 95%'},
+    duration:.6,opacity:0,y:20,ease:'power2.out'
   });
 
-  // ── Header logo ──
-  gsap.set('.logo',{opacity:0,x:-20}); gsap.to('.logo',{duration:0.8,opacity:1,x:0,ease:'back.out(1.7)',delay:0.1});
-  gsap.set('header a.c',{opacity:0,x:20}); gsap.to('header a.c',{duration:0.8,opacity:1,x:0,ease:'back.out(1.7)',delay:0.2});
+  /* Stats counter */
+  var s1=document.getElementById('stat-1');
+  var s2=document.getElementById('stat-2');
+  var s3=document.getElementById('stat-3');
+  ScrollTrigger.create({
+    trigger:'#stats-band',start:'top 80%',once:true,
+    onEnter:function(){
+      gsap.from('.stat-item',{
+        duration:.8,opacity:0,y:30,stagger:.15,ease:'power3.out'
+      });
+      var o1={v:0};
+      gsap.to(o1,{duration:2,v:12000,ease:'power2.out',
+        onUpdate:function(){if(s1)s1.textContent='+'+Math.round(o1.v).toLocaleString('es-CO');}
+      });
+      var o2={v:0};
+      gsap.to(o2,{duration:2,v:4.8,ease:'power2.out',
+        onUpdate:function(){if(s2)s2.textContent=o2.v.toFixed(1)+'/5';}
+      });
+      var o3={v:0};
+      gsap.to(o3,{duration:1.6,v:100,ease:'power2.out',
+        onUpdate:function(){if(s3)s3.textContent=Math.round(o3.v)+'%';}
+      });
+    }
+  });
 
-  // ── Hover en cards ──
-  document.querySelectorAll('.card').forEach(function(card){
+  /* Horizontal scroll benefits */
+  mm.add('(min-width:801px)',function(){
+    var outer=document.getElementById('hscroll-outer');
+    var track=document.getElementById('hscroll-track');
+    var bar=document.getElementById('hscroll-bar');
+    if(!outer||!track)return;
+
+    var panels=track.querySelectorAll('.benefit-panel');
+    var totalPanels=panels.length;
+    // total width = totalPanels * 100vw, but we start at 0 so travel = (totalPanels-1)*100vw
+    var travelPct=(totalPanels-1)*100;
+
+    gsap.to(track,{
+      xPercent:-(100*(totalPanels-1)/totalPanels)*totalPanels/totalPanels,
+      x:function(){return -(totalPanels-1)*window.innerWidth},
+      ease:'none',
+      scrollTrigger:{
+        trigger:outer,
+        start:'top top',
+        end:'bottom bottom',
+        scrub:1,
+        pin:'.hscroll-sticky',
+        pinSpacing:false,
+        anticipatePin:1,
+        onUpdate:function(self){
+          if(bar)bar.style.width=(self.progress*100)+'%';
+        }
+      }
+    });
+
+    // Animate text in each panel
+    panels.forEach(function(panel,i){
+      var title=panel.querySelector('.benefit-title');
+      var desc=panel.querySelector('.benefit-desc');
+      var vis=panel.querySelector('.benefit-vis');
+      var idx=panel.querySelector('.benefit-index');
+      if(title)gsap.from(title,{
+        scrollTrigger:{trigger:panel,containerAnimation:gsap.getById?undefined:undefined,start:'left 80%',horizontal:false},
+        duration:.8,opacity:0,y:30,ease:'power3.out'
+      });
+    });
+  });
+
+  /* What is section */
+  gsap.from('.what-features li',{
+    scrollTrigger:{trigger:'.what-features',start:'top 85%'},
+    duration:.6,opacity:0,x:-30,stagger:.1,ease:'power3.out'
+  });
+  gsap.from('.what-visual',{
+    scrollTrigger:{trigger:'.what-visual',start:'top 85%'},
+    duration:.9,opacity:0,x:40,ease:'power3.out'
+  });
+  gsap.from('.what-grid > div:first-child > *',{
+    scrollTrigger:{trigger:'#what',start:'top 80%'},
+    duration:.7,opacity:0,y:24,stagger:.12,ease:'power3.out'
+  });
+
+  /* Testimonials */
+  gsap.from('.tcard',{
+    scrollTrigger:{trigger:'.testimonials-grid',start:'top 85%'},
+    duration:.7,opacity:0,y:40,stagger:.15,ease:'back.out(1.5)'
+  });
+  gsap.from('#testimonials .section-title,#testimonials .eyebrow',{
+    scrollTrigger:{trigger:'#testimonials',start:'top 80%'},
+    duration:.8,opacity:0,y:30,stagger:.1,ease:'power3.out'
+  });
+
+  /* FAQ */
+  gsap.from('.faq-sticky > *',{
+    scrollTrigger:{trigger:'#faq',start:'top 80%'},
+    duration:.7,opacity:0,y:24,stagger:.1,ease:'power3.out'
+  });
+  gsap.from('.faq-item',{
+    scrollTrigger:{trigger:'.faq-list',start:'top 85%'},
+    duration:.5,opacity:0,y:20,stagger:.08,ease:'power2.out'
+  });
+
+  /* CTA mid */
+  gsap.from('#cta-mid .cta-mid-title',{
+    scrollTrigger:{trigger:'#cta-mid',start:'top 80%'},
+    duration:.8,opacity:0,scale:.92,ease:'back.out(1.4)'
+  });
+  gsap.from('#cta-mid .cta-mid-sub,#cta-mid .btn',{
+    scrollTrigger:{trigger:'#cta-mid',start:'top 75%'},
+    duration:.6,opacity:0,y:20,stagger:.15,ease:'power2.out'
+  });
+
+  /* Pre-footer */
+  gsap.from('.pf-grid > div:first-child > *',{
+    scrollTrigger:{trigger:'#pre-footer',start:'top 80%'},
+    duration:.7,opacity:0,x:-40,stagger:.12,ease:'power3.out'
+  });
+  gsap.from('.pf-grid .hero-form-card',{
+    scrollTrigger:{trigger:'#pre-footer',start:'top 80%'},
+    duration:.9,opacity:0,x:40,ease:'back.out(1.3)'
+  });
+
+  /* Benefit header */
+  gsap.from('.hscroll-header > *',{
+    scrollTrigger:{trigger:'#benefits',start:'top 80%'},
+    duration:.7,opacity:0,y:24,stagger:.12,ease:'power3.out'
+  });
+
+  /* Btn micro interactions */
+  document.querySelectorAll('.btn').forEach(function(btn){
+    btn.addEventListener('mousedown',function(){gsap.to(btn,{duration:.1,scale:.95,ease:'power2.in'});});
+    btn.addEventListener('mouseup',function(){gsap.to(btn,{duration:.4,scale:1,ease:'elastic.out(1.2,.4)'});});
+    btn.addEventListener('mouseleave',function(){gsap.to(btn,{duration:.3,scale:1,ease:'power2.out'});});
+  });
+
+  /* Tcard 3D tilt */
+  document.querySelectorAll('.tcard').forEach(function(card){
     card.addEventListener('mousemove',function(e){
       var r=card.getBoundingClientRect();
-      var x=(e.clientX-r.left)/r.width-0.5;
-      var y=(e.clientY-r.top)/r.height-0.5;
-      gsap.to(card,{duration:0.3, rotationY:x*8, rotationX:-y*8, transformPerspective:600, ease:'power1.out', boxShadow:'0 16px 40px rgba(0,0,0,0.18)'});
+      var x=(e.clientX-r.left)/r.width-.5;
+      var y=(e.clientY-r.top)/r.height-.5;
+      gsap.to(card,{duration:.3,rotationY:x*6,rotationX:-y*6,transformPerspective:600,ease:'power1.out'});
     });
     card.addEventListener('mouseleave',function(){
-      gsap.to(card,{duration:0.5, rotationY:0, rotationX:0, boxShadow:'none', ease:'elastic.out(1,0.5)'});
+      gsap.to(card,{duration:.6,rotationY:0,rotationX:0,ease:'elastic.out(1,.5)'});
     });
-  });
-
-  // ── Botones ──
-  document.querySelectorAll('.btn').forEach(function(btn){
-    btn.addEventListener('mousedown',function(){gsap.to(btn,{duration:0.1,scale:0.94,ease:'power2.in'});});
-    btn.addEventListener('mouseup',function(){gsap.to(btn,{duration:0.4,scale:1,ease:'elastic.out(1.2,0.4)'});});
-    btn.addEventListener('mouseleave',function(){gsap.to(btn,{duration:0.3,scale:1,ease:'power2.out'});});
-  });
-
-  // ── Header reveal al scroll ──
-  var lastScroll=0;
-  ScrollTrigger.create({
-    start:'top -80',
-    end:99999,
-    onUpdate:function(self){
-      var cur=self.scroll();
-      if(cur>lastScroll && cur>100){
-        gsap.to('header',{duration:0.3,yPercent:-100,ease:'power2.in'});
-      } else {
-        gsap.to('header',{duration:0.3,yPercent:0,ease:'power2.out'});
-      }
-      lastScroll=cur;
-    }
   });
 
 })();
