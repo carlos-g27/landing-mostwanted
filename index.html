@@ -402,45 +402,39 @@ button{font-family:var(--sans);cursor:pointer}
 }
 
 /* ─── HORIZONTAL SCROLL BENEFITS ────────────────────── */
-#benefits{position:relative}
-.hscroll-outer{
-  position:relative;
-  height:500vh; /* scroll space */
+
+.hscroll-outer {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
 }
-.hscroll-sticky{
-  position:sticky;top:72px;
-  height:calc(100svh - 72px);
-  overflow:hidden;
-  display:flex;flex-direction:column;
+
+.hscroll-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100svh - 72px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
-.hscroll-header{
-  padding:48px 24px 32px;
-  max-width:1160px;margin:0 auto;width:100%;
-  flex-shrink:0;
+
+.hscroll-track {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  width: max-content;
+  will-change: transform;
 }
-.hscroll-progress{
-  height:2px;background:rgba(255,255,255,.1);
-  position:relative;overflow:hidden;
-  flex-shrink:0;
-  margin:0 24px;
-  max-width:1112px;align-self:center;width:calc(100% - 48px);
+
+.benefit-panel {
+  width: 100vw;
+  min-width: 100vw;
+  flex: 0 0 100vw;
+  display: flex;
+  align-items: center;
+  padding: 40px 24px;
 }
-.hscroll-progress-bar{
-  position:absolute;left:0;top:0;bottom:0;
-  background:var(--red);
-  width:0%;transition:width .1s linear;
-}
-.hscroll-track{
-  display:flex;align-items:stretch;
-  flex:1;
-  will-change:transform;
-}
-.benefit-panel{
-  min-width:calc(100svw - 0px);
-  display:flex;align-items:center;
-  padding:40px 24px;
-  flex-shrink:0;
-}
+
 .benefit-inner{
   max-width:1160px;margin:0 auto;width:100%;
   display:grid;grid-template-columns:1fr 1fr;
@@ -1601,48 +1595,80 @@ footer h5{
     }
   });
 
-  /* Horizontal scroll benefits */
-  mm.add('(min-width:801px)',function(){
-    var outer=document.getElementById('hscroll-outer');
-    var track=document.getElementById('hscroll-track');
-    var bar=document.getElementById('hscroll-bar');
-    if(!outer||!track)return;
+  
 
-    var panels=track.querySelectorAll('.benefit-panel');
-    var totalPanels=panels.length;
-    // total width = totalPanels * 100vw, but we start at 0 so travel = (totalPanels-1)*100vw
-    var travelPct=(totalPanels-1)*100;
+   
+  /* ── Horizontal scroll benefits — FIX ───────── */
+  mm.add('(min-width:801px)', function () {
+    var outer = document.getElementById('hscroll-outer');
+    var sticky = document.getElementById('hscroll-sticky');
+    var track = document.getElementById('hscroll-track');
+    var bar = document.getElementById('hscroll-bar');
 
-    gsap.to(track,{
-      xPercent:-(100*(totalPanels-1)/totalPanels)*totalPanels/totalPanels,
-      x:function(){return -(totalPanels-1)*window.innerWidth},
-      ease:'none',
-      scrollTrigger:{
-        trigger:outer,
-        start:'top top',
-        end:'bottom bottom',
-        scrub:1,
-        pin:'.hscroll-sticky',
-        pinSpacing:false,
-        anticipatePin:1,
-        onUpdate:function(self){
-          if(bar)bar.style.width=(self.progress*100)+'%';
+    if (!outer || !sticky || !track) return;
+
+    var panels = Array.from(track.querySelectorAll('.benefit-panel'));
+    if (!panels.length) return;
+
+    // Elimina transformaciones anteriores antes de medir.
+    gsap.set(track, { clearProps: 'transform' });
+
+    // Distancia real necesaria para mostrar el último panel completo.
+    function getTravel() {
+      return Math.max(0, track.scrollWidth - window.innerWidth);
+    }
+
+    // El espacio vertical debe permitir recorrer toda la animación.
+    function getScrollLength() {
+      return getTravel();
+    }
+
+    var horizontalTween = gsap.to(track, {
+      x: function () {
+        return -getTravel();
+      },
+      ease: 'none',
+      scrollTrigger: {
+        id: 'benefits-horizontal-scroll',
+        trigger: outer,
+        start: 'top top',
+        end: function () {
+          return '+=' + getScrollLength();
+        },
+        pin: sticky,
+        pinSpacing: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        onUpdate: function (self) {
+          if (bar) {
+            bar.style.width = (self.progress * 100) + '%';
+          }
         }
       }
     });
 
-    // Animate text in each panel
-    panels.forEach(function(panel,i){
-      var title=panel.querySelector('.benefit-title');
-      var desc=panel.querySelector('.benefit-desc');
-      var vis=panel.querySelector('.benefit-vis');
-      var idx=panel.querySelector('.benefit-index');
-      if(title)gsap.from(title,{
-        scrollTrigger:{trigger:panel,containerAnimation:gsap.getById?undefined:undefined,start:'left 80%',horizontal:false},
-        duration:.8,opacity:0,y:30,ease:'power3.out'
-      });
-    });
+    // Refresca medidas después de cargar las fuentes y ajustar el layout.
+    function refreshHorizontalScroll() {
+      ScrollTrigger.refresh();
+    }
+
+    window.addEventListener('load', refreshHorizontalScroll);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(refreshHorizontalScroll);
+    }
+
+    // Limpia el listener si GSAP desmonta esta media query.
+    return function () {
+      window.removeEventListener('load', refreshHorizontalScroll);
+      horizontalTween.scrollTrigger &&
+        horizontalTween.scrollTrigger.kill();
+      horizontalTween.kill();
+    };
   });
+
+   
 
   /* What is section */
   gsap.from('.what-features li',{
