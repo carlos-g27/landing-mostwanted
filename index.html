@@ -8,7 +8,8 @@
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
 <!-- Consent Mode v2: DEBE ir antes del snippet de GTM -->
 <script>
@@ -23,17 +24,28 @@
   });
 </script>
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NF3VB82B');</script>
-<!-- End Google Tag Manager -->
-
-<!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- Google Tag Manager se carga después del render inicial -->
+<script>
+  function loadGoogleTagManager(){
+    var w=window,d=document,s='script',l='dataLayer',i='GTM-NF3VB82B';
+    w[l]=w[l]||[];
+    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var first=d.getElementsByTagName(s)[0],script=d.createElement(s);
+    script.async=true;
+    script.src='https://www.googletagmanager.com/gtm.js?id='+i;
+    script.onerror=function(){
+      console.error('No se pudo cargar Google Tag Manager.');
+    };
+    first.parentNode.insertBefore(script,first);
+  }
+  window.addEventListener('load',function(){
+    if('requestIdleCallback' in window){
+      window.requestIdleCallback(loadGoogleTagManager,{timeout:5000});
+    }else{
+      window.setTimeout(loadGoogleTagManager,5000);
+    }
+  },{once:true});
+</script>
 
 <style>
 /* ─── TOKENS ─────────────────────────────────────────── */
@@ -1568,28 +1580,9 @@ footer h5{
     });
   });
 
-  /* ── GSAP ────────────────────────────────────── */
-  if(typeof gsap==='undefined')return;
+  function initGsapMotion(){
   gsap.registerPlugin(ScrollTrigger);
   var mm=gsap.matchMedia();
-  var prefersReduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  // Con movimiento reducido no se activa el scroll horizontal ni las animaciones:
-  // los beneficios quedan apilados y todo es visible de inmediato.
-  if(prefersReduced)return;
-
-  /* Hero entrance */
-  var heroTl=gsap.timeline({delay:.1});
-  heroTl
-    .from('#h-eyebrow',{duration:.7,opacity:0,y:20,ease:'power3.out'})
-    .from('.hero-title .word',{
-      duration:.9,opacity:0,y:'110%',
-      stagger:.08,ease:'power4.out',
-      clipPath:'inset(0 0 100% 0)',
-    },'-=.3')
-    .from('#h-sub',{duration:.8,opacity:0,y:24,ease:'power3.out'},'-=.4')
-    .from('#h-bottom',{duration:.7,opacity:0,y:20,ease:'power2.out'},'-=.4')
-    .from('#h-form-card',{duration:1,opacity:0,x:40,ease:'back.out(1.5)'},'-=.6');
 
   /* Ticker */
   gsap.from('.ticker-wrap',{
@@ -1661,10 +1654,7 @@ footer h5{
       }
     });
 
-    function refresh() { ScrollTrigger.refresh(); }
-    window.addEventListener('load', refresh);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
-    requestAnimationFrame(refresh);
+    requestAnimationFrame(function(){ ScrollTrigger.refresh(); });
 
     // Al pasar a móvil (o desmontar), se vuelve al layout apilado.
     return function () {
@@ -1755,6 +1745,51 @@ footer h5{
     card.addEventListener('mouseleave',function(){
       gsap.to(card,{duration:.6,rotationY:0,rotationX:0,ease:'elastic.out(1,.5)'});
     });
+  });
+  }
+
+  var motionMedia=window.matchMedia('(min-width:801px) and (hover:hover) and (prefers-reduced-motion:no-preference)');
+  var motionLoaded=false;
+
+  function loadMotionLibrary(src,onload){
+    var script=document.createElement('script');
+    script.src=src;
+    script.async=true;
+    script.onload=onload;
+    script.onerror=function(){
+      console.error('No se pudo cargar la animación:',src);
+    };
+    document.head.appendChild(script);
+  }
+
+  function loadScrollTrigger(){
+    loadMotionLibrary(
+      'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js',
+      initGsapMotion
+    );
+  }
+
+  function loadGsap(){
+    if(!motionMedia.matches||motionLoaded)return;
+    motionLoaded=true;
+    loadMotionLibrary(
+      'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
+      loadScrollTrigger
+    );
+  }
+
+  if(motionMedia.matches){
+    if('requestIdleCallback' in window){
+      window.requestIdleCallback(loadGsap,{timeout:2500});
+    }else{
+      window.addEventListener('load',function(){
+        window.setTimeout(loadGsap,1000);
+      },{once:true});
+    }
+  }
+
+  motionMedia.addEventListener('change',function(event){
+    if(event.matches&&typeof loadGsap==='function')loadGsap();
   });
 
 })();
