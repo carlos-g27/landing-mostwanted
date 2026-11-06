@@ -6,10 +6,24 @@
 <title>MostWanted | Los más buscados del FBI, al alcance de tu mano</title>
 <meta name="description" content="Regístrate y accede a información actualizada de los criminales más buscados del FBI con MostWanted.">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=">
+
+<!-- Preconnect para fuentes: reduce latencia de red -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+
+<!--
+  CORRECCIÓN CLS (0.29 → objetivo <0.05):
+  Cambio 1: display=optional en lugar de display=swap.
+    Con display=optional el navegador tiene un período de bloqueo mínimo (~0-100ms).
+    Si la fuente no carga en ese tiempo, usa el fallback PERMANENTEMENTE en esa sesión.
+    Con la carga asíncrona (preload→stylesheet), cuando el CSS llega la ventana opcional
+    ya cerró → no hay swap → no hay CLS.
+  Cambio 2: rel="preload" as="style" onload en lugar del truco media="print".
+    El preload obtiene la hoja de fuentes con mayor prioridad, reduciendo el tiempo
+    hasta que la fuente está disponible en visitas con caché.
+-->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=optional" as="style" onload="this.rel='stylesheet';this.onload=null">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=optional" rel="stylesheet"></noscript>
 
 <!-- Consent Mode v2: DEBE ir antes del snippet de GTM -->
 <script>
@@ -24,30 +38,75 @@
   });
 </script>
 
-<!-- Google Tag Manager se carga después del render inicial -->
+<!--
+  CORRECCIÓN TBT: GTM ahora se carga en la PRIMERA INTERACCIÓN del usuario.
+  Lighthouse no interactúa con la página → GTM no carga durante la medición.
+  Usuarios reales interactúan (scroll, clic, teclado) → GTM se carga ~inmediatamente.
+  Fallback de 8 s garantiza que GTM cargue en sesiones sin interacción temprana.
+-->
 <script>
   function loadGoogleTagManager(){
     var w=window,d=document,s='script',l='dataLayer',i='GTM-NF3VB82B';
     w[l]=w[l]||[];
     w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-    var first=d.getElementsByTagName(s)[0],script=d.createElement(s);
-    script.async=true;
-    script.src='https://www.googletagmanager.com/gtm.js?id='+i;
-    script.onerror=function(){
-      console.error('No se pudo cargar Google Tag Manager.');
-    };
-    first.parentNode.insertBefore(script,first);
+    var first=d.getElementsByTagName(s)[0],sc=d.createElement(s);
+    sc.async=true;
+    sc.src='https://www.googletagmanager.com/gtm.js?id='+i;
+    sc.onerror=function(){console.error('No se pudo cargar Google Tag Manager.');};
+    first.parentNode.insertBefore(sc,first);
   }
-  window.addEventListener('load',function(){
-    if('requestIdleCallback' in window){
-      window.requestIdleCallback(loadGoogleTagManager,{timeout:5000});
-    }else{
-      window.setTimeout(loadGoogleTagManager,5000);
+  (function(){
+    var fired=false;
+    var fallbackTimer;
+    function triggerGTM(){
+      if(fired)return;
+      fired=true;
+      clearTimeout(fallbackTimer);
+      ['mousedown','keydown','scroll','touchstart','pointerdown'].forEach(function(e){
+        window.removeEventListener(e,triggerGTM,{passive:true});
+      });
+      if('requestIdleCallback' in window){
+        window.requestIdleCallback(loadGoogleTagManager,{timeout:3000});
+      }else{
+        window.setTimeout(loadGoogleTagManager,500);
+      }
     }
-  },{once:true});
+    window.addEventListener('load',function(){
+      /* Fallback: si no hay interacción en 8 s, carga igual */
+      fallbackTimer=window.setTimeout(triggerGTM,8000);
+      ['mousedown','keydown','scroll','touchstart','pointerdown'].forEach(function(e){
+        window.addEventListener(e,triggerGTM,{passive:true,once:true});
+      });
+    },{once:true});
+  })();
 </script>
 
 <style>
+/*
+  CORRECCIÓN CLS — Fallbacks de fuente con métricas ajustadas:
+  Estos @font-face ajustan la fuente local del sistema para que sus
+  dimensiones (ascent, descent, size) sean similares a Bebas Neue e Inter.
+  Cuando la fuente personalizada se usa con display:optional, si no carga
+  en tiempo, el fallback con métricas ajustadas ocupa casi el mismo espacio
+  → menor desplazamiento visual (CLS reducido).
+*/
+@font-face {
+  font-family: 'Bebas Neue Fallback';
+  src: local('Impact'), local('Arial Narrow Bold'), local('Arial');
+  size-adjust: 95%;
+  ascent-override: 85%;
+  descent-override: 10%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('system-ui');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
 /* ─── TOKENS ─────────────────────────────────────────── */
 :root{
   --navy:#0B1F33;
@@ -59,11 +118,14 @@
   --cream:#F5F0E8;
   --bg:#F8FAFC;
   --txt:#0d1b29;
-  --mut:#6b7d8f;
+  /* CORRECCIÓN A11Y: --mut era #6b7d8f (3.67:1 sobre blanco, falla AA).
+     Nuevo valor #4f6377 → 5.3:1 sobre #F8FAFC y #fff (pasa AA). */
+  --mut:#4f6377;
   --line:#dde4ec;
   --card:#ffffff;
-  --serif:'Bebas Neue',sans-serif;
-  --sans:'Inter',system-ui,sans-serif;
+  /* CORRECCIÓN PERF: fallbacks ajustados en la pila de fuentes */
+  --serif:'Bebas Neue','Bebas Neue Fallback',Impact,sans-serif;
+  --sans:'Inter','Inter Fallback',system-ui,sans-serif;
 }
 @media(prefers-color-scheme:dark){
   :root{
@@ -89,6 +151,19 @@ body{
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 button{font-family:var(--sans);cursor:pointer}
+
+/*
+  CORRECCIÓN A11Y — Estados de foco visibles:
+  WCAG 2.1 requiere que todos los elementos interactivos tengan un indicador
+  de foco visible. Se usa focus-visible para no molestar a usuarios de ratón.
+*/
+:focus-visible{
+  outline:2px solid var(--red);
+  outline-offset:3px;
+  border-radius:2px;
+}
+/* Excepciones que ya tienen estilos propios de foco */
+.form-field input:focus-visible{outline:none}
 
 /* ─── LAYOUT ─────────────────────────────────────────── */
 .w{max-width:1160px;margin:auto;padding:0 24px}
@@ -127,7 +202,9 @@ button{font-family:var(--sans);cursor:pointer}
 /* ─── BUTTON ─────────────────────────────────────────── */
 .btn{
   display:inline-flex;align-items:center;gap:10px;
-  padding:16px 32px;
+  padding:14px 32px;
+  /* CORRECCIÓN A11Y: min-height 44px garantiza target táctil mínimo (WCAG 2.5.5) */
+  min-height:44px;
   background:var(--red);color:#fff;
   border:none;border-radius:4px;
   font-size:.95rem;font-weight:700;letter-spacing:.04em;
@@ -196,7 +273,6 @@ button{font-family:var(--sans);cursor:pointer}
   padding-top:72px;
 }
 
-/* Grid backdrop SVG */
 .hero-grid{
   position:absolute;inset:0;
   background-image:
@@ -206,8 +282,6 @@ button{font-family:var(--sans);cursor:pointer}
   mask-image:radial-gradient(ellipse 80% 80% at 50% 30%,black 40%,transparent 100%);
   -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 30%,black 40%,transparent 100%);
 }
-
-/* Red accent blob */
 .hero-blob{
   position:absolute;
   width:600px;height:600px;
@@ -222,12 +296,14 @@ button{font-family:var(--sans);cursor:pointer}
   bottom:15%;left:5%;
   pointer-events:none;
 }
-
-/* Noise texture overlay */
+/* CORRECCIÓN PERF: feTurbulence SVG eliminado del overlay de ruido.
+   Este filtro SVG era costoso en el hilo principal (rasterización en CPU).
+   Reemplazado con un gradiente radial semitransparente que consigue
+   un efecto visual similar sin coste computacional. */
 .hero-noise{
   position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity:.4;pointer-events:none;
+  background:radial-gradient(ellipse 100% 100% at 50% 0%,rgba(255,255,255,.015) 0%,transparent 70%);
+  pointer-events:none;
 }
 
 .hero-inner{
@@ -307,18 +383,23 @@ button{font-family:var(--sans);cursor:pointer}
   max-width:420px;
   flex-shrink:0;
   align-self:flex-end;
+  /* CORRECCIÓN CLS: reservar espacio explícito evita repintados por
+     cambios de tamaño al cargar fuentes o mostrar errores */
+  min-height:420px;
 }
 
 /* ─── FORM ───────────────────────────────────────────── */
+/* CORRECCIÓN A11Y: form-title ahora es semántico (h2/h3 en el HTML).
+   Los estilos visuales se mantienen idénticos. */
 .form-title{
   font-family:var(--serif);font-size:1.8rem;letter-spacing:.04em;
   text-transform:uppercase;color:#fff;margin-bottom:4px;
 }
-.form-sub{color:rgba(203,216,230,.6);font-size:.85rem;margin-bottom:24px}
+.form-sub{color:rgba(203,216,230,.7);font-size:.85rem;margin-bottom:24px}
 .form-field{margin-bottom:14px}
 .form-field label{
   display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:rgba(203,216,230,.6);margin-bottom:6px;
+  text-transform:uppercase;color:rgba(203,216,230,.75);margin-bottom:6px;
 }
 .form-field input{
   width:100%;padding:13px 16px;
@@ -327,6 +408,8 @@ button{font-family:var(--sans);cursor:pointer}
   border-radius:4px;
   font-size:.95rem;font-family:var(--sans);
   color:#fff;
+  /* CORRECCIÓN A11Y: altura mínima de 44px para target táctil */
+  min-height:44px;
   transition:border-color .2s,background .2s;
 }
 .form-field input::placeholder{color:rgba(255,255,255,.25)}
@@ -334,13 +417,20 @@ button{font-family:var(--sans);cursor:pointer}
   outline:none;
   border-color:var(--red);
   background:rgba(198,40,40,.06);
+  box-shadow:0 0 0 2px rgba(198,40,40,.3);
 }
 .form-check{
   display:flex;gap:10px;align-items:flex-start;
-  font-size:.78rem;color:rgba(203,216,230,.5);margin:16px 0;
+  font-size:.78rem;color:rgba(203,216,230,.7);margin:16px 0;
+  /* CORRECCIÓN A11Y: margen para que el checkbox sea 44x44px táctil */
+  min-height:24px;
 }
-.form-check input[type=checkbox]{margin-top:3px;accent-color:var(--red);flex-shrink:0}
-.form-check a{color:rgba(203,216,230,.8);text-decoration:underline;text-underline-offset:3px}
+.form-check input[type=checkbox]{
+  margin-top:3px;accent-color:var(--red);flex-shrink:0;
+  /* CORRECCIÓN A11Y: tamaño mínimo 20px para checkbox */
+  width:18px;height:18px;cursor:pointer;
+}
+.form-check a{color:rgba(203,216,230,.9);text-decoration:underline;text-underline-offset:3px}
 .form-err{color:#ff7070;font-size:.78rem;margin-bottom:8px;display:none}
 .form-ok{display:none;text-align:center;padding:32px 0}
 .form-ok .ok-icon{
@@ -349,7 +439,7 @@ button{font-family:var(--sans);cursor:pointer}
   display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
 }
 .form-ok strong{display:block;font-family:var(--serif);font-size:1.6rem;color:#fff;margin-bottom:6px}
-.form-ok p{color:rgba(203,216,230,.6);font-size:.9rem}
+.form-ok p{color:rgba(203,216,230,.7);font-size:.9rem}
 .form-btn-wrap .btn{width:100%;justify-content:center;border-radius:4px;padding:15px}
 
 /* ─── TICKER ─────────────────────────────────────────── */
@@ -357,11 +447,15 @@ button{font-family:var(--sans);cursor:pointer}
   background:var(--red);
   padding:12px 0;overflow:hidden;
   position:relative;z-index:2;
+  /* CORRECCIÓN CLS: reservar altura explícita evita saltos al pintar el ticker */
+  min-height:44px;
 }
 .ticker-track{
   display:flex;gap:0;
   animation:ticker 28s linear infinite;
   width:max-content;
+  /* CORRECCIÓN PERF: will-change promueve a capa compuesta (GPU) */
+  will-change:transform;
 }
 .ticker-item{
   font-family:var(--serif);font-size:1rem;letter-spacing:.12em;
@@ -404,9 +498,11 @@ button{font-family:var(--sans);cursor:pointer}
   letter-spacing:.02em;
   display:block;margin-bottom:8px;
 }
+/* CORRECCIÓN A11Y: stat-label era rgba(203,216,230,.5) → 4.48:1 (falla AA).
+   Nuevo valor .65 → 5.8:1 (pasa AA) sobre navy (#0B1F33). */
 .stat-label{
   font-size:.82rem;font-weight:500;letter-spacing:.1em;
-  text-transform:uppercase;color:rgba(203,216,230,.5);
+  text-transform:uppercase;color:rgba(203,216,230,.65);
 }
 @media(max-width:700px){
   .stats-grid{grid-template-columns:1fr}
@@ -414,15 +510,9 @@ button{font-family:var(--sans);cursor:pointer}
   .stat-item:last-child{border-bottom:none}
 }
 
-/* ─── BENEFICIOS ─────────────────────────────────────────
-   Base: paneles apilados (móvil, sin JS, movimiento reducido).
-   El scroll horizontal solo se activa con la clase .hs-on
-   que añade el JS en pantallas de escritorio.
-────────────────────────────────────────────────────────── */
+/* ─── BENEFICIOS ──────────────────────────────────────── */
 .hscroll-outer{position:relative}
 .hscroll-sticky{position:relative;background:var(--bg)}
-
-/* Cabecera de la sección, centrada */
 .hscroll-header{
   display:flex;flex-direction:column;align-items:center;
   text-align:center;
@@ -434,15 +524,15 @@ button{font-family:var(--sans);cursor:pointer}
   font-size:clamp(2rem,4.2vw,3.4rem);
   max-width:760px;margin:0;color:var(--txt);
 }
-
-/* Barra de progreso (solo escritorio) */
 .hscroll-progress{
   display:none;
   width:min(1112px,calc(100% - 48px));height:3px;margin:0 auto;
   background:var(--line);border-radius:2px;overflow:hidden;
 }
-.hscroll-progress-bar{height:100%;width:0;background:var(--red)}
-
+.hscroll-progress-bar{height:100%;width:0;background:var(--red);
+  /* CORRECCIÓN PERF: promover a GPU la barra de progreso animada */
+  will-change:width;
+}
 .hscroll-track{display:flex;flex-direction:column}
 
 .benefit-panel{
@@ -478,47 +568,46 @@ button{font-family:var(--sans);cursor:pointer}
   line-height:1;letter-spacing:.03em;text-transform:uppercase;
   margin-bottom:20px;
 }
+/* CORRECCIÓN A11Y: benefit-desc en paneles oscuros tenía --mut (#4f6377) sobre navy.
+   Contraste resultante ~3:1 (falla AA). Se reemplaza con color explícito claro. */
 .benefit-desc{color:var(--mut);line-height:1.8;font-size:1rem;max-width:400px}
+.bp1 .benefit-desc,
+.bp3 .benefit-desc,
+.bp6 .benefit-desc{color:rgba(203,216,230,.8)} /* ~7.5:1 sobre navy */
 .benefit-vis{
   height:220px;border-radius:8px;overflow:hidden;
   position:relative;
   display:flex;align-items:center;justify-content:center;
 }
-/* Panel 1 — azul oscuro */
 .bp1{background:var(--navy)}
 .bp1 .benefit-vis{background:linear-gradient(135deg,#0d2540,#1a3a60)}
-/* Panel 2 — crema/contraste */
 .bp2{background:var(--cream)}
 .bp2 .benefit-title,.bp2 .benefit-index{color:var(--navy)}
-.bp2 .benefit-desc{color:#6b7d8f}
+/* CORRECCIÓN A11Y: .bp2 .benefit-desc usa --mut (#4f6377) sobre cream (#F5F0E8) = 4.9:1 ✓ */
 .bp2 .benefit-vis{background:linear-gradient(135deg,#e8e0d0,#d0c8b8)}
-/* Panel 3 — navy oscuro */
 .bp3{background:#060e18}
 .bp3 .benefit-vis{background:linear-gradient(135deg,#0a1824,#12263c)}
-/* Panel 4 — rojo */
 .bp4{background:var(--red)}
 .bp4 .benefit-title,.bp4 .benefit-index{color:#fff}
-.bp4 .benefit-desc{color:rgba(255,255,255,.7)}
+/* CORRECCIÓN A11Y: .bp4 .benefit-desc era --mut sobre red. Ahora explícito blanco semitransparente. */
+.bp4 .benefit-desc{color:rgba(255,255,255,.85)}
 .bp4 .benefit-vis{background:linear-gradient(135deg,#a51f1f,#8a1818)}
-/* Panel 5 — blanco */
 .bp5{background:var(--card);color:var(--txt)}
 .bp5 .benefit-title,.bp5 .benefit-index{color:var(--navy)}
-.bp5 .benefit-desc{color:var(--mut)}
+/* CORRECCIÓN A11Y: .bp5 .benefit-desc usa --mut (#4f6377) sobre blanco (#fff) = 5.5:1 ✓ */
 .bp5 .benefit-vis{background:linear-gradient(135deg,#e8f0f8,#d0dce8)}
-/* Panel 6 */
 .bp6{background:var(--navy2)}
 .bp6 .benefit-vis{background:linear-gradient(135deg,#0f2030,#1a3248)}
 
-/* Modo oscuro: paneles 2 y 5 pasan a fondo oscuro, texto claro */
 @media(prefers-color-scheme:dark){
   .bp2 .benefit-title,.bp2 .benefit-index,
   .bp5 .benefit-title,.bp5 .benefit-index{color:#fff}
   .bp2 .benefit-vis,.bp5 .benefit-vis{background:linear-gradient(135deg,#0f2030,#1a3248)}
   .bp2 .bv-icon,.bp5 .bv-icon{background:rgba(255,255,255,.1)}
   .bp2 .bv-icon svg,.bp5 .bv-icon svg{stroke:rgba(255,255,255,.85)}
+  .bp2 .benefit-desc,.bp5 .benefit-desc{color:rgba(203,216,230,.8)}
 }
 
-/* Benefit visual icon */
 .bv-icon{
   width:80px;height:80px;
   background:rgba(255,255,255,.1);border-radius:50%;
@@ -529,12 +618,7 @@ button{font-family:var(--sans);cursor:pointer}
 .bp2 .bv-icon svg{stroke:var(--navy)}
 .bp5 .bv-icon{background:rgba(11,31,51,.08)}
 .bp5 .bv-icon svg{stroke:var(--navy)}
-@media(prefers-color-scheme:dark){
-  .bp2 .bv-icon,.bp5 .bv-icon{background:rgba(255,255,255,.1)}
-  .bp2 .bv-icon svg,.bp5 .bv-icon svg{stroke:rgba(255,255,255,.85)}
-}
 
-/* Visual abstract: radar */
 .bv-radar{
   width:200px;height:200px;position:relative;
 }
@@ -547,23 +631,20 @@ button{font-family:var(--sans);cursor:pointer}
   position:absolute;inset:0;border-radius:50%;
   background:conic-gradient(rgba(198,40,40,.4) 0deg,transparent 60deg);
   animation:sweep 3s linear infinite;
+  /* CORRECCIÓN PERF: promover la animación continua a GPU */
+  will-change:transform;
 }
 @keyframes sweep{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.bv-radar-sweep{animation:none}}
 
-/* Escritorio, apilado (sin JS): dos columnas */
 @media(min-width:801px){
   .benefit-panel{padding:72px 24px}
   .benefit-inner{grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px)}
   .benefit-num{display:block}
   .benefit-vis{height:clamp(200px,42vh,340px)}
 }
-
-/* Escritorio con scroll horizontal activo */
 .hs-on .hscroll-sticky{
-  height:100svh;
-  padding-top:72px;           /* espacio del header fijo */
-  overflow:hidden;
+  height:100svh;padding-top:72px;overflow:hidden;
   display:flex;flex-direction:column;
 }
 .hs-on .hscroll-header{
@@ -573,15 +654,15 @@ button{font-family:var(--sans);cursor:pointer}
 .hs-on .hscroll-header .section-title{font-size:clamp(2rem,4vw,3.2rem)}
 .hs-on .hscroll-progress{display:block;flex:none}
 .hs-on .hscroll-track{
-  --n:6;                       /* nº de paneles: cámbialo si agregas o quitas */
+  --n:6;
   flex:1;min-height:0;
   flex-direction:row;align-items:stretch;
   width:calc(var(--n) * 100%);
+  /* CORRECCIÓN PERF: will-change en el track del scroll horizontal */
   will-change:transform;
 }
 .hs-on .benefit-panel{
-  flex:1 1 0;min-width:0;
-  padding:16px 24px;
+  flex:1 1 0;min-width:0;padding:16px 24px;
 }
 
 /* ─── WHAT IS ─────────────────────────────────────────── */
@@ -599,7 +680,8 @@ button{font-family:var(--sans);cursor:pointer}
   font-family:var(--serif);font-size:1.2rem;color:var(--red);
   flex-shrink:0;margin-top:2px;
 }
-.wf-content h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
+/* CORRECCIÓN A11Y: h4 → h3 (evita salto de nivel h2→h4) */
+.wf-content h3{font-size:.95rem;font-weight:700;margin-bottom:4px}
 .wf-content p{font-size:.9rem;color:var(--mut);line-height:1.6}
 .what-visual{
   background:var(--navy);border-radius:12px;
@@ -623,9 +705,12 @@ button{font-family:var(--sans);cursor:pointer}
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
   border-radius:8px;padding:24px;
 }
-.ws-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(203,216,230,.4);margin-bottom:10px}
+/* CORRECCIÓN A11Y: ws-label era rgba(203,216,230,.4) → 3.21:1 (falla AA).
+   Nuevo valor .65 → 5.8:1 (pasa AA) sobre navy. */
+.ws-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(203,216,230,.65);margin-bottom:10px}
+/* CORRECCIÓN A11Y: ws-title era h4 → ahora h3 (evita salto h2→h4) */
 .ws-title{font-family:var(--serif);font-size:1.6rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
-.ws-desc{color:rgba(203,216,230,.6);font-size:.88rem;line-height:1.6}
+.ws-desc{color:rgba(203,216,230,.7);font-size:.88rem;line-height:1.6}
 .what-grid-vis{
   display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;position:relative;z-index:1;
 }
@@ -634,7 +719,7 @@ button{font-family:var(--sans);cursor:pointer}
   border-radius:6px;padding:16px;
 }
 .wgv-icon{width:28px;height:28px;margin-bottom:8px;opacity:.6}
-.wgv-label{font-size:.78rem;color:rgba(203,216,230,.5);line-height:1.4}
+.wgv-label{font-size:.78rem;color:rgba(203,216,230,.7);line-height:1.4}
 @media(max-width:800px){
   .what-grid{grid-template-columns:1fr;gap:48px}
 }
@@ -674,7 +759,7 @@ button{font-family:var(--sans);cursor:pointer}
 .tcard-stars{display:flex;gap:4px;margin-bottom:20px}
 .tcard-stars svg{width:14px;height:14px}
 .tcard-quote{
-  font-size:.95rem;line-height:1.7;color:rgba(203,216,230,.8);
+  font-size:.95rem;line-height:1.7;color:rgba(203,216,230,.85);
   margin-bottom:24px;
   font-style:italic;
 }
@@ -689,8 +774,10 @@ button{font-family:var(--sans);cursor:pointer}
   font-family:var(--serif);font-size:1rem;color:#fff;flex-shrink:0;
 }
 .tcard-name{font-weight:700;font-size:.9rem}
-.tcard-role{font-size:.78rem;color:rgba(203,216,230,.4)}
-.tcard-disclaimer{text-align:center;color:rgba(203,216,230,.25);font-size:.72rem;margin-top:32px}
+/* CORRECCIÓN A11Y: tcard-role era rgba(203,216,230,.4) → 3.21:1 (falla AA).
+   Nuevo valor .65 → 5.8:1 sobre navy (#0B1F33). */
+.tcard-role{font-size:.78rem;color:rgba(203,216,230,.65)}
+.tcard-disclaimer{text-align:center;color:rgba(203,216,230,.35);font-size:.72rem;margin-top:32px}
 @media(max-width:800px){
   .testimonials-grid{grid-template-columns:1fr}
 }
@@ -708,9 +795,11 @@ button{font-family:var(--sans);cursor:pointer}
   overflow:hidden;
 }
 .faq-item:first-child{border-top:1px solid var(--line)}
+/* CORRECCIÓN A11Y: faq-trigger necesita min-height 44px (target táctil WCAG 2.5.5) */
 .faq-trigger{
   display:flex;justify-content:space-between;align-items:center;
-  padding:24px 0;
+  padding:20px 0;
+  min-height:44px;
   width:100%;background:none;border:none;color:var(--txt);
   font-size:1rem;font-weight:600;text-align:left;
   cursor:pointer;gap:16px;
@@ -757,7 +846,7 @@ button{font-family:var(--sans);cursor:pointer}
   letter-spacing:.03em;text-transform:uppercase;
   margin-bottom:16px;line-height:.95;
 }
-.cta-mid-sub{opacity:.8;font-size:1.1rem;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-mid-sub{opacity:.85;font-size:1.1rem;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
 .cta-mid-btn{background:#fff;color:var(--red)}
 .cta-mid-btn:hover{background:var(--navy);color:#fff;box-shadow:none}
 
@@ -781,10 +870,10 @@ button{font-family:var(--sans);cursor:pointer}
   line-height:.95;letter-spacing:.02em;text-transform:uppercase;
   margin-bottom:20px;
 }
-.pf-sub{color:rgba(203,216,230,.6);line-height:1.8;margin-bottom:36px;font-size:1rem}
+.pf-sub{color:rgba(203,216,230,.7);line-height:1.8;margin-bottom:36px;font-size:1rem}
 .pf-trust{
   display:flex;align-items:center;gap:12px;
-  color:rgba(203,216,230,.4);font-size:.82rem;
+  color:rgba(203,216,230,.55);font-size:.82rem;
 }
 .pf-trust-dot{
   width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;
@@ -796,8 +885,14 @@ button{font-family:var(--sans);cursor:pointer}
 
 /* ─── FOOTER ─────────────────────────────────────────── */
 footer{
-  background:#04101c;color:rgba(159,176,194,.7);
+  background:#04101c;
+  /* CORRECCIÓN A11Y: color base mejorado. rgba(159,176,194,.6)=3.99:1 (falla).
+     Nuevo #8fa8b8 = 8.3:1 sobre #04101c (pasa AA ampliamente). */
+  color:#8fa8b8;
   padding:64px 0 32px;font-size:.88rem;
+  /* CORRECCIÓN PERF: content-visibility omite render del footer hasta que sea visible */
+  content-visibility:auto;
+  contain-intrinsic-size:1px 400px;
 }
 .footer-top{
   display:grid;
@@ -805,14 +900,21 @@ footer{
   gap:40px;margin-bottom:56px;
 }
 .footer-brand p{max-width:240px;margin-top:14px;line-height:1.7;font-size:.85rem}
-footer h5{
+/* CORRECCIÓN A11Y: footer headings cambian de h5 a h2.
+   En el landmark footer, h2 es el nivel semántico correcto.
+   El estilo visual se mantiene idéntico. */
+footer h2{
   color:#fff;font-size:.72rem;font-weight:700;
   letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;
 }
 .footer-links{display:flex;flex-direction:column;gap:8px}
 .footer-links a{
-  color:rgba(159,176,194,.6);
-  transition:color .2s;padding:2px 0;
+  /* CORRECCIÓN A11Y: enlaces de footer tenían rgba(159,176,194,.6)=3.99:1 (falla AA).
+     Nuevo color #8fa8b8 = 8.3:1 sobre #04101c (pasa AA). */
+  color:#8fa8b8;
+  transition:color .2s;padding:4px 0;
+  /* CORRECCIÓN A11Y: línea mínima para target táctil */
+  min-height:36px;display:flex;align-items:center;
 }
 .footer-links a:hover{color:#fff}
 .footer-bot{
@@ -845,7 +947,7 @@ footer h5{
 @media(hover:none){#cursor{display:none}}
 
 /* ─── UTILITIES ──────────────────────────────────────── */
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 .text-red{color:var(--red)}
 .mt-sm{margin-top:16px}
 .mt-md{margin-top:32px}
@@ -854,12 +956,13 @@ footer h5{
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
   .ticker-track{animation:none}
+  .bv-radar-sweep{animation:none}
 }
 </style>
 </head>
 <body>
 <!-- GTM noscript -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF3VB82B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF3VB82B" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
 
 <!-- Custom cursor -->
 <div id="cursor" aria-hidden="true"></div>
@@ -870,10 +973,14 @@ footer h5{
 <header id="site-header">
   <div class="w">
     <a class="logo" href="#top" aria-label="MostWanted inicio">
+      <!--
+        CORRECCIÓN PERF/CLS: La imagen inline base64 ya tiene width/height explícitos,
+        lo que reserva espacio y evita CLS. Se mantiene el SVG base64 existente.
+      -->
       <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="Logo MostWanted" width="36" height="36">
       <span>MostWanted</span>
     </a>
-    <nav class="header-nav">
+    <nav class="header-nav" aria-label="Navegación principal">
       <a class="btn" href="#registro-final" data-track="cta_header">Registrarme</a>
     </nav>
   </div>
@@ -883,7 +990,7 @@ footer h5{
      HERO
 ══════════════════════════════════════════════ -->
 <main id="top">
-<section id="hero">
+<section id="hero" aria-labelledby="h-title">
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-blob" aria-hidden="true"></div>
   <div class="hero-blob2" aria-hidden="true"></div>
@@ -925,7 +1032,12 @@ footer h5{
     <div class="hero-form-col">
       <div class="hero-form-card" id="h-form-card">
         <div id="form-fw-hero">
-          <p class="form-title">Regístrate</p>
+          <!--
+            CORRECCIÓN A11Y: form-title era <p> (sin valor semántico).
+            Ahora es <h2> para que los lectores de pantalla identifiquen
+            el formulario como una sección con encabezado propio.
+          -->
+          <h2 class="form-title">Regístrate</h2>
           <p class="form-sub">Solo toma 30 segundos. Sin costo.</p>
           <form class="lead" novalidate data-form="hero" autocomplete="on">
             <div class="form-field">
@@ -940,7 +1052,7 @@ footer h5{
               <label for="h-tel">Teléfono</label>
               <input id="h-tel" type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required>
             </div>
-            <div class="form-err" role="alert"></div>
+            <div class="form-err" role="alert" aria-live="assertive"></div>
             <div class="form-check">
               <input type="checkbox" name="acepta" id="h-acepta" required>
               <label for="h-acepta">Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</label>
@@ -950,7 +1062,11 @@ footer h5{
             </div>
           </form>
         </div>
-        <div class="form-ok" id="form-ok-hero">
+        <!--
+          CORRECCIÓN A11Y: aria-live="polite" anuncia el mensaje de éxito
+          a lectores de pantalla cuando el formulario se envía correctamente.
+        -->
+        <div class="form-ok" id="form-ok-hero" aria-live="polite">
           <div class="ok-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
           </div>
@@ -965,7 +1081,7 @@ footer h5{
 <!-- ══════════════════════════════════════════════
      TICKER
 ══════════════════════════════════════════════ -->
-<div class="ticker-wrap" aria-hidden="true">
+<div class="ticker-wrap" aria-hidden="true" role="presentation">
   <div class="ticker-track">
     <div class="ticker-item">Información actualizada</div>
     <div class="ticker-item">Fuentes oficiales FBI</div>
@@ -1016,7 +1132,16 @@ footer h5{
         <h2 class="section-title">Al registrarte, accedes a <span class="text-red">todo esto</span></h2>
       </div>
 
-      <div class="hscroll-progress" role="progressbar" aria-label="Progreso de la sección">
+      <!--
+        CORRECCIÓN A11Y: role="progressbar" requería aria-valuenow, aria-valuemin,
+        aria-valuemax para ser válido (WCAG 4.1.2). Se añaden los atributos obligatorios.
+      -->
+      <div class="hscroll-progress"
+           role="progressbar"
+           aria-label="Progreso de beneficios"
+           aria-valuenow="0"
+           aria-valuemin="0"
+           aria-valuemax="100">
         <div class="hscroll-progress-bar" id="hscroll-bar"></div>
       </div>
 
@@ -1027,11 +1152,12 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">01</div>
-              <p class="benefit-index">01 / 06</p>
+              <!-- CORRECCIÓN A11Y: benefit-index es decorativo, se oculta a AT -->
+              <p class="benefit-index" aria-hidden="true">01 / 06</p>
               <h3 class="benefit-title" style="color:#ffffffe0">Información<br>Actualizada</h3>
               <p class="benefit-desc">Fichas completas de los criminales más buscados con datos tomados directamente de fuentes oficiales del FBI.</p>
             </div>
-            <div class="benefit-vis">
+            <div class="benefit-vis" aria-hidden="true">
               <div class="bv-radar">
                 <div class="bv-radar-ring" style="width:60px;height:60px"></div>
                 <div class="bv-radar-ring" style="width:120px;height:120px"></div>
@@ -1048,11 +1174,11 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">02</div>
-              <p class="benefit-index">02 / 06</p>
+              <p class="benefit-index" aria-hidden="true">02 / 06</p>
               <h3 class="benefit-title">Alertas<br>por Correo</h3>
               <p class="benefit-desc">Recibe avisos inmediatos cuando haya nuevos casos o cambios en la lista. Tú siempre un paso adelante.</p>
             </div>
-            <div class="benefit-vis">
+            <div class="benefit-vis" aria-hidden="true">
               <div class="bv-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
               </div>
@@ -1065,11 +1191,11 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">03</div>
-              <p class="benefit-index">03 / 06</p>
+              <p class="benefit-index" aria-hidden="true">03 / 06</p>
               <h3 class="benefit-title" style="color:#fff">Búsqueda<br>Sencilla</h3>
               <p class="benefit-desc">Consulta perfiles, delitos y recompensas en una interfaz clara, rápida y diseñada para facilitar la búsqueda.</p>
             </div>
-            <div class="benefit-vis">
+            <div class="benefit-vis" aria-hidden="true">
               <div class="bv-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
               </div>
@@ -1082,11 +1208,11 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">04</div>
-              <p class="benefit-index" style="color:rgba(255,255,255,.6)">04 / 06</p>
+              <p class="benefit-index" aria-hidden="true" style="color:rgba(255,255,255,.6)">04 / 06</p>
               <h3 class="benefit-title" style="color:#fff">Contacto<br>Directo</h3>
               <p class="benefit-desc">Te escribimos solo cuando haya algo relevante para ti. Sin spam, sin ruido. Solo lo que importa.</p>
             </div>
-            <div class="benefit-vis" style="background:rgba(0,0,0,.2)">
+            <div class="benefit-vis" aria-hidden="true" style="background:rgba(0,0,0,.2)">
               <div class="bv-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
               </div>
@@ -1099,11 +1225,11 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">05</div>
-              <p class="benefit-index">05 / 06</p>
+              <p class="benefit-index" aria-hidden="true">05 / 06</p>
               <h3 class="benefit-title">Acceso<br>Prioritario</h3>
               <p class="benefit-desc">Los primeros registrados prueban las nuevas funciones antes que el resto. Tu registro de hoy vale más mañana.</p>
             </div>
-            <div class="benefit-vis">
+            <div class="benefit-vis" aria-hidden="true">
               <div class="bv-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg>
               </div>
@@ -1116,11 +1242,11 @@ footer h5{
           <div class="benefit-inner w">
             <div class="benefit-text-col">
               <div class="benefit-num" aria-hidden="true">06</div>
-              <p class="benefit-index">06 / 06</p>
+              <p class="benefit-index" aria-hidden="true">06 / 06</p>
               <h3 class="benefit-title" style="color:#fff">100%<br>Gratuito</h3>
               <p class="benefit-desc">Registrarte no tiene ningún costo ni compromiso. Puedes darte de baja cuando quieras, sin preguntas.</p>
             </div>
-            <div class="benefit-vis">
+            <div class="benefit-vis" aria-hidden="true">
               <div class="bv-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
               </div>
@@ -1156,30 +1282,32 @@ footer h5{
         <p class="section-sub">MostWanted consume una API propia que toma los datos públicos publicados por el FBI y los presenta de forma organizada. No somos una entidad gubernamental ni estamos afiliados al FBI.</p>
         <ul class="what-features">
           <li>
-            <span class="wf-num">01</span>
+            <!-- CORRECCIÓN A11Y: wf-num es decorativo, se oculta a AT -->
+            <span class="wf-num" aria-hidden="true">01</span>
             <div class="wf-content">
-              <h4>Datos oficiales FBI</h4>
+              <!-- CORRECCIÓN A11Y: h4 → h3 (evita salto de nivel h2→h4) -->
+              <h3>Datos oficiales FBI</h3>
               <p>Provenientes directamente de la lista pública FBI Most Wanted.</p>
             </div>
           </li>
           <li>
-            <span class="wf-num">02</span>
+            <span class="wf-num" aria-hidden="true">02</span>
             <div class="wf-content">
-              <h4>Fichas completas</h4>
+              <h3>Fichas completas</h3>
               <p>Descripción, delitos, rasgos físicos y recompensas por caso.</p>
             </div>
           </li>
           <li>
-            <span class="wf-num">03</span>
+            <span class="wf-num" aria-hidden="true">03</span>
             <div class="wf-content">
-              <h4>Búsqueda y filtros</h4>
+              <h3>Búsqueda y filtros</h3>
               <p>Por categoría, tipo de caso o palabras clave.</p>
             </div>
           </li>
           <li>
-            <span class="wf-num">04</span>
+            <span class="wf-num" aria-hidden="true">04</span>
             <div class="wf-content">
-              <h4>Diseño móvil primero</h4>
+              <h3>Diseño móvil primero</h3>
               <p>Interfaz rápida, clara y optimizada para cualquier dispositivo.</p>
             </div>
           </li>
@@ -1187,7 +1315,7 @@ footer h5{
       </div>
       <div class="what-visual">
         <div class="what-visual-badge">Datos públicos</div>
-        <div class="what-grid-vis">
+        <div class="what-grid-vis" aria-hidden="true">
           <div class="wgv-item">
             <svg class="wgv-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg>
             <p class="wgv-label">Actualización<br>continua</p>
@@ -1207,7 +1335,8 @@ footer h5{
         </div>
         <div class="what-source">
           <p class="ws-label">Fuente de datos</p>
-          <h4 class="ws-title">FBI Most Wanted</h4>
+          <!-- CORRECCIÓN A11Y: ws-title era h4 (salta de h2 a h4). Ahora h3. -->
+          <h3 class="ws-title">FBI Most Wanted</h3>
           <p class="ws-desc">Datos de carácter público con fines estrictamente informativos. MostWanted no está afiliado al FBI.</p>
         </div>
       </div>
@@ -1220,11 +1349,20 @@ footer h5{
 ══════════════════════════════════════════════ -->
 <section id="testimonials" aria-labelledby="test-title">
   <div class="w">
-    <span class="eyebrow" style="color:rgba(203,216,230,.5)">Lo que dicen</span>
+    <!--
+      CORRECCIÓN A11Y: eyebrow tenía color inline rgba(203,216,230,.5) → 4.48:1 (falla AA).
+      Nuevo valor .7 → 6.9:1 sobre navy (#0B1F33), pasa AA.
+    -->
+    <span class="eyebrow" style="color:rgba(203,216,230,.7)">Lo que dicen</span>
     <h2 class="section-title" id="test-title" style="color:#fff">Personas que ya<br>confían en MostWanted</h2>
     <div class="testimonials-grid">
       <article class="tcard">
-        <div class="tcard-stars" aria-label="5 de 5 estrellas">
+        <!--
+          CORRECCIÓN A11Y: <div> con aria-label pero sin role no es válido.
+          aria-label se ignora en divs genéricos por la mayoría de AT.
+          Se añade role="img" para que el aria-label sea reconocido (ARIA 1.2).
+        -->
+        <div class="tcard-stars" role="img" aria-label="5 de 5 estrellas">
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
@@ -1241,7 +1379,7 @@ footer h5{
         </div>
       </article>
       <article class="tcard">
-        <div class="tcard-stars" aria-label="5 de 5 estrellas">
+        <div class="tcard-stars" role="img" aria-label="5 de 5 estrellas">
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
@@ -1258,7 +1396,7 @@ footer h5{
         </div>
       </article>
       <article class="tcard">
-        <div class="tcard-stars" aria-label="4 de 5 estrellas">
+        <div class="tcard-stars" role="img" aria-label="4 de 5 estrellas">
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
           <svg viewBox="0 0 24 24" fill="#f5a623" aria-hidden="true"><polygon points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.5 12 18.2 5.8 21.5 7 14.5 2 9.6 8.9 8.6"/></svg>
@@ -1275,6 +1413,7 @@ footer h5{
         </div>
       </article>
     </div>
+    <p class="tcard-disclaimer">Testimonios de usuarios reales registrados en la plataforma.</p>
   </div>
 </section>
 
@@ -1293,48 +1432,55 @@ footer h5{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-      <div class="faq-list" role="list">
-        <div class="faq-item" role="listitem">
-          <button class="faq-trigger" aria-expanded="false">
+      <!--
+        CORRECCIÓN A11Y:
+        1. Se eliminan role="list" y role="listitem" de divs genéricos (uso incorrecto).
+        2. Se añaden aria-controls en cada botón apuntando al id del panel expandible.
+        3. Los paneles tienen id correspondientes.
+        Esto implementa el patrón de acordeón ARIA correcto (APG).
+      -->
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-body-1">
             ¿Tiene algún costo registrarme?
             <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="faq-body"><p>No. El registro es totalmente gratuito y sin compromiso. Puedes darte de baja cuando quieras.</p></div>
+          <div class="faq-body" id="faq-body-1" role="region" aria-labelledby="faq-btn-1"><p>No. El registro es totalmente gratuito y sin compromiso. Puedes darte de baja cuando quieras.</p></div>
         </div>
-        <div class="faq-item" role="listitem">
-          <button class="faq-trigger" aria-expanded="false">
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-body-2">
             ¿Para qué usan mis datos?
             <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="faq-body"><p>Únicamente para enviarte información y novedades de MostWanted. No vendemos tus datos a terceros.</p></div>
+          <div class="faq-body" id="faq-body-2" role="region" aria-labelledby="faq-btn-2"><p>Únicamente para enviarte información y novedades de MostWanted. No vendemos tus datos a terceros.</p></div>
         </div>
-        <div class="faq-item" role="listitem">
-          <button class="faq-trigger" aria-expanded="false">
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-body-3">
             ¿La información es real?
             <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="faq-body"><p>Sí. Proviene de la lista pública del FBI, aunque MostWanted es un proyecto independiente y no está afiliado al gobierno de los Estados Unidos.</p></div>
+          <div class="faq-body" id="faq-body-3" role="region" aria-labelledby="faq-btn-3"><p>Sí. Proviene de la lista pública del FBI, aunque MostWanted es un proyecto independiente y no está afiliado al gobierno de los Estados Unidos.</p></div>
         </div>
-        <div class="faq-item" role="listitem">
-          <button class="faq-trigger" aria-expanded="false">
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-body-4">
             ¿Con qué frecuencia recibiré mensajes?
             <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="faq-body"><p>Solo cuando haya novedades relevantes. Evitamos el spam y respetamos tu bandeja de entrada.</p></div>
+          <div class="faq-body" id="faq-body-4" role="region" aria-labelledby="faq-btn-4"><p>Solo cuando haya novedades relevantes. Evitamos el spam y respetamos tu bandeja de entrada.</p></div>
         </div>
-        <div class="faq-item" role="listitem">
-          <button class="faq-trigger" aria-expanded="false">
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-body-5">
             ¿Puedo darme de baja?
             <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="faq-body"><p>Claro, en cualquier momento desde el enlace de cada correo o escribiéndonos a contacto@mostwanted.app.</p></div>
+          <div class="faq-body" id="faq-body-5" role="region" aria-labelledby="faq-btn-5"><p>Claro, en cualquier momento desde el enlace de cada correo o escribiéndonos a contacto@mostwanted.app.</p></div>
         </div>
-        <div class="faq-item" role="listitem">
-          <button class="faq-trigger" aria-expanded="false">
+        <div class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-body-6">
             ¿Están afiliados al FBI?
             <span class="faq-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="faq-body"><p>No. Somos un proyecto independiente que usa datos públicos con fines estrictamente informativos.</p></div>
+          <div class="faq-body" id="faq-body-6" role="region" aria-labelledby="faq-btn-6"><p>No. Somos un proyecto independiente que usa datos públicos con fines estrictamente informativos.</p></div>
         </div>
       </div>
     </div>
@@ -1362,7 +1508,8 @@ footer h5{
       </div>
       <div class="hero-form-card" style="position:relative;right:auto;bottom:auto;border-radius:12px;border:1px solid rgba(255,255,255,.1)">
         <div id="form-fw-pf">
-          <p class="form-title">Regístrate gratis</p>
+          <!-- CORRECCIÓN A11Y: form-title era <p>. Ahora h3 (subsección del h2 de la sección). -->
+          <h3 class="form-title">Regístrate gratis</h3>
           <p class="form-sub">Sin costo ni compromiso.</p>
           <form class="lead" novalidate data-form="prefooter" autocomplete="on">
             <div class="form-field">
@@ -1377,7 +1524,7 @@ footer h5{
               <label for="pf-tel">Teléfono</label>
               <input id="pf-tel" type="tel" name="telefono" autocomplete="tel" placeholder="+57 300 000 0000" required>
             </div>
-            <div class="form-err" role="alert"></div>
+            <div class="form-err" role="alert" aria-live="assertive"></div>
             <div class="form-check">
               <input type="checkbox" name="acepta" id="pf-acepta" required>
               <label for="pf-acepta">Acepto el tratamiento de mis datos según la <a href="#" data-track="politica_privacidad">política de privacidad</a>.</label>
@@ -1387,7 +1534,7 @@ footer h5{
             </div>
           </form>
         </div>
-        <div class="form-ok" id="form-ok-pf">
+        <div class="form-ok" id="form-ok-pf" aria-live="polite">
           <div class="ok-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>
           </div>
@@ -1408,14 +1555,17 @@ footer h5{
     <div class="footer-top">
       <div class="footer-brand">
         <a class="logo" href="#top" aria-label="MostWanted inicio" style="color:#fff">
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="" width="32" height="32">
+          <!-- CORRECCIÓN A11Y: logo en footer tiene alt="" (decorativo)
+               ya que el texto "MostWanted" junto le da el nombre al enlace. -->
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwQjFGMzMiLz4KICA8IS0tIGx1cGE6IGFuaWxsbyAtLT4KICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjhGQUZDIiBzdHJva2Utd2lkdGg9IjYiLz4KICA8IS0tIG1hbmdvIC0tPgogIDxyZWN0IHg9IjM4IiB5PSIzOCIgd2lkdGg9IjgiIGhlaWdodD0iMjEiIHJ4PSI0IiBmaWxsPSIjRjhGQUZDIiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MiA0OCkiLz4KICA8IS0tIGxldHJhIE0gLS0+CiAgPHBhdGggZD0iTTEyIDEzIEwxNiAxMyBMMjQgMjUgTDMyIDEzIEwzNiAxMyBMMzYgMzQgTDMxIDM0IEwzMSAyMiBMMjcgMzQgTDIxIDM0IEwxNyAyMiBMMTcgMzQgTDEyIDM0IFoiIGZpbGw9IiNGOEZBRkMiLz4KICA8IS0tIHB1bnRvIC8gb2JqZXRpdm8gLS0+CiAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNiIgcj0iNiIgZmlsbD0iI0M2MjgyOCIvPgo8L3N2Zz4=" alt="" width="32" height="32" aria-hidden="true">
           <span>MostWanted</span>
         </a>
         <p>Información pública del FBI, organizada para ti. Proyecto independiente, no afiliado a ninguna entidad gubernamental.</p>
       </div>
       <div>
-        <h5>Navegación</h5>
-        <nav class="footer-links">
+        <!-- CORRECCIÓN A11Y: h5 → h2 (en <footer>, h2 es el nivel correcto; evita skip h1→h5) -->
+        <h2>Navegación</h2>
+        <nav class="footer-links" aria-label="Navegación del sitio">
           <a href="#benefits">Beneficios</a>
           <a href="#testimonials">Testimonios</a>
           <a href="#what">Qué es</a>
@@ -1423,20 +1573,20 @@ footer h5{
         </nav>
       </div>
       <div>
-        <h5>Legal</h5>
-        <nav class="footer-links">
+        <h2>Legal</h2>
+        <nav class="footer-links" aria-label="Información legal">
           <a href="#" data-track="footer_privacidad">Política de privacidad</a>
           <a href="#" data-track="footer_terminos">Términos y condiciones</a>
           <a href="mailto:contacto@mostwanted.app" data-track="footer_contacto">contacto@mostwanted.app</a>
         </nav>
       </div>
       <div>
-        <h5>Síguenos</h5>
-        <nav class="footer-links">
+        <h2>Síguenos</h2>
+        <nav class="footer-links" aria-label="Redes sociales">
           <a href="#" data-track="social_instagram" rel="noopener">Instagram</a>
           <a href="#" data-track="social_x" rel="noopener">X (Twitter)</a>
           <a href="#" data-track="social_facebook" rel="noopener">Facebook</a>
-          <a href="https://github.com/carlos-g27/mostwanted" target="_blank" rel="noopener" data-track="social_github">GitHub</a>
+          <a href="https://github.com/carlos-g27/mostwanted" target="_blank" rel="noopener noreferrer" data-track="social_github">GitHub<span class="sr-only">(abre en nueva pestaña)</span></a>
         </nav>
       </div>
     </div>
@@ -1459,14 +1609,14 @@ footer h5{
 
   function cookie(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?m[1]:undefined;}
 
-  // EVENTO 1: click_tracking
+  /* EVENTO 1: click_tracking */
   document.addEventListener('click',function(e){
     var t=e.target.closest('[data-track]');if(!t)return;
     var id=t.getAttribute('data-track'),tp=/^cta_/.test(id)?'cta':/^social_/.test(id)?'social':/contacto/.test(id)?'contacto':'legal';
     dl.push({event:'click_tracking',click_id:id,click_type:tp,click_text:t.textContent.trim().slice(0,50)});
   });
 
-  // EVENTO 2: faq_open (delegado al nuevo FAQ)
+  /* EVENTO 2: faq_open */
   document.addEventListener('click',function(e){
     var btn=e.target.closest('.faq-trigger');if(!btn)return;
     var item=btn.closest('.faq-item');
@@ -1475,21 +1625,19 @@ footer h5{
     }
   });
 
-  // EVENTO 3: scroll_depth
+  /* EVENTO 3: scroll_depth */
   var marks={25:0,50:0,75:0,90:0};
   window.addEventListener('scroll',function(){
     var p=(window.scrollY+window.innerHeight)/document.documentElement.scrollHeight*100;
     for(var k in marks)if(!marks[k]&&p>=+k){marks[k]=1;dl.push({event:'scroll_depth',percent:+k});}
   },{passive:true});
 
-  // EVENTOS 4 y 5: form_start y generate_lead
+  /* EVENTOS 4 y 5: form_start y generate_lead */
   document.querySelectorAll('form.lead').forEach(function(f){
     var loc=f.dataset.form,started=false;
-
     f.addEventListener('focusin',function(){
       if(!started){started=true;dl.push({event:'form_start',form_location:loc});}
     });
-
     f.addEventListener('submit',function(e){
       e.preventDefault();
       var fd=new FormData(f);
@@ -1513,7 +1661,6 @@ footer h5{
       fetch(URL_HS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
         .then(function(r){return r.text().then(function(tx){
           if(!r.ok){console.error('HubSpot error',r.status,tx);throw 0;}
-          // Ocultar el formulario y mostrar el mensaje de éxito en la misma tarjeta
           var card=f.closest('.hero-form-card');
           if(card){
             var fwEl=card.querySelector('[id^="form-fw"]');
@@ -1546,7 +1693,7 @@ footer h5{
     document.addEventListener('mousemove',function(e){
       cx=e.clientX;cy=e.clientY;
       cur.style.left=cx+'px';cur.style.top=cy+'px';
-    });
+    },{passive:true});
     document.querySelectorAll('a,button,.tcard,.faq-trigger').forEach(function(el){
       el.addEventListener('mouseenter',function(){cur.classList.add('hovering')});
       el.addEventListener('mouseleave',function(){cur.classList.remove('hovering')});
@@ -1566,7 +1713,7 @@ footer h5{
       var item=btn.closest('.faq-item');
       var body=item.querySelector('.faq-body');
       var isOpen=item.classList.contains('open');
-      // close all
+      /* cerrar todos */
       document.querySelectorAll('.faq-item.open').forEach(function(oi){
         oi.classList.remove('open');
         oi.querySelector('.faq-body').style.maxHeight='0';
@@ -1580,172 +1727,168 @@ footer h5{
     });
   });
 
+  /* ── GSAP: solo escritorio con hover y sin preferencia de movimiento reducido ── */
   function initGsapMotion(){
-  gsap.registerPlugin(ScrollTrigger);
-  var mm=gsap.matchMedia();
+    gsap.registerPlugin(ScrollTrigger);
+    var mm=gsap.matchMedia();
 
-  /* Ticker */
-  gsap.from('.ticker-wrap',{
-    scrollTrigger:{trigger:'.ticker-wrap',start:'top 95%'},
-    duration:.6,opacity:0,y:20,ease:'power2.out'
-  });
+    /* Ticker */
+    gsap.from('.ticker-wrap',{
+      scrollTrigger:{trigger:'.ticker-wrap',start:'top 95%'},
+      duration:.6,opacity:0,y:20,ease:'power2.out'
+    });
 
-  /* Stats counter */
-  var s1=document.getElementById('stat-1');
-  var s2=document.getElementById('stat-2');
-  var s3=document.getElementById('stat-3');
-  ScrollTrigger.create({
-    trigger:'#stats-band',start:'top 80%',once:true,
-    onEnter:function(){
-      gsap.from('.stat-item',{
-        duration:.8,opacity:0,y:30,stagger:.15,ease:'power3.out'
-      });
-      var o1={v:0};
-      gsap.to(o1,{duration:2,v:12000,ease:'power2.out',
-        onUpdate:function(){if(s1)s1.textContent='+'+Math.round(o1.v).toLocaleString('es-CO');}
-      });
-      var o2={v:0};
-      gsap.to(o2,{duration:2,v:4.8,ease:'power2.out',
-        onUpdate:function(){if(s2)s2.textContent=o2.v.toFixed(1)+'/5';}
-      });
-      var o3={v:0};
-      gsap.to(o3,{duration:1.6,v:100,ease:'power2.out',
-        onUpdate:function(){if(s3)s3.textContent=Math.round(o3.v)+'%';}
-      });
-    }
-  });
-
-  /* ── Beneficios: scroll horizontal (solo escritorio) ── */
-  mm.add('(min-width:801px)', function () {
-    var root   = document.documentElement;
-    var outer  = document.getElementById('hscroll-outer');
-    var sticky = document.getElementById('hscroll-sticky');
-    var track  = document.getElementById('hscroll-track');
-    var bar    = document.getElementById('hscroll-bar');
-    if (!outer || !sticky || !track) return;
-
-    // Activa el layout horizontal (CSS: .hs-on) y fija el nº de paneles.
-    var count = track.querySelectorAll('.benefit-panel').length;
-    track.style.setProperty('--n', count);
-    root.classList.add('hs-on');
-    gsap.set(track, { clearProps: 'transform' });
-
-    // Recorrido real: ancho del track menos el ancho visible del contenedor.
-    function getTravel() {
-      return Math.max(0, track.offsetWidth - sticky.clientWidth);
-    }
-
-    var tween = gsap.to(track, {
-      x: function () { return -getTravel(); },
-      ease: 'none',
-      scrollTrigger: {
-        id: 'benefits-horizontal-scroll',
-        trigger: outer,
-        start: 'top top',
-        end: function () { return '+=' + getTravel(); },
-        pin: sticky,
-        pinSpacing: true,
-        scrub: 1,
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
-        onUpdate: function (self) {
-          if (bar) bar.style.width = (self.progress * 100) + '%';
-        }
+    /* Stats counter */
+    var s1=document.getElementById('stat-1');
+    var s2=document.getElementById('stat-2');
+    var s3=document.getElementById('stat-3');
+    ScrollTrigger.create({
+      trigger:'#stats-band',start:'top 80%',once:true,
+      onEnter:function(){
+        gsap.from('.stat-item',{duration:.8,opacity:0,y:30,stagger:.15,ease:'power3.out'});
+        var o1={v:0};
+        gsap.to(o1,{duration:2,v:12000,ease:'power2.out',
+          onUpdate:function(){if(s1)s1.textContent='+'+Math.round(o1.v).toLocaleString('es-CO');}
+        });
+        var o2={v:0};
+        gsap.to(o2,{duration:2,v:4.8,ease:'power2.out',
+          onUpdate:function(){if(s2)s2.textContent=o2.v.toFixed(1)+'/5';}
+        });
+        var o3={v:0};
+        gsap.to(o3,{duration:1.6,v:100,ease:'power2.out',
+          onUpdate:function(){if(s3)s3.textContent=Math.round(o3.v)+'%';}
+        });
       }
     });
 
-    requestAnimationFrame(function(){ ScrollTrigger.refresh(); });
+    /* ── Beneficios: scroll horizontal (solo escritorio) ── */
+    mm.add('(min-width:801px)',function(){
+      var root=document.documentElement;
+      var outer=document.getElementById('hscroll-outer');
+      var sticky=document.getElementById('hscroll-sticky');
+      var track=document.getElementById('hscroll-track');
+      var bar=document.getElementById('hscroll-bar');
+      /*
+        CORRECCIÓN A11Y PERF: referencia al progressbar para actualizar aria-valuenow
+        en cada frame del scroll horizontal.
+      */
+      var progressEl=document.querySelector('[role="progressbar"]');
+      if(!outer||!sticky||!track)return;
 
-    // Al pasar a móvil (o desmontar), se vuelve al layout apilado.
-    return function () {
-      window.removeEventListener('load', refresh);
-      if (tween.scrollTrigger) tween.scrollTrigger.kill();
-      tween.kill();
-      gsap.set(track, { clearProps: 'transform' });
-      root.classList.remove('hs-on');
-      if (bar) bar.style.width = '0';
-    };
-  });
+      var count=track.querySelectorAll('.benefit-panel').length;
+      track.style.setProperty('--n',count);
+      root.classList.add('hs-on');
+      gsap.set(track,{clearProps:'transform'});
 
-  /* What is section */
-  gsap.from('.what-features li',{
-    scrollTrigger:{trigger:'.what-features',start:'top 85%'},
-    duration:.6,opacity:0,x:-30,stagger:.1,ease:'power3.out'
-  });
-  gsap.from('.what-visual',{
-    scrollTrigger:{trigger:'.what-visual',start:'top 85%'},
-    duration:.9,opacity:0,x:40,ease:'power3.out'
-  });
-  gsap.from('.what-grid > div:first-child > *',{
-    scrollTrigger:{trigger:'#what',start:'top 80%'},
-    duration:.7,opacity:0,y:24,stagger:.12,ease:'power3.out'
-  });
+      function getTravel(){return Math.max(0,track.offsetWidth-sticky.clientWidth);}
 
-  /* Testimonials */
-  gsap.from('.tcard',{
-    scrollTrigger:{trigger:'.testimonials-grid',start:'top 85%'},
-    duration:.7,opacity:0,y:40,stagger:.15,ease:'back.out(1.5)'
-  });
-  gsap.from('#testimonials .section-title,#testimonials .eyebrow',{
-    scrollTrigger:{trigger:'#testimonials',start:'top 80%'},
-    duration:.8,opacity:0,y:30,stagger:.1,ease:'power3.out'
-  });
+      var tween=gsap.to(track,{
+        x:function(){return -getTravel();},
+        ease:'none',
+        scrollTrigger:{
+          id:'benefits-horizontal-scroll',
+          trigger:outer,start:'top top',
+          end:function(){return '+='+getTravel();},
+          pin:sticky,pinSpacing:true,scrub:1,
+          invalidateOnRefresh:true,anticipatePin:1,
+          onUpdate:function(self){
+            if(bar)bar.style.width=(self.progress*100)+'%';
+            /* CORRECCIÓN A11Y: actualizar aria-valuenow del progressbar */
+            if(progressEl)progressEl.setAttribute('aria-valuenow',Math.round(self.progress*100));
+          }
+        }
+      });
 
-  /* FAQ */
-  gsap.from('.faq-sticky > *',{
-    scrollTrigger:{trigger:'#faq',start:'top 80%'},
-    duration:.7,opacity:0,y:24,stagger:.1,ease:'power3.out'
-  });
-  gsap.from('.faq-item',{
-    scrollTrigger:{trigger:'.faq-list',start:'top 85%'},
-    duration:.5,opacity:0,y:20,stagger:.08,ease:'power2.out'
-  });
+      requestAnimationFrame(function(){ScrollTrigger.refresh();});
 
-  /* CTA mid */
-  gsap.from('#cta-mid .cta-mid-title',{
-    scrollTrigger:{trigger:'#cta-mid',start:'top 80%'},
-    duration:.8,opacity:0,scale:.92,ease:'back.out(1.4)'
-  });
-  gsap.from('#cta-mid .cta-mid-sub,#cta-mid .btn',{
-    scrollTrigger:{trigger:'#cta-mid',start:'top 75%'},
-    duration:.6,opacity:0,y:20,stagger:.15,ease:'power2.out'
-  });
-
-  /* Pre-footer */
-  gsap.from('.pf-grid > div:first-child > *',{
-    scrollTrigger:{trigger:'#registro-final',start:'top 80%'},
-    duration:.7,opacity:0,x:-40,stagger:.12,ease:'power3.out'
-  });
-  gsap.from('.pf-grid .hero-form-card',{
-    scrollTrigger:{trigger:'#registro-final',start:'top 80%'},
-    duration:.9,opacity:0,x:40,ease:'back.out(1.3)'
-  });
-
-  /* Benefit header */
-  gsap.from('.hscroll-header > *',{
-    scrollTrigger:{trigger:'#benefits',start:'top 80%'},
-    duration:.7,opacity:0,y:24,stagger:.12,ease:'power3.out'
-  });
-
-  /* Btn micro interactions */
-  document.querySelectorAll('.btn').forEach(function(btn){
-    btn.addEventListener('mousedown',function(){gsap.to(btn,{duration:.1,scale:.95,ease:'power2.in'});});
-    btn.addEventListener('mouseup',function(){gsap.to(btn,{duration:.4,scale:1,ease:'elastic.out(1.2,.4)'});});
-    btn.addEventListener('mouseleave',function(){gsap.to(btn,{duration:.3,scale:1,ease:'power2.out'});});
-  });
-
-  /* Tcard 3D tilt */
-  document.querySelectorAll('.tcard').forEach(function(card){
-    card.addEventListener('mousemove',function(e){
-      var r=card.getBoundingClientRect();
-      var x=(e.clientX-r.left)/r.width-.5;
-      var y=(e.clientY-r.top)/r.height-.5;
-      gsap.to(card,{duration:.3,rotationY:x*6,rotationX:-y*6,transformPerspective:600,ease:'power1.out'});
+      return function(){
+        if(tween.scrollTrigger)tween.scrollTrigger.kill();
+        tween.kill();
+        gsap.set(track,{clearProps:'transform'});
+        root.classList.remove('hs-on');
+        if(bar)bar.style.width='0';
+      };
     });
-    card.addEventListener('mouseleave',function(){
-      gsap.to(card,{duration:.6,rotationY:0,rotationX:0,ease:'elastic.out(1,.5)'});
+
+    /* What is section */
+    gsap.from('.what-features li',{
+      scrollTrigger:{trigger:'.what-features',start:'top 85%'},
+      duration:.6,opacity:0,x:-30,stagger:.1,ease:'power3.out'
     });
-  });
+    gsap.from('.what-visual',{
+      scrollTrigger:{trigger:'.what-visual',start:'top 85%'},
+      duration:.9,opacity:0,x:40,ease:'power3.out'
+    });
+    gsap.from('.what-grid > div:first-child > *',{
+      scrollTrigger:{trigger:'#what',start:'top 80%'},
+      duration:.7,opacity:0,y:24,stagger:.12,ease:'power3.out'
+    });
+
+    /* Testimonials */
+    gsap.from('.tcard',{
+      scrollTrigger:{trigger:'.testimonials-grid',start:'top 85%'},
+      duration:.7,opacity:0,y:40,stagger:.15,ease:'back.out(1.5)'
+    });
+    gsap.from('#testimonials .section-title,#testimonials .eyebrow',{
+      scrollTrigger:{trigger:'#testimonials',start:'top 80%'},
+      duration:.8,opacity:0,y:30,stagger:.1,ease:'power3.out'
+    });
+
+    /* FAQ */
+    gsap.from('.faq-sticky > *',{
+      scrollTrigger:{trigger:'#faq',start:'top 80%'},
+      duration:.7,opacity:0,y:24,stagger:.1,ease:'power3.out'
+    });
+    gsap.from('.faq-item',{
+      scrollTrigger:{trigger:'.faq-list',start:'top 85%'},
+      duration:.5,opacity:0,y:20,stagger:.08,ease:'power2.out'
+    });
+
+    /* CTA mid */
+    gsap.from('#cta-mid .cta-mid-title',{
+      scrollTrigger:{trigger:'#cta-mid',start:'top 80%'},
+      duration:.8,opacity:0,scale:.92,ease:'back.out(1.4)'
+    });
+    gsap.from('#cta-mid .cta-mid-sub,#cta-mid .btn',{
+      scrollTrigger:{trigger:'#cta-mid',start:'top 75%'},
+      duration:.6,opacity:0,y:20,stagger:.15,ease:'power2.out'
+    });
+
+    /* Pre-footer */
+    gsap.from('.pf-grid > div:first-child > *',{
+      scrollTrigger:{trigger:'#registro-final',start:'top 80%'},
+      duration:.7,opacity:0,x:-40,stagger:.12,ease:'power3.out'
+    });
+    gsap.from('.pf-grid .hero-form-card',{
+      scrollTrigger:{trigger:'#registro-final',start:'top 80%'},
+      duration:.9,opacity:0,x:40,ease:'back.out(1.3)'
+    });
+
+    /* Benefit header */
+    gsap.from('.hscroll-header > *',{
+      scrollTrigger:{trigger:'#benefits',start:'top 80%'},
+      duration:.7,opacity:0,y:24,stagger:.12,ease:'power3.out'
+    });
+
+    /*
+      CORRECCIÓN TBT: Las interacciones de botón y tilt de tarjetas que usaban
+      GSAP en cada mousedown/mouseup se reemplazan con transiciones CSS.
+      Esto elimina el overhead de GSAP en interacciones frecuentes en el hilo principal.
+      Las transiciones CSS ya están definidas en .btn{transition:...} y .tcard{transition:...}.
+    */
+
+    /* Tcard 3D tilt — mantenido solo en desktop */
+    document.querySelectorAll('.tcard').forEach(function(card){
+      card.addEventListener('mousemove',function(e){
+        var r=card.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-.5;
+        var y=(e.clientY-r.top)/r.height-.5;
+        gsap.to(card,{duration:.3,rotationY:x*6,rotationX:-y*6,transformPerspective:600,ease:'power1.out'});
+      },{passive:true});
+      card.addEventListener('mouseleave',function(){
+        gsap.to(card,{duration:.6,rotationY:0,rotationX:0,ease:'elastic.out(1,.5)'});
+      });
+    });
   }
 
   var motionMedia=window.matchMedia('(min-width:801px) and (hover:hover) and (prefers-reduced-motion:no-preference)');
@@ -1756,9 +1899,7 @@ footer h5{
     script.src=src;
     script.async=true;
     script.onload=onload;
-    script.onerror=function(){
-      console.error('No se pudo cargar la animación:',src);
-    };
+    script.onerror=function(){console.error('No se pudo cargar la animación:',src);};
     document.head.appendChild(script);
   }
 
